@@ -34,7 +34,7 @@ const EmailField: React.FC<RouteComponentProps | any> = ({ formData, setFormData
               
             </IonItem>
           <IonToolbar>
-            <IonButton disabled={!(email && email.includes('@') && email.includes('.'))} onClick={() => setStep(2)} type="button" size="small" color="secondary" slot="end">Continue {">"}</IonButton>
+            <IonButton disabled={!(email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)))} onClick={() => setStep(2)} type="button" size="small" color="secondary" slot="end">Continue {">"}</IonButton>
           </IonToolbar>
           <IonToolbar>
             <IonItem>

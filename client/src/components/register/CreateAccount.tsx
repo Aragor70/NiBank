@@ -44,7 +44,7 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
                     </IonItem>
                     <IonItem>
                         <div className="ion-items-center">
-                        <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation && password === passwordConfirmation && email.includes('@') && email.includes('.'))} onClick={() => setStep(4)} type="button" size="default" color="primary">
+                        <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation && password === passwordConfirmation && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} onClick={() => setStep(4)} type="button" size="default" color="primary">
                             Continue
                         </IonButton>
                         </div>

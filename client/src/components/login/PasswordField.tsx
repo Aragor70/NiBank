@@ -39,7 +39,7 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
               
             </IonItem>
           <IonToolbar>
-            <IonButton disabled={!(password)} onClick={() => setStep(3)} type="button" size="small" color="secondary" slot="end">Continue {">"}</IonButton>
+            <IonButton disabled={!(password && !(new RegExp("\\\\","").test(password)))} onClick={() => setStep(3)} type="button" size="small" color="secondary" slot="end">Log on</IonButton>
           </IonToolbar>
           <IonToolbar>
             <IonItem>
