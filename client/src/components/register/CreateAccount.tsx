@@ -2,6 +2,7 @@
 import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle } from '@ionic/react';
 import { Fragment } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { register } from '../../store/actions/auth';
 
 
 const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep }) => {
@@ -11,6 +12,17 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
 
     const handleChange = (e: any) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    
+    const registerHandler = async(data: any) => {
+        try {
+  
+          await register(data, history);
+  
+        } catch (err: any) {
+          console.log(err.message)
+        }
     }
 
   return (
@@ -44,7 +56,7 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
                     </IonItem>
                     <IonItem>
                         <div className="ion-items-center">
-                        <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation && password === passwordConfirmation && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} onClick={() => setStep(4)} type="button" size="default" color="primary">
+                        <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation && password === passwordConfirmation && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} onClick={() => registerHandler(formData)} type="button" size="default" color="primary">
                             Continue
                         </IonButton>
                         </div>

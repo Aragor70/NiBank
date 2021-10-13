@@ -2,6 +2,7 @@
 import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonRouterLink, IonCheckbox } from '@ionic/react';
 import { Fragment } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { login } from '../../store/actions/auth';
 
 
 const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep }) => {
@@ -12,6 +13,16 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
     const handleChange = (e: any) => {
         
         setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    const loginHandler = async(data: any) => {
+      try {
+
+        await login(data, history);
+
+      } catch (err: any) {
+        console.log(err.message)
+      }
     }
     
   return (
@@ -39,7 +50,7 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
               
             </IonItem>
           <IonToolbar>
-            <IonButton disabled={!(password && !(new RegExp("\\\\","").test(password)))} onClick={() => setStep(3)} type="button" size="small" color="secondary" slot="end">Log on</IonButton>
+            <IonButton disabled={!(password && !(new RegExp("\\\\","").test(password)))} onClick={() => loginHandler(formData)} type="button" size="small" color="secondary" slot="end">Log on</IonButton>
           </IonToolbar>
           <IonToolbar>
             <IonItem>
