@@ -6,6 +6,7 @@ export const initialState = {
         name: null,
         email: null,
         password: null,
+        accountType: null,
         avatar: null,
         role: null,
         two_factor: null

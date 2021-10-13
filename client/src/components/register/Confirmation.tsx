@@ -2,15 +2,27 @@
 import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonButton, IonItem, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonInput, IonText, IonBadge, IonAvatar } from '@ionic/react';
 import { checkmark, close } from 'ionicons/icons';
 import { Fragment } from 'react';
+import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { register } from '../../store/actions/auth';
 
 
-const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep }) => {
+const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep, register }) => {
 
 
     const { termsAndConditions, email, password, passwordConfirmation, twoFactor, accountType} = formData;
 
 
+    
+    const registerHandler = async(data: any) => {
+        try {
+  
+          await register(data, history);
+  
+        } catch (err: any) {
+          console.log(err.message)
+        }
+    }
 
   return (
       <Fragment>
@@ -58,7 +70,7 @@ const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormDa
 
                 <IonItem>
                     <div className="ion-items-center">
-                    <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation)} onClick={() => setStep(5)} type="button" size="default" color="primary">
+                    <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation)} onClick={() => registerHandler(formData)} type="button" size="default" color="primary">
                         Register
                     </IonButton>
                     </div>
@@ -70,4 +82,4 @@ const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormDa
   );
 };
 
-export default withRouter(Confirmation);
+export default connect(null, { register })(withRouter(Confirmation));

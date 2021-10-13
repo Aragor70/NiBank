@@ -10,6 +10,7 @@ export type UserType = {
     name?: string | null,
     email: string | null,
     password: string | null,
+    accountType: string | null,
     avatar?: string | null,
     role?: string | null,
     two_factor?:boolean | null

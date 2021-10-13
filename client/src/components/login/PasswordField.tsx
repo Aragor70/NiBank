@@ -1,11 +1,12 @@
 
 import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonRouterLink, IonCheckbox } from '@ionic/react';
 import { Fragment } from 'react';
+import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { login } from '../../store/actions/auth';
 
 
-const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep }) => {
+const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep, login }) => {
 
     
     const { email, password } = formData;
@@ -15,9 +16,9 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const loginHandler = async(data: any) => {
+    const loginHandler = async (data: any) => {
       try {
-
+        console.log(data)
         await login(data, history);
 
       } catch (err: any) {
@@ -63,4 +64,4 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
   );
 };
 
-export default withRouter(PasswordField);
+export default connect(null, { login })(withRouter(PasswordField));
