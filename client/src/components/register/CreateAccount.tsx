@@ -35,13 +35,13 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
                         <IonLabel slot="start">
                             Your password
                         </IonLabel>
-                        <IonInput value={password || ''} max="250" name="password" onIonChange={ (e: any) => handleChange(e)}></IonInput>
+                        <IonInput value={password || ''} max="250" type="password" name="password" onIonChange={ (e: any) => handleChange(e)}></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonLabel slot="start">
                             Confirm password
                         </IonLabel>
-                        <IonInput value={passwordConfirmation || ''} name="passwordConfirmation" onIonChange={ (e: any) => handleChange(e)}></IonInput>
+                        <IonInput value={passwordConfirmation || ''} max="250" type="password" name="passwordConfirmation" onIonChange={ (e: any) => handleChange(e)}></IonInput>
                     </IonItem>
                     <IonItem>
                         <div className="ion-items-center">

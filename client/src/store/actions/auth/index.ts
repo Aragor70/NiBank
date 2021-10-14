@@ -21,7 +21,7 @@ export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
 }
 
 
-export const login = (formData: LoginUserType, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+export const login = (formData: LoginUserType, history: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         const res: any = await axios.post('/api/auth', formData);
         
@@ -36,11 +36,21 @@ export const login = (formData: LoginUserType, history: any) => async(dispatch: 
     } catch (err: any) {
         dispatch({ type: Login_Fail });
         dispatch(setAlert(err.response.data.message, 'danger'))
+
+        present({
+            cssClass: '',
+            header: 'Error:',
+            message: err.message,
+            buttons: [
+              { text: 'Ok', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
         
     }
 }
 
-export const register = (formData: LoginUserType, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+export const register = (formData: LoginUserType, history: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         const res: any = await axios.post('/api/users', formData);
         
@@ -56,6 +66,15 @@ export const register = (formData: LoginUserType, history: any) => async(dispatc
     } catch (err: any) {
         dispatch({ type: Register_Fail });
         dispatch(setAlert(err.response.data.message, 'danger'))
+        present({
+            cssClass: '',
+            header: 'Error:',
+            message: err.message,
+            buttons: [
+              { text: 'Ok', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
         
     }
 }

@@ -1,15 +1,19 @@
 
-import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonRouterLink, IonCheckbox } from '@ionic/react';
+import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonRouterLink, IonCheckbox, useIonAlert } from '@ionic/react';
 import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { login } from '../../store/actions/auth';
+import { setAlert  } from '../../store/actions/alert';
 
 
-const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep, login }) => {
+const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep, login, setAlert  }) => {
 
     
     const { email, password } = formData;
+
+    
+    const [present] = useIonAlert();
 
     const handleChange = (e: any) => {
         
@@ -19,9 +23,10 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
     const loginHandler = async (data: any) => {
       try {
         console.log(data)
-        await login(data, history);
+        await login(data, history, present);
 
       } catch (err: any) {
+        setAlert(err.message, 'danger')
         console.log(err.message)
       }
     }
@@ -38,7 +43,7 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
             </IonItem>
             <IonItem>
               <IonLabel>Password</IonLabel>
-              <IonInput value={password || ''} max="250" name="password" onIonChange={ (e: any) => handleChange(e)}></IonInput>
+              <IonInput value={password || ''} max="250" type="password" name="password" onIonChange={ (e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
           </IonToolbar>
@@ -64,4 +69,4 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
   );
 };
 
-export default connect(null, { login })(withRouter(PasswordField));
+export default connect(null, { login, setAlert  })(withRouter(PasswordField));

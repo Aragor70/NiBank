@@ -8,6 +8,8 @@ import TermsAndConditions from '../../../components/register/TermsAndConditions'
 import CreateAccount from '../../../components/register/CreateAccount';
 import Confirmation from '../../../components/register/Confirmation';
 import AccountSelection from '../../../components/register/AccountSelection';
+import Alert from '../../../components/Alert';
+import { connect } from 'react-redux';
 
 
 
@@ -37,6 +39,8 @@ const GSA: React.FC <RouteComponentProps> = () => {
       <IonContent fullscreen>
 
       <PageSubTitle subTitle={"Nibank > Register > General Services Administration"} />
+
+      <Alert />
 
       <IonItem>
       </IonItem>
@@ -90,5 +94,9 @@ const GSA: React.FC <RouteComponentProps> = () => {
   </IonPage>
   );
 };
+const mapStateToProps = (state: any) => ({
+  alert: state.alert,
+  auth: state.auth
+})
 
-export default withRouter(GSA);
+export default connect(mapStateToProps, {  })(withRouter(GSA));

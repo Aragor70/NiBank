@@ -1,26 +1,30 @@
 
-import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonButton, IonItem, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonInput, IonText, IonBadge, IonAvatar } from '@ionic/react';
+import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonButton, IonItem, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonInput, IonText, IonBadge, IonAvatar, IonAlert, useIonAlert } from '@ionic/react';
 import { checkmark, close } from 'ionicons/icons';
 import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { register } from '../../store/actions/auth';
+import { setAlert } from '../../store/actions/alert';
 
-
-const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep, register }) => {
+const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep, register, setAlert }) => {
 
 
     const { termsAndConditions, email, password, passwordConfirmation, twoFactor, accountType} = formData;
 
-
+    const [present] = useIonAlert();
     
     const registerHandler = async(data: any) => {
         try {
   
-          await register(data, history);
+          await register(data, history, present);
   
+
+
         } catch (err: any) {
-          console.log(err.message)
+            
+            console.log(err.message)
+
         }
     }
 
@@ -82,4 +86,4 @@ const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormDa
   );
 };
 
-export default connect(null, { register })(withRouter(Confirmation));
+export default connect(null, { register, setAlert })(withRouter(Confirmation));

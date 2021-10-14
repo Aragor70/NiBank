@@ -270,6 +270,11 @@ ion-router-link
   cursor: pointer;
   width: max-content;
 }
+ion-card-content ion-list > ion-item
+{
+  padding: 7.5px 0;
+}
+
 .green
 {
   color: green;
@@ -286,4 +291,20 @@ ion-router-link
   align-items: center;
   flex-direction: column;
 
+}
+
+.alert-success .alert-wrapper {
+  background: #e5e5e5;
+  color: #49c500;
+  transition: ease-in;
+  animation-name: success;
+  animation-duration: 1.5s;
+  font-weight: bold;
+}
+
+.alert-danger .alert-wrapper {
+  color: red;
+  transition: ease-in;
+  animation-name: danger;
+  animation-duration: 1.5s;
 }
