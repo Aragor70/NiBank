@@ -1,4 +1,4 @@
-import User from "../../models/User";
+
 
 import express, {Request, Response, Router, NextFunction} from 'express';
 
@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import ErrorResponse from "../../utils/ErrorResponse";
 import asyncHandler from "../../middlewares/async";
-
+import { pool } from '../../config/db';
 
 const router: Router = express.Router();
 
@@ -15,8 +15,10 @@ router.post('/', asyncHandler(async (req: Request, res: Response, next: NextFunc
     
     const { email, password } = req.body;
 
-    let user = await User.findOne(({ email }));
-
+    const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1`, [email]);
+    
+    const user = rows[0] || false;
+    
     if(!user){
         return next(new ErrorResponse('Invalid Credentials.', 422))
     }
@@ -29,9 +31,12 @@ router.post('/', asyncHandler(async (req: Request, res: Response, next: NextFunc
 
     const payload = {
         user: {
-            id: user.id
+            id: user.user_id
         }
     }
+    
+    await pool.query(`UPDATE accounts SET last_login = now() WHERE email = $1`, [email]);
+
     const JWTSecretKey: any = process.env["jwtSecret"]
     return jwt.sign(payload, JWTSecretKey, { expiresIn: 360000 },
         (err, token) => {
@@ -41,6 +46,7 @@ router.post('/', asyncHandler(async (req: Request, res: Response, next: NextFunc
             res.json({ success: true, token }); 
             
     });
+
 
 
 }))

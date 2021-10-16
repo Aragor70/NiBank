@@ -3,6 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "^3.2.5",
+    "@capacitor/app": "1.0.5",
+    "@capacitor/core": "3.2.5",
+    "@capacitor/haptics": "1.1.2",
+    "@capacitor/ios": "^3.2.5",
+    "@capacitor/keyboard": "1.1.2",
+    "@capacitor/status-bar": "1.0.5",
     "@ionic/react": "^5.5.0",
     "@ionic/react-router": "^5.5.0",
     "@testing-library/jest-dom": "^5.11.9",
@@ -70,5 +77,8 @@
     ]
   },
   "description": "Register for Online Banking",
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "@capacitor/cli": "3.2.5"
+  }
 }
