@@ -49,10 +49,13 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
     }
     const JWTSecretKey: any = process.env["jwtSecret"]
     return jwt.sign(payload, JWTSecretKey, { expiresIn: 360000 },
-        (err, token) => {
+        async (err, token) => {
             if(err) {
                 return next(new ErrorResponse(err.message, 422))
             }
+            
+            await pool.query(`UPDATE accounts SET token = $1 WHERE email = $2`, [token, email]);
+
             res.json({ success: true, token }); 
             
     });

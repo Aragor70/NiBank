@@ -46,8 +46,37 @@ var ErrorResponse_1 = __importDefault(require("../../utils/ErrorResponse"));
 var async_1 = __importDefault(require("../../middlewares/async"));
 var db_1 = require("../../config/db");
 var router = express_1.default.Router();
+//route get    api/auth
+//description  test route
+//access       private
+router.get('/', (0, async_1.default)(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var token, rows, user, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
+                    return [2 /*return*/, next(new ErrorResponse_1.default('Go to log on.', 422))];
+                }
+                token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7);
+                return [4 /*yield*/, db_1.pool.query("SELECT * FROM accounts WHERE token = $1", [token])];
+            case 1:
+                rows = (_a.sent()).rows;
+                user = rows[0] || false;
+                console.log(user, 'Userload');
+                res.json(user);
+                return [3 /*break*/, 3];
+            case 2:
+                err_1 = _a.sent();
+                console.error(err_1.message);
+                res.status(500).send('Auth server error.');
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); }));
 router.post('/', (0, async_1.default)(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, rows, user, isMatch, payload, loggedIn, JWTSecretKey;
+    var _a, email, password, rows, user, isMatch, payload, JWTSecretKey;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -72,15 +101,23 @@ router.post('/', (0, async_1.default)(function (req, res, next) { return __await
                 };
                 return [4 /*yield*/, db_1.pool.query("UPDATE accounts SET last_login = now() WHERE email = $1", [email])];
             case 3:
-                loggedIn = _b.sent();
-                console.log(loggedIn);
+                _b.sent();
                 JWTSecretKey = process.env["jwtSecret"];
-                return [2 /*return*/, jsonwebtoken_1.default.sign(payload, JWTSecretKey, { expiresIn: 360000 }, function (err, token) {
-                        if (err) {
-                            return next(new ErrorResponse_1.default(err.message, 422));
-                        }
-                        res.json({ success: true, token: token });
-                    })];
+                return [2 /*return*/, jsonwebtoken_1.default.sign(payload, JWTSecretKey, { expiresIn: 360000 }, function (err, token) { return __awaiter(void 0, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    if (err) {
+                                        return [2 /*return*/, next(new ErrorResponse_1.default(err.message, 422))];
+                                    }
+                                    return [4 /*yield*/, db_1.pool.query("UPDATE accounts SET token = $1 WHERE email = $2", [token, email])];
+                                case 1:
+                                    _a.sent();
+                                    res.json({ success: true, token: token });
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); })];
         }
     });
 }); }));

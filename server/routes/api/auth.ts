@@ -10,6 +10,31 @@ import { pool } from '../../config/db';
 
 const router: Router = express.Router();
 
+//route get    api/auth
+//description  test route
+//access       private
+router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
+    try {
+        
+        if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
+            return next(new ErrorResponse('Go to log on.', 422))
+        }
+
+        const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+    
+        const user = rows[0] || false;
+        console.log(user, 'Userload')
+        
+        res.json(user);
+
+    }
+    catch(err: any){
+        console.error(err.message);
+        res.status(500).send('Auth server error.')
+    }
+}));
 
 router.post('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     
@@ -39,10 +64,13 @@ router.post('/', asyncHandler(async (req: Request, res: Response, next: NextFunc
 
     const JWTSecretKey: any = process.env["jwtSecret"]
     return jwt.sign(payload, JWTSecretKey, { expiresIn: 360000 },
-        (err, token) => {
+        async (err, token) => {
             if(err) {
                 return next(new ErrorResponse(err.message, 422))
             }
+
+            await pool.query(`UPDATE accounts SET token = $1 WHERE email = $2`, [token, email]);
+
             res.json({ success: true, token }); 
             
     });

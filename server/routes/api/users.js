@@ -84,12 +84,21 @@ router.post('/', (0, async_1.default)(function (req, res, next) { return __await
                     }
                 };
                 JWTSecretKey = process.env["jwtSecret"];
-                return [2 /*return*/, jsonwebtoken_1.default.sign(payload, JWTSecretKey, { expiresIn: 360000 }, function (err, token) {
-                        if (err) {
-                            return next(new ErrorResponse_1.default(err.message, 422));
-                        }
-                        res.json({ success: true, token: token });
-                    })];
+                return [2 /*return*/, jsonwebtoken_1.default.sign(payload, JWTSecretKey, { expiresIn: 360000 }, function (err, token) { return __awaiter(void 0, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    if (err) {
+                                        return [2 /*return*/, next(new ErrorResponse_1.default(err.message, 422))];
+                                    }
+                                    return [4 /*yield*/, db_1.pool.query("UPDATE accounts SET token = $1 WHERE email = $2", [token, email])];
+                                case 1:
+                                    _a.sent();
+                                    res.json({ success: true, token: token });
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); })];
         }
     });
 }); }));

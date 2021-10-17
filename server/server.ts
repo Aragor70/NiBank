@@ -5,7 +5,6 @@ import errorHandler from './middlewares/error';
 
 import authRouter from './routes/api/auth'
 import usersRouter from './routes/api/users'
-import {pool} from './config/db';
 import cors from 'cors';
 
 const app:Application = express();

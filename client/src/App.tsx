@@ -1,6 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, IonHeader, IonToolbar, IonTitle  } from '@ionic/react';
-import { IonReactRouter} from '@ionic/react-router';
 import HomePageGuest from './pages/HomePageGuest';
 import HomePageUser from './pages/HomePageUser';
 
@@ -24,24 +23,30 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/register/Register';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import GSA from './pages/auth/register/GSA';
 import SecurityCenter from './pages/SecurityCenter';
 import RecoverEmail from './pages/auth/RecoverEmail';
 import RecoverPassword from './pages/auth/RecoverPassword';
+import { loadUser } from './store/actions/auth';
+import setAuthToken from './utils/setAuthToken';
+import { connect } from 'react-redux';
 
-const App: React.FC = () => {
+const App: React.FC<any> = ({ isAuthenticated, loadUser }) => {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+      loadUser();
+    }
+  }, [loadUser])
 
 
   return (
   <IonApp>
-    <IonReactRouter>
-      
-      <IonRouterOutlet>
         {
-          isLoggedIn ? <Fragment>
+          isAuthenticated ? <Fragment>
             
             <Route exact path="/home">
               <HomePageUser />
@@ -80,10 +85,9 @@ const App: React.FC = () => {
           <Redirect to="/home" />
         </Route>
 
-      </IonRouterOutlet>
-
-    </IonReactRouter>
   </IonApp>
   )};
-
-export default App;
+const mapStateToProps = (state: any) => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+export default connect(mapStateToProps, { loadUser })(App);

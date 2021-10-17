@@ -5,11 +5,14 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import { IonReactRouter} from '@ionic/react-router';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <IonReactRouter>
+        <App />
+      </IonReactRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
