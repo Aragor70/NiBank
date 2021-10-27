@@ -31,8 +31,14 @@ import RecoverPassword from './pages/auth/RecoverPassword';
 import { loadUser } from './store/actions/auth';
 import setAuthToken from './utils/setAuthToken';
 import { connect } from 'react-redux';
+import Wallet from './pages/Wallet';
+import Transactions from './pages/Transactions';
+import Statistics from './pages/Statistics';
+import FooterLoggedIn from './components/footer/FooterLoggedIn';
+import NewTransaction from './pages/NewTransaction';
+import { getBalance } from './store/actions/tsx/tsx';
 
-const App: React.FC<any> = ({ isAuthenticated, loadUser }) => {
+const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance }) => {
 
 
   useEffect(() => {
@@ -41,6 +47,9 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser }) => {
       loadUser();
     }
   }, [loadUser])
+  useEffect(() => {
+    getBalance(auth.user)
+  }, [])
 
 
   return (
@@ -48,9 +57,27 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser }) => {
         {
           isAuthenticated ? <Fragment>
             
-            <Route exact path="/home">
+            <Route exact path="/">
               <HomePageUser />
             </Route>
+            <Route exact path="/my_wallet">
+              <Wallet />
+            </Route>
+            <Route exact path="/my_transactions">
+              <Transactions />
+            </Route>
+            <Route exact path="/new_transaction">
+              <NewTransaction />
+            </Route>
+            <Route exact path="/statistics">
+              <Statistics />
+            </Route>
+            
+
+            <Route exact path="/home">
+              <Redirect to="/" />
+            </Route>
+            
             
           </Fragment> : <Fragment>
 
@@ -76,18 +103,20 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser }) => {
               <GSA />
             </Route>
 
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
           </Fragment>
         }
 
 
 
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
+        
 
   </IonApp>
   )};
 const mapStateToProps = (state: any) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth
 })
-export default connect(mapStateToProps, { loadUser })(App);
+export default connect(mapStateToProps, { loadUser, getBalance })(App);

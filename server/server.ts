@@ -5,6 +5,7 @@ import errorHandler from './middlewares/error';
 
 import authRouter from './routes/api/auth'
 import usersRouter from './routes/api/users'
+import tsxRouter from './routes/api/transactions'
 import cors from 'cors';
 
 const app:Application = express();
@@ -17,6 +18,7 @@ app.get('/', (req: Request, res: Response) => res.send('Server is Running...'))
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/tsx', tsxRouter);
 
 app.use(errorHandler)
 

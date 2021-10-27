@@ -5,6 +5,10 @@ export const Register_Fail = 'Register_Fail';
 export const Load_User = 'Load_User';
 export const Logout_User = 'Logout_User';
 export const User_Update = 'User_Update';
+export const Load_Users_Success = 'Load_Users_Success';
+export const Load_Users_Fail = 'Load_Users_Fail';
+export const Get_Balance_Success = 'Get_Balance_Success';
+export const Get_Balance_Fail = 'Get_Balance_Fail';
 
 export type UserType = {
     name?: string | null,
@@ -55,6 +59,7 @@ export type RegisterFail = {
 export type LogoutUser = {
     type: typeof Logout_User
 }
+
 
 
 // error handler function

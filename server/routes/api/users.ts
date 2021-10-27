@@ -8,8 +8,42 @@ import asyncHandler from "../../middlewares/async";
 import ErrorResponse from "../../utils/ErrorResponse";
 import { pool } from '../../config/db';
 
+import { ec } from 'elliptic';
+
+const ecGenerate = new ec('secp256k1');
+
 const router: Router = express.Router();
 
+//route get    api/auth
+//description  test route
+//access       private
+router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
+    try {
+        
+        if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
+            return next(new ErrorResponse('Go to log on.', 422))
+        }
+
+        const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+
+        const user = rows[0] || false;
+
+        if(!user){
+            return next(new ErrorResponse('Invalid Credentials.', 422))
+        }
+        
+        const users = await pool.query('SELECT * FROM accounts');
+
+        res.json(users.rows);
+
+    }
+    catch(err: any){
+        console.error(err.message);
+        res.status(500).send('Auth server error.')
+    }
+}));
 
 router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFunction) => {
     
@@ -26,10 +60,13 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
         return next(new ErrorResponse('Enter @ address.', 422))
     }
 
-    const avatar = gravatar.url(email, {
+    let avatar = gravatar.url(email, {
         s: '200', r: 'pg', d: 'mm'
-    //  size, rating, default image
     });
+
+    if (avatar && avatar.toString() && !avatar.toString().includes('https')) {
+        avatar = 'https:' + avatar.toString()
+    }
 
     const userName = name || email.slice(0, email.indexOf('@'));
 
@@ -38,8 +75,12 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
 
     const safePassword = await bcrypt.hash(password, salt);
 
+    const key = ecGenerate.genKeyPair();
+    const publicKey = key.getPublic('hex');
+    const privateKey = key.getPrivate('hex');
+    
     user = await pool.query(
-        `INSERT INTO accounts (name, email, password, avatar) VALUES($1, $2, $3, $4)`, [userName, email, safePassword, '']
+        `INSERT INTO accounts (name, email, password, avatar, public_key, private_key) VALUES($1, $2, $3, $4, $5, $6)`, [userName, email, safePassword, avatar || '', publicKey, privateKey]
     );
 
     const payload = {
