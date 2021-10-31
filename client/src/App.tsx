@@ -1,5 +1,6 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, IonHeader, IonToolbar, IonTitle  } from '@ionic/react';
+import React from 'react';
+import { Redirect, Route, withRouter } from 'react-router-dom';
+import { IonApp, IonRouterOutlet, IonHeader, IonToolbar, IonTitle, IonPage, IonContent, IonCard, IonItem, IonButton  } from '@ionic/react';
 import HomePageGuest from './pages/HomePageGuest';
 import HomePageUser from './pages/HomePageUser';
 
@@ -37,13 +38,12 @@ import Statistics from './pages/Statistics';
 import NewTransaction from './pages/NewTransaction';
 import { getBalance } from './store/actions/tsx/tsx';
 import Menu from './components/Menu';
+import PageHeader from './components/PageHeader';
+import PageSubTitle from './components/PageSubTitle';
+import PageNotFound from './pages/PageNotFound';
 
 
-
-
-
-
-const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance }) => {
+const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history }) => {
 
 
   useEffect(() => {
@@ -61,12 +61,23 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance }) => 
   }, [auth.user])
 
 
-
   return (
   <IonApp>
+    
+    <Menu />
         {
-          isAuthenticated ? <Fragment>
-            <Menu />
+          auth.loading ? <Fragment>
+            <IonPage>
+              <PageHeader />
+              <IonContent fullscreen>
+
+              <IonTitle>
+                Loading...
+              </IonTitle>
+
+              </IonContent>
+            </IonPage>
+          </Fragment> : isAuthenticated ? <Fragment>
             <IonRouterOutlet id="output">
               <Route exact path="/">
                 <HomePageUser />
@@ -83,41 +94,54 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance }) => 
               <Route exact path="/statistics">
                 <Statistics />
               </Route>
-              
-              <Route exact path="/home">
-                <Redirect to="/" />
+              <Route exact>
+                <PageNotFound />
               </Route>
+
+              <Route
+                path="/home"
+                render={() => <Redirect to="/" />}
+                exact={true}
+              />
+              
             </IonRouterOutlet>
             
           </Fragment> : <Fragment>
-            <Menu />
-          <IonRouterOutlet id="output">
-            <Route exact path="/home">
-              <HomePageGuest />
-            </Route>
-            <Route exact path="/security_center">
-              <SecurityCenter />
-            </Route>
-            <Route exact path="/recover_email">
-              <RecoverEmail />
-            </Route>
-            <Route exact path="/recover_password">
-              <RecoverPassword />
-            </Route>
-            <Route exact path="/logon">
-              <Login />
-            </Route>
-            <Route exact path="/register">
-              <Register />
-            </Route>
-            <Route exact path="/register/gsa">
-              <GSA />
-            </Route>
+            <IonRouterOutlet id="output">
+              <Route exact path="/home">
+                <HomePageGuest />
+              </Route>
+              <Route exact path="/security_center">
+                <SecurityCenter />
+              </Route>
+              <Route exact path="/recover_email">
+                <RecoverEmail />
+              </Route>
+              <Route exact path="/recover_password">
+                <RecoverPassword />
+              </Route>
+              <Route exact path="/logon">
+                <Login />
+              </Route>
+              <Route exact path="/register">
+                <Register />
+              </Route>
+              <Route exact path="/register/gsa">
+                <GSA />
+              </Route>
 
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-          </IonRouterOutlet>
+              <Route exact>
+                <PageNotFound />
+              </Route>
+
+              
+              <Route
+                path="/"
+                render={() => <Redirect to="/home" />}
+                exact={true}
+              />
+
+            </IonRouterOutlet>
           </Fragment>
         }
 
@@ -127,4 +151,4 @@ const mapStateToProps = (state: any) => ({
   isAuthenticated: state.auth.isAuthenticated,
   auth: state.auth
 })
-export default connect(mapStateToProps, { loadUser, getBalance })(App);
+export default connect(mapStateToProps, { loadUser, getBalance })(withRouter(App));

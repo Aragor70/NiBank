@@ -1,4 +1,4 @@
-import { AuthType, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, UserType, User_Update } from '../actions/auth/types'
+import { AuthType, Loading_Auth, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, UserType, User_Update } from '../actions/auth/types'
 
 
 export const initialState = {
@@ -11,7 +11,7 @@ export const initialState = {
         role: null,
         two_factor: null
     },
-    loading: true,
+    loading: false,
     token: localStorage.getItem('token'),
     isAuthenticated: false,
     errors: {}
@@ -21,7 +21,8 @@ export const initialState = {
 const auth = (state: AuthType = initialState, action: any) => {
     const { type, payload } = action;
     switch(type) {
-        
+        case Loading_Auth:
+            return {...state, loading: true }
         case Load_User:
             return {...state, user: payload.user, isAuthenticated: true, loading: false }
 

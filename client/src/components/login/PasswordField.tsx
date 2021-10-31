@@ -1,6 +1,6 @@
 
 import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonRouterLink, IonCheckbox, useIonAlert } from '@ionic/react';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { login } from '../../store/actions/auth';
@@ -26,11 +26,15 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
 
         await login(formData, history, present);
 
+        await setFormData({});
+        await setStep(1);
+
       } catch (err: any) {
         
         console.log(err.message)
       }
     }
+
     
   return (
       <Fragment>
@@ -57,8 +61,8 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
               
             </IonItem>
           <IonToolbar>
-            <IonButton disabled={!(password && !(new RegExp("\\\\","").test(password)))} type="submit" size="small" color="secondary" slot="end">Log on</IonButton>
-            <button style={{ display: 'none' }} disabled={!(password && !(new RegExp("\\\\","").test(password)))} type="submit" color="secondary" slot="end">Log on</button>
+            <IonButton disabled={!(password && email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} type="submit" size="small" color="secondary" slot="end">Log on</IonButton>
+            <button style={{ display: 'none' }} disabled={!(password && email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} type="submit" color="secondary" slot="end">Log on</button>
             
           </IonToolbar>
           <IonToolbar>

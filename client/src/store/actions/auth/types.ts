@@ -11,6 +11,9 @@ export const Get_Balance_Success = 'Get_Balance_Success';
 export const Get_Balance_Fail = 'Get_Balance_Fail';
 export const Pre_Login_Success = 'Pre_Login_Success';
 export const Pre_Login_Fail = 'Pre_Login_Fail';
+export const Pre_Register_Success = 'Pre_Register_Success';
+export const Pre_Register_Fail = 'Pre_Register_Fail';
+export const Loading_Auth = 'Loading_Auth';
 
 export type UserType = {
     name?: string | null,

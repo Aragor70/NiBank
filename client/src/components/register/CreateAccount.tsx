@@ -1,10 +1,12 @@
 
-import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle } from '@ionic/react';
+import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, useIonAlert } from '@ionic/react';
 import { Fragment } from 'react';
+import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { preRegister } from '../../store/actions/auth';
 
 
-const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep }) => {
+const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep, preRegister }) => {
 
     
     const { termsAndConditions, email, password, passwordConfirmation, twoFactor, accountType} = formData;
@@ -13,6 +15,23 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
+    
+    const [present] = useIonAlert();
+    
+    const checkEmail = async (e: any) => {
+      
+        try {
+  
+          e.preventDefault();
+  
+          await preRegister(formData, present, setStep)
+  
+  
+        } catch (err: any) {
+          console.log(err.message)
+        }
+  
+      }
 
   return (
       <Fragment>
@@ -24,6 +43,7 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
                     </IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
+                <form onSubmit={(e: any) => checkEmail(e)}>
                     <IonItem>
                         <IonLabel slot="start">
                             E-mail address
@@ -45,11 +65,12 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
                     </IonItem>
                     <IonItem>
                         <div className="ion-items-center">
-                        <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation && password === passwordConfirmation && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} onClick={() => setStep(4)} type="button" size="default" color="primary">
+                        <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation && password === passwordConfirmation && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} type="submit" size="default" color="primary">
                             Continue
                         </IonButton>
                         </div>
                     </IonItem>
+                </form>
                 </IonCardContent>
             </IonCard>
 
@@ -58,4 +79,4 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
   );
 };
 
-export default withRouter(CreateAccount);
+export default connect(null, { preRegister })(withRouter(CreateAccount));

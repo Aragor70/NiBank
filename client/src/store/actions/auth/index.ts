@@ -1,4 +1,4 @@
-import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, Pre_Login_Success, Register_Fail, Register_Success, User_Update, Get_Balance_Success, Get_Balance_Fail, Pre_Login_Fail } from "./types";
+import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, Pre_Login_Success, Register_Fail, Register_Success, User_Update, Get_Balance_Success, Get_Balance_Fail, Pre_Login_Fail, RegisterUserType, Pre_Register_Success, Pre_Register_Fail, Loading_Auth } from "./types";
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert/";
@@ -10,6 +10,7 @@ export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     }
     
     try {
+        dispatch({ type: Loading_Auth })
         const res: any = await axios.get('/api/auth');
 
         dispatch({ type: Load_User, payload: { user: res.data} });
@@ -34,6 +35,7 @@ export const loadUsers = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
 
 export const login = (formData: LoginUserType, history: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
+        dispatch({ type: Loading_Auth })
         const res: any = await axios.post('/api/auth', formData);
         
         dispatch({ type: Login_Success, payload: res.data })
@@ -84,12 +86,36 @@ export const preLogin = (formData: LoginUserType, present: any, setStep: any) =>
         
     }
 }
+export const preRegister = (formData: RegisterUserType, present: any, setStep: any) => async(dispatch: Dispatch<any>) => {
+    try {
+        const res: any = await axios.post('/api/auth/pre-register', formData);
+        
+        await setStep(4)
+        dispatch({ type: Pre_Register_Success, payload: res.data })
+        
+        
+    } catch (err: any) {
+        dispatch({ type: Pre_Register_Fail });
+        dispatch(setAlert(err.response.data.message, 'danger'))
+
+        present({
+            cssClass: '',
+            header: 'Error:',
+            message: err.message,
+            buttons: [
+              { text: 'Ok', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
+        
+    }
+}
 
 export const register = (formData: LoginUserType, history: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
+        dispatch({ type: Loading_Auth })
         const res: any = await axios.post('/api/users', formData);
         
-        console.log(res.data.message)
         dispatch({ type: Register_Success, payload: res.data })
 
         dispatch(loadUser())
@@ -116,6 +142,7 @@ export const register = (formData: LoginUserType, history: any, present: any) =>
 
 export const logout = (history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
+        dispatch({ type: Loading_Auth })
         dispatch({ type: Logout_User });
         history.push('/')
     } catch (err: any) {
