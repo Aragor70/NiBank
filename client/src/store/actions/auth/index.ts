@@ -1,4 +1,4 @@
-import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, RegisterUserType, Register_Fail, Register_Success, User_Update, Get_Balance_Success, Get_Balance_Fail } from "./types";
+import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, Pre_Login_Success, Register_Fail, Register_Success, User_Update, Get_Balance_Success, Get_Balance_Fail, Pre_Login_Fail } from "./types";
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert/";
@@ -46,6 +46,30 @@ export const login = (formData: LoginUserType, history: any, present: any) => as
         
     } catch (err: any) {
         dispatch({ type: Login_Fail });
+        dispatch(setAlert(err.response.data.message, 'danger'))
+
+        present({
+            cssClass: '',
+            header: 'Error:',
+            message: err.message,
+            buttons: [
+              { text: 'Ok', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
+        
+    }
+}
+export const preLogin = (formData: LoginUserType, present: any, setStep: any) => async(dispatch: Dispatch<any>) => {
+    try {
+        const res: any = await axios.post('/api/auth/pre-login', formData);
+        
+        await setStep(2)
+        dispatch({ type: Pre_Login_Success, payload: res.data })
+        
+        
+    } catch (err: any) {
+        dispatch({ type: Pre_Login_Fail });
         dispatch(setAlert(err.response.data.message, 'danger'))
 
         present({

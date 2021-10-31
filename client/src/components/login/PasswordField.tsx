@@ -4,7 +4,6 @@ import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { login } from '../../store/actions/auth';
-import { setAlert  } from '../../store/actions/alert';
 
 
 const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep, login, setAlert  }) => {
@@ -20,13 +19,15 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const loginHandler = async (data: any) => {
+    const loginHandler = async (e: any) => {
       try {
-        console.log(data)
-        await login(data, history, present);
+        
+        e.preventDefault();
+
+        await login(formData, history, present);
 
       } catch (err: any) {
-        setAlert(err.message, 'danger')
+        
         console.log(err.message)
       }
     }
@@ -34,7 +35,7 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
   return (
       <Fragment>
             
-              
+        <form onSubmit={(e: any) => loginHandler(e)}>
           <IonToolbar>
             <IonItem>
               <IonLabel>E-mail</IonLabel>
@@ -56,17 +57,20 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
               
             </IonItem>
           <IonToolbar>
-            <IonButton disabled={!(password && !(new RegExp("\\\\","").test(password)))} onClick={() => loginHandler(formData)} type="button" size="small" color="secondary" slot="end">Log on</IonButton>
+            <IonButton disabled={!(password && !(new RegExp("\\\\","").test(password)))} type="submit" size="small" color="secondary" slot="end">Log on</IonButton>
+            <button style={{ display: 'none' }} disabled={!(password && !(new RegExp("\\\\","").test(password)))} type="submit" color="secondary" slot="end">Log on</button>
+            
           </IonToolbar>
           <IonToolbar>
             <IonItem>
               <IonRouterLink onClick={() => history.push("/recover_password")} class="spacing">Forgot your password?</IonRouterLink>
             </IonItem>
           </IonToolbar>
+        </form>
 
         
       </Fragment>
   );
 };
 
-export default connect(null, { login, setAlert  })(withRouter(PasswordField));
+export default connect(null, { login })(withRouter(PasswordField));

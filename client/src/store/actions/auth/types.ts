@@ -9,6 +9,8 @@ export const Load_Users_Success = 'Load_Users_Success';
 export const Load_Users_Fail = 'Load_Users_Fail';
 export const Get_Balance_Success = 'Get_Balance_Success';
 export const Get_Balance_Fail = 'Get_Balance_Fail';
+export const Pre_Login_Success = 'Pre_Login_Success';
+export const Pre_Login_Fail = 'Pre_Login_Fail';
 
 export type UserType = {
     name?: string | null,

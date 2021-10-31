@@ -20,16 +20,10 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout }) => {
       
       <PageSubTitle subTitle={"Home"} />
         
-      <IonButton onClick={() => history.push('/my_wallet')}>My wallet</IonButton>
-      <IonButton onClick={() => history.push('/my_transactions')}>My transactions</IonButton>
-        
-
 
       <Balance />
 
       <Transaction />
-
-      <IonButton onClick={() => logout(history)}>Log out</IonButton>
 
       </IonContent>
       <FooterLoggedIn />

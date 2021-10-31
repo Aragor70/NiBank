@@ -79,4 +79,20 @@ router.post('/', asyncHandler(async (req: Request, res: Response, next: NextFunc
 
 }))
 
+router.post('/pre-login', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+    const { email } = req.body;
+
+    const { rows } = await pool.query(`SELECT email FROM accounts WHERE email = $1`, [email]);
+    
+    const user = rows[0] || false;
+    
+    if(!user){
+        return next(new ErrorResponse('Invalid Credentials.', 422))
+    }
+
+    res.json({ success: true }); 
+       
+}))
+
 export default router;

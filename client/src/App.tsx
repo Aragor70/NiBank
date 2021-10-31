@@ -23,7 +23,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/register/Register';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import GSA from './pages/auth/register/GSA';
 import SecurityCenter from './pages/SecurityCenter';
 import RecoverEmail from './pages/auth/RecoverEmail';
@@ -34,9 +34,14 @@ import { connect } from 'react-redux';
 import Wallet from './pages/Wallet';
 import Transactions from './pages/Transactions';
 import Statistics from './pages/Statistics';
-import FooterLoggedIn from './components/footer/FooterLoggedIn';
 import NewTransaction from './pages/NewTransaction';
 import { getBalance } from './store/actions/tsx/tsx';
+import Menu from './components/Menu';
+
+
+
+
+
 
 const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance }) => {
 
@@ -47,40 +52,46 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance }) => 
       loadUser();
     }
   }, [loadUser])
+  
   useEffect(() => {
-    getBalance(auth.user)
-  }, [])
+    if (auth.user) {
+      getBalance(auth.user)
+    }
+    
+  }, [auth.user])
+
 
 
   return (
   <IonApp>
         {
           isAuthenticated ? <Fragment>
-            
-            <Route exact path="/">
-              <HomePageUser />
-            </Route>
-            <Route exact path="/my_wallet">
-              <Wallet />
-            </Route>
-            <Route exact path="/my_transactions">
-              <Transactions />
-            </Route>
-            <Route exact path="/new_transaction">
-              <NewTransaction />
-            </Route>
-            <Route exact path="/statistics">
-              <Statistics />
-            </Route>
-            
-
-            <Route exact path="/home">
-              <Redirect to="/" />
-            </Route>
-            
+            <Menu />
+            <IonRouterOutlet id="output">
+              <Route exact path="/">
+                <HomePageUser />
+              </Route>
+              <Route exact path="/my_wallet">
+                <Wallet />
+              </Route>
+              <Route exact path="/my_transactions">
+                <Transactions />
+              </Route>
+              <Route exact path="/new_transaction">
+                <NewTransaction />
+              </Route>
+              <Route exact path="/statistics">
+                <Statistics />
+              </Route>
+              
+              <Route exact path="/home">
+                <Redirect to="/" />
+              </Route>
+            </IonRouterOutlet>
             
           </Fragment> : <Fragment>
-
+            <Menu />
+          <IonRouterOutlet id="output">
             <Route exact path="/home">
               <HomePageGuest />
             </Route>
@@ -106,12 +117,9 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance }) => 
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
+          </IonRouterOutlet>
           </Fragment>
         }
-
-
-
-        
 
   </IonApp>
   )};
