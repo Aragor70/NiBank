@@ -67,7 +67,7 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
         const hash = await SHA256(previousTransaction?.rows[0]?.tsx_id + previousHash + new Date().getTime() + user.user_id + to + amount + nonce).toString();
 
-        const transactions = await pool.query(`INSERT INTO transactions (from_id, to_id, amount, previous_hash, current_hash, nonce, accounting_date, currency) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`, [ user.user_id, recipient.user_id, amount, previousHash, hash, nonce, accounting_date || today, currency ]);
+        const transactions = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`, [ user.user_id, recipient.user_id, amount, previousHash, hash, nonce, accounting_date || today, currency ]);
         
         res.json(transactions);
 

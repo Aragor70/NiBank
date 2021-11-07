@@ -1,16 +1,17 @@
 
 import { IonItem } from '@ionic/react';
+import { Fragment } from 'react';
 
 
-const Transaction: React.FC<any> = ({ }) => {
+const Transaction: React.FC<any> = ({ tsx }) => {
 
 
   return (
-    <IonItem>
-        <p>
-            Transaction
-        </p>
-    </IonItem>
+    <Fragment>
+      <IonItem>
+        {tsx.tsx_id}
+      </IonItem>
+    </Fragment>
   );
 };
 

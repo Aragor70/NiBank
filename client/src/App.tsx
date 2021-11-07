@@ -36,11 +36,12 @@ import Wallet from './pages/Wallet';
 import Transactions from './pages/Transactions';
 import Statistics from './pages/Statistics';
 import NewTransaction from './pages/NewTransaction';
-import { getBalance } from './store/actions/tsx/tsx';
+import { getBalance } from './store/actions/tsx';
 import Menu from './components/Menu';
 import PageHeader from './components/PageHeader';
 import PageSubTitle from './components/PageSubTitle';
 import PageNotFound from './pages/PageNotFound';
+import MyTransactions from './pages/MyTransactions';
 
 
 const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history }) => {
@@ -67,7 +68,7 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
     <Menu />
         {
           auth.loading ? <Fragment>
-            <IonPage>
+            <IonPage id="output">
               <PageHeader />
               <IonContent fullscreen>
 
@@ -86,6 +87,9 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
                 <Wallet />
               </Route>
               <Route exact path="/my_transactions">
+                <MyTransactions />
+              </Route>
+              <Route exact path="/transactions">
                 <Transactions />
               </Route>
               <Route exact path="/new_transaction">

@@ -5,7 +5,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { loadUsers } from '../../store/actions/auth';
-import { newTsx } from '../../store/actions/tsx/tsx';
+import { newTsx } from '../../store/actions/tsx';
 import AccountRow from '../lists/AccountRow';
 
 

@@ -1,8 +1,10 @@
 
 import { IonItem, IonText } from '@ionic/react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 
-const Balance: React.FC<any> = ({ }) => {
+const Balance: React.FC<any> = ({ account }) => {
 
 
   return (
@@ -11,10 +13,12 @@ const Balance: React.FC<any> = ({ }) => {
             Balance
         </IonText>
         <IonText className="ion-items-center">
-            100 000,00 Kc
+            { account.balance }
         </IonText>
     </IonItem>
   );
 };
-
-export default Balance;
+const mapStateToProps = (state: any) => ({
+  account: state.account
+})
+export default connect(mapStateToProps, { })(withRouter(Balance));

@@ -1,4 +1,4 @@
-import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, Pre_Login_Success, Register_Fail, Register_Success, User_Update, Get_Balance_Success, Get_Balance_Fail, Pre_Login_Fail, RegisterUserType, Pre_Register_Success, Pre_Register_Fail, Loading_Auth } from "./types";
+import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, Pre_Login_Success, Register_Fail, Register_Success, User_Update, Pre_Login_Fail, RegisterUserType, Pre_Register_Success, Pre_Register_Fail, Loading_Auth } from "./types";
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert/";
@@ -174,21 +174,6 @@ export const update = (formData: any, setView: any) => async(dispatch: Dispatch<
         setView(false)
         
     } catch (err: any) {
-        dispatch(setAlert(err.response.data.message, 'danger'))
-        
-    }
-}
-export const getbalance = () => async(dispatch: Dispatch<any>) => {
-    try {
-        
-        const res: any = await axios.put('/api/tsx');
-        
-        dispatch({type: Get_Balance_Success, payload: res.data})
-        
-        
-    } catch (err: any) {
-        
-        dispatch({type: Get_Balance_Fail})
         dispatch(setAlert(err.response.data.message, 'danger'))
         
     }

@@ -8,7 +8,7 @@ export const initialState = {
 }
 
 
-const auth = (state: any = initialState, action: any) => {
+const users = (state: any = initialState, action: any) => {
     const { type, payload } = action;
     switch(type) {
         
@@ -23,4 +23,4 @@ const auth = (state: any = initialState, action: any) => {
     }
 }
 
-export default auth;
+export default users;

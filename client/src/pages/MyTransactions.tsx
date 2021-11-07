@@ -9,7 +9,7 @@ import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import Transaction from '../components/Transaction';
 
-const Transactions: React.FC<any> = ({ tsx }) => {
+const Transactions: React.FC<any> = ({ account }) => {
   return (
     <IonPage>
 
@@ -18,13 +18,13 @@ const Transactions: React.FC<any> = ({ tsx }) => {
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > Global transactions"} />
+      <PageSubTitle subTitle={"Home > My transactions"} />
         
       <IonList>
 
         <IonListHeader>
             <IonTitle style={{ textAlign: 'center' }}>
-                Global transactions
+                My transactions
 
             </IonTitle>
         </IonListHeader>
@@ -33,7 +33,7 @@ const Transactions: React.FC<any> = ({ tsx }) => {
             <IonCardContent>
             <IonList>
             {
-              tsx.tsxs.length > 0 ? tsx.tsxs.map((element: any) => <Transaction key={element.tsx_id} tsx={element} />) : <IonItem>hi</IonItem>
+              account.tsxs.length > 0 ? account.tsxs.map((element: any) => <Transaction key={element.tsx_id} tsx={element} />) : <IonItem>hi</IonItem>
             }
             </IonList>
             </IonCardContent>
@@ -49,6 +49,6 @@ const Transactions: React.FC<any> = ({ tsx }) => {
   );
 };
 const mapStateToProps = (state: any) => ({
-  tsx: state.tsx
+  account: state.account
 })
 export default connect(mapStateToProps, {  })(withRouter(Transactions));

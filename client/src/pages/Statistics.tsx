@@ -5,7 +5,6 @@ import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import PlatformOverwiev from '../components/PlatformOverwiev';
-import Transaction from '../components/Transaction';
 
 const Statistics: React.FC = () => {
   return (

@@ -7,7 +7,6 @@ import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import FooterLoggedOut from '../components/footer/FooterLoggedOut';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import Transaction from '../components/Transaction';
 import { logout } from '../store/actions/auth';
 
 const PageNotFound: React.FC<RouteComponentProps | any> = ({ history, logout, isAuthenticated }) => {
