@@ -5,17 +5,27 @@ import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { loadUsers } from '../../store/actions/auth';
+import { newProject } from '../../store/actions/project';
 import { newTsx } from '../../store/actions/tsx';
 
 
-const CreateProject: React.FC<any> = ({ newTsx, history, user }) => {
+const CreateProject: React.FC<any> = ({ newProject, history, user }) => {
 
 
   const [formData, setFormData] = useState({
-    to: '',
-    amount: '',
-    accounting_date: '',
-    public_key: ''
+    startdate: '',
+    closedate: '',
+    projectname: '',
+    country: '',
+    yieldpa: '',
+    volumetotal: '',
+    minimuminvestment: '',
+    description: '',
+    currency: '',
+    status: '',
+    typeofproperty: '',
+    typeofinvestment: '',
+    project: '',
   })
   
   const [present] = useIonAlert();
@@ -24,7 +34,7 @@ const CreateProject: React.FC<any> = ({ newTsx, history, user }) => {
     try {
       e.preventDefault();
 
-      
+      await newProject(formData, history, present)
       
 
     } catch (err: any) {
@@ -47,39 +57,42 @@ const CreateProject: React.FC<any> = ({ newTsx, history, user }) => {
             </IonItem>
             <IonItem>
               <IonLabel>Project name</IonLabel>
-              <IonInput slot="end" name="to" value={formData.to || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" name="projectname" value={formData.projectname || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>Country</IonLabel>
-              <IonInput slot="end" name="to" value={formData.to || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" name="country" value={formData.country || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>YieldPA</IonLabel>
-              <IonInput slot="end" name="to" value={formData.to || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" name="yieldpa" value={formData.yieldpa || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>Volume total</IonLabel>
-              <IonInput slot="end" name="to" value={formData.to || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" name="volumetotal" value={formData.volumetotal || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>Minimum investment</IonLabel>
-              <IonInput slot="end" name="to" value={formData.to || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" name="minimuminvestment" value={formData.minimuminvestment || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>Description</IonLabel>
-              <IonInput slot="end" name="description" onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" name="description" value={formData.description || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
             <IonItem>
               <IonLabel>Status</IonLabel>
-              <IonInput slot="end" name="status" onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonSelect slot="end" name="status" onIonChange={(e: any) => handleChange(e)}>
+                <IonSelectOption value="UNDER_CONSIDERATION">UNDER CONSIDERATION</IonSelectOption>
+                <IonSelectOption value="OPEN">OPEN</IonSelectOption>
+              </IonSelect>
             
-            </IonItem>  
+            </IonItem>
             <IonItem>
               <IonLabel>Type of investment</IonLabel>
               <IonSelect slot="end" name="typeofinvestment" onIonChange={(e: any) => handleChange(e)}>
@@ -120,12 +133,12 @@ const CreateProject: React.FC<any> = ({ newTsx, history, user }) => {
             </IonItem>            
             <IonItem>
               <IonLabel>Start date</IonLabel>
-              <IonInput type="date" slot="end" name="accounting_date" value={formData.accounting_date || moment(Date.now()).format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput type="date" slot="end" name="startdate" value={formData.startdate || moment(Date.now()).format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>            
             <IonItem>
               <IonLabel>Close date</IonLabel>
-              <IonInput type="date" slot="end" name="accounting_date" value={formData.accounting_date || moment(Date.now()).format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput type="date" slot="end" name="closedate" value={formData.closedate || moment(Date.now()).format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
             <IonItem>
@@ -145,4 +158,4 @@ const CreateProject: React.FC<any> = ({ newTsx, history, user }) => {
 const mapStateToProps = (state: any) => ({
   user: state.auth.user
 })
-export default connect(mapStateToProps, {})(withRouter(CreateProject));
+export default connect(mapStateToProps, { newProject })(withRouter(CreateProject));

@@ -22,6 +22,7 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
               auth.isAuthenticated ? <Fragment>
                 <IonItem onClick={()=> history.push('/')}>Overview</IonItem>
                 <IonItem onClick={()=> history.push('/my_wallet')}>My wallet</IonItem>
+                <IonItem onClick={()=> history.push('/projects')}>Projects</IonItem>
                 <IonItem onClick={()=> history.push('/transactions')}>Transactions</IonItem>
                 <IonItem onClick={()=> history.push('/currency_exchange')}>Currency exchange</IonItem>
                 <IonItem onClick={()=> history.push('/settings')}>Settings</IonItem>

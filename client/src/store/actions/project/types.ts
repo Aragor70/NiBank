@@ -1,0 +1,13 @@
+export const Get_Projects_Success = 'Get_Projects_Success';
+export const Get_Open_Projects_Success = 'Get_Open_Projects_Success';
+export const Get_Closed_Projects_Success = 'Get_Closed_Projects_Success';
+export const Project_Create_Success = 'Project_Create_Success';
+export const Get_Under_Consideration_Projects_Success = 'Get_Under_Consideration_Projects_Success';
+export const Get_Project_Success = 'Get_Project_Success';
+export const Get_Projects_Fail = 'Get_Projects_Fail';
+export const Get_Open_Projects_Fail = 'Get_Open_Projects_Fail';
+export const Get_Closed_Projects_Fail = 'Get_Closed_Projects_Fail';
+export const Project_Create_Fail = 'Project_Create_Fail';
+export const Get_Under_Consideration_Projects_Fail = 'Get_Under_Consideration_Projects_Fail';
+export const Get_Project_Fail = 'Get_Project_Fail';
+export const Project_Loading = 'Project_Loading';

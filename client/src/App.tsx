@@ -36,6 +36,7 @@ import Wallet from './pages/Wallet';
 import Transactions from './pages/Transactions';
 import Statistics from './pages/Statistics';
 import { getBalance } from './store/actions/tsx';
+import { getProjects } from './store/actions/project';
 import Menu from './components/Menu';
 import PageHeader from './components/PageHeader';
 import PageSubTitle from './components/PageSubTitle';
@@ -44,9 +45,11 @@ import MyTransactions from './pages/MyTransactions';
 import Store from './pages/Store';
 import Profile from './pages/Profile';
 import ChooseTransaction from './pages/ChooseTransaction';
+import Project from './pages/Project';
+import Projects from './pages/Projects';
 
 
-const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history }) => {
+const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx }) => {
 
 
   useEffect(() => {
@@ -63,13 +66,19 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
     
   }, [auth.user])
 
+  useEffect(() => {
+    
+    getProjects()
+    
+  }, [])
+
 
   return (
   <IonApp>
     
     <Menu />
         {
-          auth.loading ? <Fragment>
+          auth.loading || tsx.loading || project.loading ? <Fragment>
             <IonPage id="output">
               <PageHeader />
               <IonContent fullscreen>
@@ -105,6 +114,12 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
               </Route>
               <Route exact path="/profile">
                 <Profile />
+              </Route>
+              <Route exact path="/projects/:project_id">
+                <Project />
+              </Route>
+              <Route exact path="/projects">
+                <Projects />
               </Route>
               <Route exact>
                 <PageNotFound />
@@ -161,6 +176,8 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
   )};
 const mapStateToProps = (state: any) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  auth: state.auth
+  auth: state.auth,
+  project: state.project, 
+  tsx: state.tsx
 })
-export default connect(mapStateToProps, { loadUser, getBalance })(withRouter(App));
+export default connect(mapStateToProps, { loadUser, getBalance, getProjects })(withRouter(App));

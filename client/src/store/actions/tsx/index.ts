@@ -1,12 +1,13 @@
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert";
-import { Tsx_Create_Success, Tsx_Create_Fail, Get_Balance_Success, Get_Balance_Fail, Get_Tsxs_Success, Get_Tsxs_Fail, Get_My_Tsxs_Success, Get_Total_Funds_Success, Get_YieldPA_Success, Get_Total_Funds_Fail, Get_YieldPA_Fail } from './types';
+import { Tsx_Create_Success, Tsx_Create_Fail, Get_Balance_Success, Get_Balance_Fail, Get_Tsxs_Success, Get_Tsxs_Fail, Get_My_Tsxs_Success, Get_Total_Funds_Success, Get_YieldPA_Success, Get_Total_Funds_Fail, Get_YieldPA_Fail, Get_My_Tsxs_Fail, Tsx_Loading } from './types';
 
 
 export const newTsx = (formData: any, history: any, present: any) => async(dispatch: Dispatch<any>) => {
     try {
-        
+        dispatch({ type: Tsx_Loading });
+
         const res: any = await axios.post('/api/tsx', formData);
         
         dispatch({ type: Tsx_Create_Success, payload: res.data })
@@ -34,6 +35,8 @@ export const newTsx = (formData: any, history: any, present: any) => async(dispa
 
 export const getBalance = (user: any) => async(dispatch: Dispatch<any>) => {
     try {
+        dispatch({ type: Tsx_Loading });
+
         
         const res: any = await axios.get('/api/tsx');
         
@@ -74,7 +77,7 @@ export const getBalance = (user: any) => async(dispatch: Dispatch<any>) => {
     } catch (err: any) {
         dispatch({ type: Get_Balance_Fail });
         dispatch({ type: Get_Tsxs_Fail });
-        dispatch({ type: Get_My_Tsxs_Success });
+        dispatch({ type: Get_My_Tsxs_Fail });
         dispatch({ type: Get_Total_Funds_Fail });
         dispatch({ type: Get_YieldPA_Fail });
 

@@ -1,5 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonGrid, IonCol, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonRow } from '@ionic/react';
+import { connect } from 'react-redux';
 import { checkmark } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -8,8 +9,10 @@ import CreateProject from '../components/form/CreateProject';
 import CreateTransfer from '../components/form/CreateTransfer';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
+import { getProjects } from '../store/actions/project';
+import GlobalProjectListElement from '../components/GlobalProjectListElement';
 
-const ChooseTransaction: React.FC<any> = ({ location }) => {
+const ChooseTransaction: React.FC<any> = ({ location, project, getProjects }) => {
 
   const [ selectView, setSelectView ] = useState<any>({
     investment: 0,
@@ -28,6 +31,12 @@ const ChooseTransaction: React.FC<any> = ({ location }) => {
     }
     
   }, [location.pathname])
+
+  useEffect(() => {
+
+    getProjects()
+    
+  }, [])
 
   return (
     <IonPage>
@@ -49,20 +58,19 @@ const ChooseTransaction: React.FC<any> = ({ location }) => {
                 {
                   investment === 1 && <Fragment>
                     <PageSubTitle subTitle={"Home > Choose transaction > Investments"} />
+
                     <IonList>
                       <IonListHeader>
                         <IonTitle style={{ textAlign: 'center' }}>
-                            List of open investments
+                            Currently open projects
 
                         </IonTitle>
                       </IonListHeader>
-
-                      <IonItem>
-                        <div className="ion-items-center">
-                          <IonButton onClick={()=> setSelectView({ transfer: 0, investment: 2 })}>Create a new project</IonButton>
-                        </div>
-                      </IonItem>
+                      {
+                        project.openProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />)
+                      }
                     </IonList>
+
                   </Fragment>
                 }
                 {
@@ -143,5 +151,7 @@ const ChooseTransaction: React.FC<any> = ({ location }) => {
     </IonPage>
   );
 };
-
-export default withRouter(ChooseTransaction);
+const mapStateToProps = (state: any) => ({
+  project: state.project
+})
+export default connect(mapStateToProps, { getProjects })(withRouter(ChooseTransaction));

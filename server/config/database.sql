@@ -45,7 +45,7 @@ CREATE TABLE transactions(
 );
 
 CREATE TABLE projects(
-    project_id INT PRIMARY KEY NOT NULL,
+    project_id serial PRIMARY KEY,
     projectName VARCHAR(100) UNIQUE NOT NULL,
     description VARCHAR(255) NOT NULL,
     status VARCHAR(50) NOT NULL,

@@ -10,3 +10,4 @@ export const Get_Total_Funds_Success = 'Get_Total_Funds_Success';
 export const Get_Total_Funds_Fail = 'Get_Total_Funds_Fail';
 export const Get_YieldPA_Success = 'Get_Total_Funds_Fail';
 export const Get_YieldPA_Fail = 'Get_Total_Funds_Fail';
+export const Tsx_Loading = 'Tsx_Loading';

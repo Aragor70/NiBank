@@ -6,13 +6,15 @@ import auth from './auth';
 import users from './users';
 import tsx from './tsx';
 import account from './account';
+import project from './project';
 
 const rootReducer = combineReducers({
     alert,
     auth,
     users,
     tsx,
-    account
+    account,
+    project
 })
 
 export default rootReducer;
