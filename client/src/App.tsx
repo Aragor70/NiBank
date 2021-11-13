@@ -35,13 +35,15 @@ import { connect } from 'react-redux';
 import Wallet from './pages/Wallet';
 import Transactions from './pages/Transactions';
 import Statistics from './pages/Statistics';
-import NewTransaction from './pages/NewTransaction';
 import { getBalance } from './store/actions/tsx';
 import Menu from './components/Menu';
 import PageHeader from './components/PageHeader';
 import PageSubTitle from './components/PageSubTitle';
 import PageNotFound from './pages/PageNotFound';
 import MyTransactions from './pages/MyTransactions';
+import Store from './pages/Store';
+import Profile from './pages/Profile';
+import ChooseTransaction from './pages/ChooseTransaction';
 
 
 const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history }) => {
@@ -93,10 +95,16 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
                 <Transactions />
               </Route>
               <Route exact path="/new_transaction">
-                <NewTransaction />
+                <ChooseTransaction />
               </Route>
               <Route exact path="/statistics">
                 <Statistics />
+              </Route>
+              <Route exact path="/store">
+                <Store />
+              </Route>
+              <Route exact path="/profile">
+                <Profile />
               </Route>
               <Route exact>
                 <PageNotFound />

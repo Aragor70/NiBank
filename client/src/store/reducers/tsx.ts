@@ -1,4 +1,4 @@
-import { Tsx_Create_Success, Tsx_Create_Fail, Get_My_Tsxs_Success, Get_My_Tsxs_Fail } from '../actions/tsx/types'
+import { Tsx_Create_Success, Tsx_Create_Fail, Get_My_Tsxs_Success, Get_My_Tsxs_Fail, Get_Tsxs_Success, Get_Tsxs_Fail } from '../actions/tsx/types'
 
 
 export const initialState = {
@@ -12,10 +12,10 @@ const tsx = (state: any = initialState, action: any) => {
     const { type, payload } = action;
     switch(type) {
 
-        case Get_My_Tsxs_Success:
+        case Get_Tsxs_Success:
             return {...state, tsxs: payload, loading: false }        
 
-        case Get_My_Tsxs_Fail:
+        case Get_Tsxs_Fail:
             return {...state, tsxs: [], loading: false }
 
         case Tsx_Create_Success:

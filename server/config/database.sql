@@ -27,7 +27,7 @@ CREATE TABLE account_roles(
 )
 
 CREATE TABLE transactions(
-    tsx_id INT PRIMARY KEY NOT NULL,
+    tsx_id serial PRIMARY KEY NOT NULL,
     from_id INT NOT NULL,
     to_user_id INT,
     to_project_id INT,
@@ -37,6 +37,7 @@ CREATE TABLE transactions(
     nonce INT NOT NULL CHECK (nonce > 0),
     created_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     accounting_date TIMESTAMP,
+    currency VARCHAR(50) NOT NULL,
     FOREIGN KEY (to_user_id)
         REFERENCES accounts (user_id),
     FOREIGN KEY (to_project_id)
@@ -48,7 +49,7 @@ CREATE TABLE projects(
     projectName VARCHAR(100) UNIQUE NOT NULL,
     description VARCHAR(255) NOT NULL,
     status VARCHAR(50) NOT NULL,
-    typeOfInvestment  VARCHAR(50) NOT NULL,
+    typeOfInvestment VARCHAR(50) NOT NULL,
     typeOfProperty VARCHAR(50) NOT NULL,
     project VARCHAR(50) NOT NULL,
     term INT NOT NULL CHECK (term > 0),

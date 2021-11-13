@@ -9,7 +9,7 @@ import { newTsx } from '../../store/actions/tsx';
 import AccountRow from '../lists/AccountRow';
 
 
-const CreateTransaction: React.FC<any> = ({ newTsx, history, user, users, loadUsers }) => {
+const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, loadUsers }) => {
 
 
   useEffect(() => {
@@ -125,4 +125,4 @@ const mapStateToProps = (state: any) => ({
   users: state.users.users,
   user: state.auth.user
 })
-export default connect(mapStateToProps, {newTsx, loadUsers})(withRouter(CreateTransaction));
+export default connect(mapStateToProps, {newTsx, loadUsers})(withRouter(CreateTransfer));

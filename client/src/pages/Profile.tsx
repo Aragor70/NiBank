@@ -1,17 +1,12 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonAlert } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
 import { checkmark } from 'ionicons/icons';
-import { Fragment, useState } from 'react';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
-import CreateTransaction from '../components/form/CreateTransaction';
-import AccountsList from '../components/lists/AccountsList';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import PlatformOverwiev from '../components/PlatformOverwiev';
 
-const NewTransaction: React.FC = () => {
-
-
+const Profile: React.FC = () => {
   return (
     <IonPage>
 
@@ -20,19 +15,18 @@ const NewTransaction: React.FC = () => {
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > New transaction"} />
+      <PageSubTitle subTitle={"Home > Profile"} />
         
       <IonList>
 
         <IonListHeader>
             <IonTitle style={{ textAlign: 'center' }}>
-                New transaction
+                Profile
 
             </IonTitle>
         </IonListHeader>
 
-        <CreateTransaction />
-
+        
         
       </IonList>
         
@@ -45,4 +39,4 @@ const NewTransaction: React.FC = () => {
   );
 };
 
-export default NewTransaction;
+export default Profile;

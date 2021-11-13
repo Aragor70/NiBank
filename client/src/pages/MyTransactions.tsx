@@ -1,13 +1,13 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
-import { checkmark } from 'ionicons/icons';
+import { checkmark, informationCircleOutline } from 'ionicons/icons';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
-import CreateTransaction from '../components/form/CreateTransaction';
+import CreateTransfer from '../components/form/CreateTransfer';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import Transaction from '../components/Transaction';
+import MyTsxListElement from '../components/MyTsxListElement';
 
 const Transactions: React.FC<any> = ({ account }) => {
   return (
@@ -33,7 +33,14 @@ const Transactions: React.FC<any> = ({ account }) => {
             <IonCardContent>
             <IonList>
             {
-              account.tsxs.length > 0 ? account.tsxs.map((element: any) => <Transaction key={element.tsx_id} tsx={element} />) : <IonItem>hi</IonItem>
+              account?.tsxs?.length > 0 ? account?.tsxs?.map((element: any, index: number) => <MyTsxListElement key={element?.tsx_id || index} tsx={element} index={index} />) : <IonItem>
+              <IonAvatar slot="start">
+                  <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
+              </IonAvatar>
+              <IonText>
+              No available transactions.
+              </IonText>
+              </IonItem>
             }
             </IonList>
             </IonCardContent>
