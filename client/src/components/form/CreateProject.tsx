@@ -26,6 +26,7 @@ const CreateProject: React.FC<any> = ({ newProject, history, user }) => {
     typeofproperty: '',
     typeofinvestment: '',
     project: '',
+    image: '',
   })
   
   const [present] = useIonAlert();
@@ -38,13 +39,16 @@ const CreateProject: React.FC<any> = ({ newProject, history, user }) => {
       
 
     } catch (err: any) {
+
       console.log(err.message)
+      
     }
 
   }
   const handleChange = (e: any) => {
     return setFormData({...formData, [e.target.name]: e.target.value})
   }
+
 
   return (
     <IonItem>    
@@ -83,6 +87,11 @@ const CreateProject: React.FC<any> = ({ newProject, history, user }) => {
             <IonItem>
               <IonLabel>Description</IonLabel>
               <IonInput slot="end" name="description" value={formData.description || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+            
+            </IonItem>            
+            <IonItem>
+              <IonLabel>Image</IonLabel>
+              <IonInput type="text" slot="end" name="image" value={formData.image || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
             <IonItem>
@@ -133,23 +142,19 @@ const CreateProject: React.FC<any> = ({ newProject, history, user }) => {
             </IonItem>            
             <IonItem>
               <IonLabel>Start date</IonLabel>
-              <IonInput type="date" slot="end" name="startdate" value={formData.startdate || moment(Date.now()).format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput type="date" slot="end" name="startdate" value={formData.startdate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>            
             <IonItem>
               <IonLabel>Close date</IonLabel>
-              <IonInput type="date" slot="end" name="closedate" value={formData.closedate || moment(Date.now()).format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput type="date" slot="end" name="closedate" value={formData.closedate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
             <IonItem>
-              <IonButton slot="end" type="submit">Confirm transfer</IonButton>
+              <IonButton slot="end" type="submit">Confirm</IonButton>
             </IonItem>
             
-        <IonItem>
-          <IonRouterLink>
-            Forgot the recipient account?
-          </IonRouterLink>
-        </IonItem>
+        
         </form>
         
     </IonItem>

@@ -1,7 +1,7 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonGrid, IonCol, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonRow } from '@ionic/react';
 import { connect } from 'react-redux';
-import { checkmark } from 'ionicons/icons';
+import { arrowForward, businessOutline, checkmark, people } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
@@ -9,10 +9,11 @@ import CreateProject from '../components/form/CreateProject';
 import CreateTransfer from '../components/form/CreateTransfer';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import { getProjects } from '../store/actions/project';
-import GlobalProjectListElement from '../components/GlobalProjectListElement';
+import { clearProjects, getProjects } from '../store/actions/project';
+import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
+import Loading from './Loading';
 
-const ChooseTransaction: React.FC<any> = ({ location, project, getProjects }) => {
+const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth }) => {
 
   const [ selectView, setSelectView ] = useState<any>({
     investment: 0,
@@ -21,23 +22,23 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects }) =>
 
   const { investment, transfer } = selectView;
 
+
   useEffect(() => {
 
+    getProjects()
+
     return () => {
+      
+      clearProjects()
       setSelectView({
         investment: 0,
         transfer: 0
       })
     }
     
-  }, [location.pathname])
-
-  useEffect(() => {
-
-    getProjects()
-    
   }, [])
-
+  
+  
   return (
     <IonPage>
 
@@ -45,7 +46,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects }) =>
 
       <IonContent fullscreen>
 
-      
+        
         
 
         {
@@ -73,20 +74,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects }) =>
 
                   </Fragment>
                 }
-                {
-                  investment === 2 && <Fragment>
-                    <PageSubTitle subTitle={"Home > Choose transaction > Investments > New project"} />
-                    <IonList>
-                      <IonListHeader>
-                        <IonTitle style={{ textAlign: 'center' }}>
-                            New investment project
-                        </IonTitle>
-                      </IonListHeader>
-
-                      <CreateProject />
-                    </IonList>
-                  </Fragment>
-                }
+                
               </Fragment>
 
               
@@ -117,28 +105,23 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects }) =>
 
                 </IonTitle>
               </IonListHeader>
-              <IonGrid>
-                <IonRow style={{ columnGap: '15px' }}>
-                    <IonCol style={{ border: '1px solid #121212', borderRadius: '7.5px' }} onClick={()=> setSelectView({ transfer: 0, investment: 1 })}>
-                        <br/>
-                        <br/>
-                        <IonText className="ion-items-center">
-                            Investment
-                        </IonText>
-                        <br/>
-                        <br/>
-                    </IonCol>
-                    <IonCol style={{ border: '1px solid #121212', borderRadius: '7.5px' }} onClick={()=> setSelectView({ investment: 0, transfer: 1 })}>
-                        <br/>
-                        <br/>
-                        <IonText className="ion-items-center">
-                            Transfer
-                        </IonText>
-                        <br/>
-                        <br/>
-                    </IonCol>
-                </IonRow>
-              </IonGrid>
+              <IonItem onClick={()=> setSelectView({ transfer: 0, investment: 1 })}>
+
+                <IonIcon icon={businessOutline} slot="start" color="primary"></IonIcon>
+                <IonText>
+                  Invest
+                </IonText>
+                
+              </IonItem>
+              <IonItem onClick={()=> setSelectView({ investment: 0, transfer: 1 })}>
+
+              <IonIcon icon={people} slot="start" color="primary"></IonIcon>
+                <IonText>
+                  Transfer
+                </IonText>
+
+              </IonItem>
+                
               
             </IonList>
           </Fragment>
@@ -152,6 +135,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects }) =>
   );
 };
 const mapStateToProps = (state: any) => ({
-  project: state.project
+  project: state.project,
+  auth: state.auth
 })
 export default connect(mapStateToProps, { getProjects })(withRouter(ChooseTransaction));

@@ -1,15 +1,29 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonBadge } from '@ionic/react';
 import { checkmark, informationCircleOutline } from 'ionicons/icons';
+import moment from 'moment';
+import { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import CreateTransfer from '../components/form/CreateTransfer';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import MyTsxListElement from '../components/MyTsxListElement';
+import MyTsxListElement from '../components/tsx/MyTsxListElement';
+import { clearTsxs, getBalance } from '../store/actions/tsx';
+import getMonthlyArry from '../utils/getMonthlyArry';
 
 const Transactions: React.FC<any> = ({ account }) => {
+
+  useEffect(() => {
+    getBalance()
+
+    return () => {
+      console.log('clearr tsxs')
+      clearTsxs()
+    }
+  }, [])
+  
   return (
     <IonPage>
 
@@ -33,7 +47,7 @@ const Transactions: React.FC<any> = ({ account }) => {
             <IonCardContent>
             <IonList>
             {
-              account?.tsxs?.length > 0 ? account?.tsxs?.map((element: any, index: number) => <MyTsxListElement key={element?.tsx_id || index} tsx={element} index={index} />) : <IonItem>
+              account?.tsxs?.length > 0 ? Object.values(getMonthlyArry(account?.tsxs, 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <MyTsxListElement key={element?.tsx_id} tsx={element} index={index} />)}</IonList></Fragment> ) : <IonItem>
               <IonAvatar slot="start">
                   <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
               </IonAvatar>

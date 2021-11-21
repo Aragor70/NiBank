@@ -18,9 +18,12 @@ const router: Router = express.Router();
 router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
     try {
         
-        const transactions = await pool.query('SELECT * FROM transactions');
+        //const transactions = await pool.query('SELECT * FROM transactions join accounts ON transactions.to_user_id = accounts.user_id join projects ON transactions.to_project_id = projects.project_id');
+        const transactions = await pool.query('SELECT * FROM transactions join accounts ON transactions.to_user_id = accounts.user_id WHERE transactions.to_user_id IS NOT NULL ORDER BY created_on DESC');
+        const investments = await pool.query('SELECT * FROM transactions join projects ON transactions.to_project_id = projects.project_id WHERE transactions.to_project_id IS NOT NULL ORDER BY created_on DESC');
+        const output = (transactions.rows || []).concat(investments.rows || []).sort((a: any, b: any) => b?.created_on - a?.created_on ) || [];
         
-        res.json(transactions.rows);
+        res.json(output);
 
     }
     catch(err: any){
@@ -42,7 +45,12 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
         const user = rows[0] || false;
         
-        const { to, amount, accounting_date, currency } = req.body;
+        if (!user) {
+            return next(new ErrorResponse('User not found.', 404))
+        }
+
+
+        const { to, amount, accounting_date, currency, description } = req.body;
         console.log(accounting_date)
    
         const today = moment().format('YYYY-MM-DD');
@@ -67,7 +75,7 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
         const hash = await SHA256((previousTransaction?.rows[0]?.tsx_id) || 0 + (previousHash || 'genesis') + new Date().getTime() + user.user_id + to + amount + nonce).toString();
 
-        const transactions = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`, [ user.user_id, recipient.user_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency ]);
+        const transactions = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [ user.user_id, recipient.user_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
         
         res.json(transactions);
 
@@ -79,6 +87,29 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 }));
 
 
+//route get    api/auth
+//description  get tsx
+//access       public
+router.get('/:tsx_id', asyncHandler( async (req: any, res: any, next: any) => {
+    try {
+
+        if (!req.params.tsx_id) {
+            return next(new ErrorResponse('Transactions not found.', 404))
+        }
+        const investments = await pool.query(`SELECT * FROM transactions join projects ON transactions.to_project_id = projects.project_id WHERE tsx_id = $1 AND transactions.to_project_id IS NOT NULL`, [ req.params.tsx_id ]);
+        const transfers = await pool.query(`SELECT * FROM transactions join accounts ON transactions.to_user_id = accounts.user_id WHERE tsx_id = $1 AND transactions.to_user_id IS NOT NULL`, [ req.params.tsx_id ]);
+        
+        const output = (transfers?.rows.length ? transfers?.rows : investments?.rows.length ? investments?.rows : [])
+
+
+        res.json({ tsxs: output });
+
+    }
+    catch(err: any){
+        console.error(err.message);
+        res.status(500).send('Auth server error.')
+    }
+}));
 
 
 

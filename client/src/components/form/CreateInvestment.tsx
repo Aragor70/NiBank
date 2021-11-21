@@ -4,69 +4,66 @@ import moment from 'moment';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { loadUsers } from '../../store/actions/auth';
-import { getTsx, newTsx } from '../../store/actions/tsx';
-import AccountRow from '../lists/AccountRow';
+import { clearTsx, getTsx, newInvest } from '../../store/actions/tsx';
 
 
-const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, tsx, loadUsers, prevTsx = null }) => {
+const CreateInvestment: React.FC<any> = ({ newInvest, history, user, project, tsx, prevTsx = null, getTsx, clearTsx, match }) => {
 
 
-  useEffect(() => {
-
-    loadUsers()
-    
-  }, [])
-
-  const [doSearch, setDoSearch] = useState(false)
-  
   const [formData, setFormData] = useState({
-    to: '',
+    project_id: '',
     amount: '',
     accounting_date: moment().format('YYYY-MM-DD'),
     public_key: '',
     description: '',
-    currency: ''
+    currency: '',
+    projectname: ''
   })
 
   
 
   useEffect(() => {
 
-    if (prevTsx && tsx?.tsx) {
+    if (prevTsx) {
 
-      setFormData({...formData, ...prevTsx, to: prevTsx.public_key, accounting_date: moment().format('YYYY-MM-DD')})
+      setFormData({...formData, ...prevTsx, description: 'Investment', accounting_date: moment().format('YYYY-MM-DD')})
 
     }
 
     return () => {
-      console.log('clear tsx from')
+
+      console.log('clear invest from')
       setFormData({
-        to: '',
+        project_id: '',
         amount: '',
         accounting_date: moment().format('YYYY-MM-DD'),
         public_key: '',
         description: '',
-        currency: ''
+        currency: '',
+        projectname: ''
       })
 
     }
-    
-  }, [prevTsx, tsx.loading])
 
+  }, [prevTsx, tsx.loading, project.loading])
   
-  /* 
-
-  console.log('formData', formData) */
-
   const [present] = useIonAlert();
 
   const handleSubmit = async(e: any) => {
     try {
 
       e.preventDefault();
+      console.log(formData)
 
-      await newTsx(formData, history, present)
+      if (prevTsx) {
+
+        await newInvest(tsx.tsx.to_project_id, formData, history, present)
+
+      } else {
+
+        await newInvest(project.project.project_id, formData, history, present)
+
+      }
 
     } catch (err: any) {
 
@@ -75,15 +72,13 @@ const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, tsx, load
     }
 
   }
-
   const handleChange = (e: any) => {
     return setFormData({...formData, [e.target.name]: e.target.value})
   }
 
-  if (tsx.loading) {
+  if (tsx.loading || project.loading) {
     return <IonItem>loading...</IonItem>
   }
-
   return (
     <IonItem>    
         <form onSubmit={(e: any) => handleSubmit(e)}>
@@ -94,8 +89,8 @@ const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, tsx, load
             
             </IonItem>
             <IonItem>
-              <IonLabel>To</IonLabel>
-              <IonInput slot="end" name="to" value={formData.to || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonLabel>Project</IonLabel>
+              <IonText slot="end">{formData?.projectname ? formData?.projectname || "N/A" : "N/A" }</IonText>
 
             </IonItem>
             <IonItem>
@@ -126,44 +121,16 @@ const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, tsx, load
             <IonItem>
               <IonButton slot="end" type="submit">Confirm</IonButton>
             </IonItem>
-            
-        <IonItem>
-          <IonRouterLink onClick={() => setDoSearch(true)}>
-            Forgot the recipient account?
-          </IonRouterLink>
-        </IonItem>
+        
         </form>
         
-        {
-          doSearch && <Fragment>
-            
-            <IonCard className="ion-alert-searchbar">
-              <IonCardHeader>
-                <IonToolbar>
-                  <IonSearchbar></IonSearchbar>
-                </IonToolbar>
-              </IonCardHeader>
-              <IonCardContent>
-                
-                <IonList>
-                  {
-                    users.map((element: any, index: number) => <AccountRow key={index} element={element} index={index} doSearch={doSearch} setDoSearch={setDoSearch} formData={formData} setFormData={setFormData} />)
-                  }
-                </IonList>
-                <IonItem>
-                  <IonButton slot="end" onClick={()=> setDoSearch(false)}>Cancel</IonButton>
-                </IonItem>
-              </IonCardContent>
-              
-            </IonCard>
-          </Fragment>
-        }
+        
     </IonItem>
   );
 };
 const mapStateToProps = (state: any) => ({
-  users: state.users.users,
   user: state.auth.user,
+  project: state.project,
   tsx: state.tsx
 })
-export default connect(mapStateToProps, {newTsx, loadUsers, getTsx})(withRouter(CreateTransfer));
+export default connect(mapStateToProps, {newInvest, getTsx, clearTsx})(withRouter(CreateInvestment));

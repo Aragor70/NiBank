@@ -47,7 +47,7 @@ router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
 
 router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFunction) => {
     
-    const { name, email, password } = req.body;
+    const { name, email, password, accountType } = req.body;
 
     const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1`, [email]);
 
@@ -80,7 +80,7 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
     const privateKey = key.getPrivate('hex');
     
     user = await pool.query(
-        `INSERT INTO accounts (name, email, password, avatar, public_key, private_key) VALUES($1, $2, $3, $4, $5, $6)`, [userName, email, safePassword, avatar || '', publicKey, privateKey]
+        `INSERT INTO accounts (name, email, password, avatar, public_key, private_key, account_type) VALUES($1, $2, $3, $4, $5, $6, $7)`, [userName, email, safePassword, avatar || '', publicKey, privateKey, accountType]
     );
 
     const payload = {

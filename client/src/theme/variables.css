@@ -1,5 +1,6 @@
 * {
   text-align: justify;
+  box-sizing: border-box;
 }
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
@@ -274,7 +275,29 @@ ion-card-content ion-list > ion-item
 {
   padding: 7.5px 0;
 }
-
+ion-item
+{
+  padding: 1.5px 0;
+  --padding-end: 0;
+  --padding-start: 0;
+}
+ion-text
+{
+  font-size: 16px;
+  line-height: 1.6
+}
+ion-button:active
+{
+  position: relative;
+  top: 2px;
+  color: #2dd36f;
+}
+ion-router-link:active
+{
+  position: relative;
+  top: 2px;
+  color: #3dc2ff;
+}
 .green
 {
   color: green;

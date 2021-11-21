@@ -1,23 +1,36 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonCardSubtitle, IonGrid, IonCol, IonRow } from '@ionic/react';
 import { checkmark } from 'ionicons/icons';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
+import CreateInvestment from '../components/form/CreateInvestment';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import PlatformOverwiev from '../components/PlatformOverwiev';
-import { getProject } from '../store/actions/project';
+import { clearProject, getProject } from '../store/actions/project';
 
-const Project: React.FC<any> = ({ project, match, getProject }) => {
+const Project: React.FC<any> = ({ project, match, getProject, location }) => {
+    const [ loadingData, setLoadingData ] = useState(false)
 
+    const [ projectData, setProjectData ] = useState(null)
+    const getData = async () => {
+        if (match.params.project_id) {
+            const value = await getProject(match.params.project_id)
+            setProjectData(value)
+        }
+    }
     useEffect(() => {
-
-        getProject(match.params.project_id)
-
-    }, [match.params.project_id])
-
+        
+        getData()
+        
+        /* return () => {
+            console.log('clear project')
+            clearProject()
+        } */
+    }, [])
+    console.log(projectData)
 
   return (
     <IonPage>
@@ -37,11 +50,41 @@ const Project: React.FC<any> = ({ project, match, getProject }) => {
 
             </IonTitle>
         </IonListHeader>
+
+        <IonItem>
+            <IonGrid>
+                <IonRow>
+                    <IonCol style={{ textAlign: 'center' }}>
+                        Overview
+
+                    </IonCol>
+                    <IonCol style={{ textAlign: 'center' }}>
+                        Investments
+
+                    </IonCol>
+                    <IonCol style={{ textAlign: 'center' }}>
+                        Comments
+
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
+        </IonItem>
         {
-            project.loading ? <Fragment>
+            project?.loading || loadingData ? <Fragment>
                 loading...
-            </Fragment> : project.project ? <Fragment>
-                {project.project.projectname}
+            </Fragment> : projectData ? <Fragment>
+                
+                {
+                    project.project.status === "UNDER_CONSIDERATION" ? <Fragment>
+                        Under consideration
+                    </Fragment> : <Fragment>
+
+                        <CreateInvestment prevTsx={projectData} />
+
+                    </Fragment>
+                }
+                
+
             </Fragment> : <Fragment>
                 Project not found.
             </Fragment>

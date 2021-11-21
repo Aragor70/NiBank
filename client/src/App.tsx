@@ -29,14 +29,14 @@ import GSA from './pages/auth/register/GSA';
 import SecurityCenter from './pages/SecurityCenter';
 import RecoverEmail from './pages/auth/RecoverEmail';
 import RecoverPassword from './pages/auth/RecoverPassword';
-import { loadUser } from './store/actions/auth';
+import { loadUser, loadUsers } from './store/actions/auth';
 import setAuthToken from './utils/setAuthToken';
 import { connect } from 'react-redux';
 import Wallet from './pages/Wallet';
 import Transactions from './pages/Transactions';
 import Statistics from './pages/Statistics';
 import { getBalance } from './store/actions/tsx';
-import { getProjects } from './store/actions/project';
+import { clearProjects, getProjects } from './store/actions/project';
 import Menu from './components/Menu';
 import PageHeader from './components/PageHeader';
 import PageSubTitle from './components/PageSubTitle';
@@ -47,9 +47,12 @@ import Profile from './pages/Profile';
 import ChooseTransaction from './pages/ChooseTransaction';
 import Project from './pages/Project';
 import Projects from './pages/Projects';
+import Loading from './pages/Loading';
+import Tsx from './pages/Tsx';
+import MyInvestments from './pages/MyInvestments';
 
 
-const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx }) => {
+const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx, loadUsers }) => {
 
 
   useEffect(() => {
@@ -68,9 +71,30 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
 
   useEffect(() => {
     
-    getProjects()
+    getProjects(auth.user)
+
+    /* return () => {
+      
+      console.log('clearr projects')
+      clearProjects()
+    } */
+    
+  }, [auth.user])
+  
+  useEffect(() => {
+    
+    loadUsers()
+
+    /* return () => {
+      
+      console.log('clearr projects')
+      clearProjects()
+    } */
     
   }, [])
+
+
+
 
 
   return (
@@ -78,17 +102,8 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
     
     <Menu />
         {
-          auth.loading || tsx.loading || project.loading ? <Fragment>
-            <IonPage id="output">
-              <PageHeader />
-              <IonContent fullscreen>
-
-              <IonTitle>
-                Loading...
-              </IonTitle>
-
-              </IonContent>
-            </IonPage>
+          auth.loading ? <Fragment>
+            <Loading />
           </Fragment> : isAuthenticated ? <Fragment>
             <IonRouterOutlet id="output">
               <Route exact path="/">
@@ -100,8 +115,14 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
               <Route exact path="/my_transactions">
                 <MyTransactions />
               </Route>
+              <Route exact path="/my_investments">
+                <MyInvestments />
+              </Route>
               <Route exact path="/transactions">
                 <Transactions />
+              </Route>
+              <Route exact path="/transactions/:tsx_id">
+                <Tsx />
               </Route>
               <Route exact path="/new_transaction">
                 <ChooseTransaction />
@@ -180,4 +201,4 @@ const mapStateToProps = (state: any) => ({
   project: state.project, 
   tsx: state.tsx
 })
-export default connect(mapStateToProps, { loadUser, getBalance, getProjects })(withRouter(App));
+export default connect(mapStateToProps, { loadUser, getBalance, getProjects, clearProjects, loadUsers })(withRouter(App));

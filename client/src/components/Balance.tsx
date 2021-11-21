@@ -8,6 +8,7 @@ const Balance: React.FC<any> = ({ account }) => {
 
 
   return (
+    account.loading ? <IonItem>loading...</IonItem> :
     <IonItem>    
         <IonText className="ion-text-wrap" slot='start'>
             Balance

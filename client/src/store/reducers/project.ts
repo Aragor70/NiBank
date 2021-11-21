@@ -53,7 +53,7 @@ const project = (state: any = initialState, action: any) => {
             return {...state, projects: [], openProjects: [], closedProjects: [], loading: false }
 
         case Project_Loading:
-            return {...state, projects: [], openProjects: [], closedProjects: [], loading: false }
+            return {...state, loading: true }
 
 
         default:

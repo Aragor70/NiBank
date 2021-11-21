@@ -15,7 +15,7 @@ const Statistics: React.FC = () => {
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > My transactions"} />
+      <PageSubTitle subTitle={"Home > Statistics"} />
         
       <IonList>
 

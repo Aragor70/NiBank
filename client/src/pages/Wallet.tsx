@@ -31,10 +31,7 @@ const Wallet: React.FC<RouteComponentProps> = ({ history }) => {
 
             <IonCardHeader>
                 <IonCardTitle>
-                    Whether you’ve been the victim of fraud or are looking to learn how to protect yourself, this page outlines key information you should know and what we do to keep you safe and secure online.
-
-
-
+                    Account type
                 </IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
