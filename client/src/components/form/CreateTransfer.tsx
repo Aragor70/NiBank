@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { loadUsers } from '../../store/actions/auth';
 import { getTsx, newTsx } from '../../store/actions/tsx';
 import AccountRow from '../lists/AccountRow';
+import Loader from '../Loader';
 
 
 const CreateTransfer: React.FC<any> = React.memo(({ newTsx, history, user, users, tsx, loadUsers, prevTsx = null }) => {
@@ -83,7 +84,7 @@ const CreateTransfer: React.FC<any> = React.memo(({ newTsx, history, user, users
   }
 
   if (tsx.loading) {
-    return <IonItem>loading...</IonItem>
+    return <Loader />
   }
 
   return (

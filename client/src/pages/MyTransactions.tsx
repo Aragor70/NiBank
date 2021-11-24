@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import CreateTransfer from '../components/form/CreateTransfer';
+import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import MyTsxListElement from '../components/tsx/MyTsxListElement';
@@ -47,14 +48,8 @@ const Transactions: React.FC<any> = ({ account }) => {
             <IonCardContent>
             <IonList>
             {
-              account?.tsxs?.length > 0 ? Object.values(getMonthlyArry(account?.tsxs, 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <MyTsxListElement key={element?.tsx_id} tsx={element} index={index} />)}</IonList></Fragment> ) : <IonItem>
-              <IonAvatar slot="start">
-                  <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
-              </IonAvatar>
-              <IonText>
-              No available transactions.
-              </IonText>
-              </IonItem>
+              account?.tsxs?.length > 0 ? Object.values(getMonthlyArry(account?.tsxs, 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <MyTsxListElement key={element?.tsx_id} tsx={element} index={index} />)}</IonList></Fragment> ) :
+              <NotFound message="No available transactions." />
             }
             </IonList>
             </IonCardContent>

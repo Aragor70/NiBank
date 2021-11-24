@@ -1,5 +1,6 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonText } from '@ionic/react';
+import { alert, alertCircleOutline, informationCircleOutline } from 'ionicons/icons';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Balance from '../components/Balance';
@@ -17,12 +18,22 @@ const PageNotFound: React.FC<RouteComponentProps | any> = ({ history, logout, is
 
             <IonContent fullscreen>
 
-            <PageSubTitle subTitle={"404 Page not found"} />
+            <PageSubTitle subTitle={"Home > 404 page not found"} />
+
+
             <IonItem>
+                
                 <IonTitle className="ion-text-center">
-                404 Page not found
+                    <IonIcon size="large" color="secondary" icon={alertCircleOutline}></IonIcon>
                 </IonTitle>
             </IonItem>
+            <IonItem>
+                
+                <IonTitle className="ion-text-center">
+                    Page not found
+                </IonTitle>
+            </IonItem>
+            
             <IonItem>
                 <div className="ion-items-center">
                 <IonButton onClick={() => history.push('/')}>Go to dashboard</IonButton>

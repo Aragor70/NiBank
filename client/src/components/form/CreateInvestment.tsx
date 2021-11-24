@@ -5,6 +5,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { clearTsx, getTsx, newInvest } from '../../store/actions/tsx';
+import Loader from '../Loader';
 
 
 const CreateInvestment: React.FC<any> = React.memo(({ newInvest, history, user, project, tsx, prevTsx = null, getTsx, clearTsx, match }) => {
@@ -76,7 +77,7 @@ const CreateInvestment: React.FC<any> = React.memo(({ newInvest, history, user, 
   }
 
   if (tsx.loading || project.loading) {
-    return <IonItem>loading...</IonItem>
+    return <Loader />
   }
   return (
     <IonItem>    

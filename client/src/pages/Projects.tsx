@@ -12,6 +12,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { clearProjects, getProjects } from '../store/actions/project';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 import CreateProject from '../components/form/CreateProject';
+import NotFound from '../components/NotFound';
 
 const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
 
@@ -66,14 +67,8 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
                 </IonTitle>
                 </IonListHeader>
                 {
-                    showMore.underConsideration ? project.underConsiderationProjects.length > 0 ? project.underConsiderationProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : <IonItem>
-                    <IonAvatar slot="start">
-                        <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
-                    </IonAvatar>
-                    <IonText>
-                    No available projects.
-                    </IonText>
-                    </IonItem> : false
+                    showMore.underConsideration ? project.underConsiderationProjects.length > 0 ? project.underConsiderationProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
+                    <NotFound message="No available projects." /> : false
                 }
                 
                 </IonList>
@@ -86,14 +81,8 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
                     </IonTitle>
                     </IonListHeader>
                     {
-                        showMore.open ? project.openProjects.length > 0 ? project.openProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : <IonItem>
-                        <IonAvatar slot="start">
-                            <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
-                        </IonAvatar>
-                        <IonText>
-                        No available projects.
-                        </IonText>
-                        </IonItem> : false
+                        showMore.open ? project.openProjects.length > 0 ? project.openProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
+                        <NotFound message="No available projects." /> : false
                     }
                 </IonList>
 
@@ -105,14 +94,8 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
                     </IonTitle>
                     </IonListHeader>
                     {
-                        showMore.closed ? project.closedProjects.length > 0 ? project.closedProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : <IonItem>
-                        <IonAvatar slot="start">
-                            <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
-                        </IonAvatar>
-                        <IonText>
-                        No available projects.
-                        </IonText>
-                        </IonItem> : false
+                        showMore.closed ? project.closedProjects.length > 0 ? project.closedProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
+                        <NotFound message="No available projects." /> : false
                     }
                     
                 </IonList>

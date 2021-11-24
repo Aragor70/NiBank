@@ -1,12 +1,14 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
-import { checkmark } from 'ionicons/icons';
+import { checkmark, informationCircleOutline } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import CreateInvestment from '../components/form/CreateInvestment';
 import CreateTransfer from '../components/form/CreateTransfer';
+import Loader from '../components/Loader';
+import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import TsxDetails from '../components/TsxDetails';
@@ -54,7 +56,7 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
     return () => {
       setIsUp(false)
     }
-  }, [auth.user])
+  }, [auth.user, match.params.tsx_id])
 
 
     useEffect(() => {
@@ -87,11 +89,7 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
             </IonTitle>
         </IonListHeader>
         {
-            tsx.loading || users.loading ? <Fragment>
-                
-                loading...
-
-            </Fragment> : tsxData ? <Fragment>
+            tsx.loading || users.loading ? <Loader /> : tsxData ? <Fragment>
                 
                 {
                     auth.user ? tsxData.from_id === auth.user.user_id || tsxData.to_user_id === auth.user.user_id ? <Fragment>
@@ -101,11 +99,8 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
                     </Fragment> : false
                 }
 
-            </Fragment> : <Fragment>
+            </Fragment> : <NotFound message="Transaction not found." />
 
-                Transaction not found.
-
-            </Fragment>
         }
         <IonItem>
 

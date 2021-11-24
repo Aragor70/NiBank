@@ -10,6 +10,8 @@ import PageSubTitle from '../components/PageSubTitle';
 import { Fragment, useEffect, useState } from 'react';
 import { clearProjects, getProjects } from '../store/actions/project';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
+import Loader from '../components/Loader';
+import NotFound from '../components/NotFound';
 
 const Projects: React.FC<any> = ({ project, getProjects, location, auth, account }) => {
 
@@ -60,14 +62,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth, account
                     
                         
                         {
-                            account.loading ? <IonItem>loading...</IonItem> : account?.investments?.length === 0 && <IonItem>
-                            <IonAvatar slot="start">
-                                <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
-                            </IonAvatar>
-                            <IonText>
-                                No available investments.
-                            </IonText>
-                            </IonItem>
+                            account.loading ? <Loader /> : account?.investments?.length === 0 && <NotFound message="No available investments." />
                         }
 
 

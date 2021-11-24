@@ -1,11 +1,13 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonCardSubtitle, IonGrid, IonCol, IonRow } from '@ionic/react';
-import { checkmark } from 'ionicons/icons';
+import { checkmark, informationCircleOutline } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import CreateInvestment from '../components/form/CreateInvestment';
+import Loader from '../components/Loader';
+import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import PlatformOverwiev from '../components/PlatformOverwiev';
@@ -71,9 +73,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth }) => {
             </IonGrid>
         </IonItem>
         {
-            project?.loading ? <Fragment>
-                loading...
-            </Fragment> : projectData ? <Fragment>
+            project?.loading ? <Loader /> : projectData ? <Fragment>
                 
 
 
@@ -89,7 +89,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth }) => {
                 
 
             </Fragment> : <Fragment>
-                Project not found.
+                <NotFound message="Project not found." />
             </Fragment>
         }
         <IonItem>

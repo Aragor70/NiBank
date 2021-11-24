@@ -15,6 +15,8 @@ import { logout } from '../store/actions/auth';
 import { ISO_COUNTRY_CODES } from '../utils/constants';
 import getMonthlyArry from '../utils/getMonthlyArry';
 import Approval from '../components/Approval';
+import Loader from '../components/Loader';
+import NotFound from '../components/NotFound';
 
 const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, project, auth, tsx }) => {
 
@@ -169,14 +171,8 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
             <IonCardContent className="no-padding">
             <IonList>
               {
-                account?.tsxs?.length > 0 ? Object.values(getMonthlyArry(account?.tsxs.slice(0, 3), 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <MyTsxListElement key={element?.tsx_id} tsx={element} index={index} extendTsx={extendTsx} setExtendTsx={setExtendTsx} />)}</IonList></Fragment> ) : <IonItem>
-                <IonAvatar slot="start">
-                    <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
-                </IonAvatar>
-                <IonText>
-                No available transactions.
-                </IonText>
-                </IonItem>
+                account?.loading ? <Loader /> : account?.tsxs?.length > 0 ? Object.values(getMonthlyArry(account?.tsxs.slice(0, 3), 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <MyTsxListElement key={element?.tsx_id} tsx={element} index={index} extendTsx={extendTsx} setExtendTsx={setExtendTsx} />)}</IonList></Fragment> ) : 
+                <NotFound message="No available transactions." />
               }
             {/* {
               account?.tsxs?.length > 0 ? account?.tsxs?.slice(0, 3).map((element: any, index: number) => <MyTsxListElement key={element?.tsx_id || index} tsx={element} index={index} extendTsx={extendTsx} setExtendTsx={setExtendTsx} />) : <IonItem>
@@ -219,7 +215,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
             <IonCardContent className="no-padding">
             <IonList>
           {
-            /* project.projects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]) */account?.loading ? "loading..." : account?.investments?.length > 0 ? account?.investments?.slice(0, 3).map((element: any) => <Fragment key={element.project_id}>
+            /* project.projects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]) */account?.loading ? <Loader /> : account?.investments?.length > 0 ? account?.investments?.slice(0, 3).map((element: any) => <Fragment key={element.project_id}>
               
               <IonRow>
                 <IonItem>
@@ -244,14 +240,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
               
               </Fragment>) : <Fragment>
                 
-                  <IonItem>
-                  <IonAvatar slot="start">
-                      <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
-                  </IonAvatar>
-                  <IonText>
-                  No available investments.
-                  </IonText>
-                  </IonItem>
+                  <NotFound message="No available investments." />
 
               </Fragment>
           }

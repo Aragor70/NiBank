@@ -2,13 +2,14 @@
 import { IonItem, IonText } from '@ionic/react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Loader from './Loader';
 
 
 const Balance: React.FC<any> = ({ account }) => {
 
 
   return (
-    account.loading ? <IonItem>loading...</IonItem> :
+    account.loading ? <Loader /> :
     <IonItem>    
         <IonText className="ion-text-wrap" slot='start'>
             Balance
