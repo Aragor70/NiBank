@@ -50,6 +50,8 @@ import Projects from './pages/Projects';
 import Loading from './pages/Loading';
 import Tsx from './pages/Tsx';
 import MyInvestments from './pages/MyInvestments';
+import NewProject from './pages/NewProject';
+import ApprovePage from './pages/ApprovePage';
 
 
 const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx, loadUsers }) => {
@@ -94,9 +96,6 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
   }, [])
 
 
-
-
-
   return (
   <IonApp>
     
@@ -127,6 +126,9 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
               <Route exact path="/new_transaction">
                 <ChooseTransaction />
               </Route>
+              <Route exact path="/new_project">
+                <NewProject />
+              </Route>
               <Route exact path="/statistics">
                 <Statistics />
               </Route>
@@ -141,6 +143,13 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
               </Route>
               <Route exact path="/projects">
                 <Projects />
+              </Route>
+                
+              <Route exact path="/account_approvement">
+                {
+                  auth?.user?.approved ? <PageNotFound /> : <ApprovePage />
+                }
+                
               </Route>
               <Route exact>
                 <PageNotFound />

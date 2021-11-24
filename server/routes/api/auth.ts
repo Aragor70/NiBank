@@ -110,4 +110,40 @@ router.post('/pre-register', asyncHandler(async (req: Request, res: Response, ne
        
 }))
 
+
+router.put('/approve', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+    if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
+        return next(new ErrorResponse('Go to log on.', 422))
+    }
+    
+
+    const { code } = req.body;
+
+    console.log(code)
+    if (!code) {
+        return next(new ErrorResponse('Invalid Credentials.', 422))
+    }
+    console.log(code)
+
+    const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+
+    const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+
+    const user = rows[0] || false;
+    console.log(user)
+    if (!user) {
+        return next(new ErrorResponse('Go to log on.', 422))
+    }
+
+    if (user?.code?.toString() !== code?.toString()) {
+        return next(new ErrorResponse('Invalid Credentials.', 422))
+    }
+
+    await pool.query(`UPDATE accounts SET approved = true, code = '' WHERE email = $1`, [user.email]);
+
+    res.json({ success: true });
+       
+}))
+
 export default router;

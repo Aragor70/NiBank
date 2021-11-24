@@ -9,14 +9,15 @@ import CreateInvestment from '../components/form/CreateInvestment';
 import CreateTransfer from '../components/form/CreateTransfer';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
+import TsxDetails from '../components/TsxDetails';
 import { clearTsx, getTsx } from '../store/actions/tsx';
 import auth from '../store/reducers/auth';
 
 const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
     const [ loadingData, setLoadingData ] = useState(false)
 
-    const [tsxData, setTsxData] = useState(null)
-
+    const [tsxData, setTsxData] = useState<any>(null)
+    const [isUp, setIsUp] = useState(false);
 
     
     const [ from, setFrom ] = useState<any>(null)
@@ -40,6 +41,20 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
         }
 
     }
+
+    
+  useEffect(() => {
+
+    if (tsx?.from_id === auth?.user?.user_id) {
+      setIsUp(false)
+    } else {
+      setIsUp(true)
+    }
+
+    return () => {
+      setIsUp(false)
+    }
+  }, [auth.user])
 
 
     useEffect(() => {
@@ -72,16 +87,19 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
             </IonTitle>
         </IonListHeader>
         {
-            tsx.loading || loadingData ? <Fragment>
+            tsx.loading || users.loading ? <Fragment>
                 
                 loading...
 
-            </Fragment> : tsx.tsx ? <Fragment>
+            </Fragment> : tsxData ? <Fragment>
                 
                 {
-                    tsx?.tsx?.from_id === auth?.user?.user_id ? tsx?.tsx?.to_project_id ? <CreateInvestment prevTsx={tsxData} /> : <CreateTransfer prevTsx={tsxData} /> : false
+                    auth.user ? tsxData.from_id === auth.user.user_id || tsxData.to_user_id === auth.user.user_id ? <Fragment>
+                        <TsxDetails access='user' tsx={tsxData} from={from} />
+                    </Fragment> : <Fragment>
+                        <TsxDetails access='guest' tsx={tsxData} from={from} />
+                    </Fragment> : false
                 }
-                
 
             </Fragment> : <Fragment>
 

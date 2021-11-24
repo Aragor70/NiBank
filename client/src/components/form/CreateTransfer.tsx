@@ -1,7 +1,7 @@
 
 import { IonButton, IonInput, IonItem, IonLabel, IonList, IonSearchbar, IonText, useIonAlert, IonToolbar, IonCard, IonCardHeader, IonCardContent, IonAlert, IonVirtualScroll, IonRouterLink, IonSelect, IonSelectOption } from '@ionic/react';
 import moment from 'moment';
-import { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { loadUsers } from '../../store/actions/auth';
@@ -9,7 +9,7 @@ import { getTsx, newTsx } from '../../store/actions/tsx';
 import AccountRow from '../lists/AccountRow';
 
 
-const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, tsx, loadUsers, prevTsx = null }) => {
+const CreateTransfer: React.FC<any> = React.memo(({ newTsx, history, user, users, tsx, loadUsers, prevTsx = null }) => {
 
 
   useEffect(() => {
@@ -21,6 +21,7 @@ const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, tsx, load
   const [doSearch, setDoSearch] = useState(false)
   
   const [formData, setFormData] = useState({
+    tsx_id: '',
     to: '',
     amount: '',
     accounting_date: moment().format('YYYY-MM-DD'),
@@ -42,6 +43,7 @@ const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, tsx, load
     return () => {
       console.log('clear tsx from')
       setFormData({
+        tsx_id: '',
         to: '',
         amount: '',
         accounting_date: moment().format('YYYY-MM-DD'),
@@ -52,9 +54,9 @@ const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, tsx, load
 
     }
     
-  }, [prevTsx, tsx.loading])
+  }, [prevTsx, tsx.loading, formData?.tsx_id])
 
-  
+  console.log(tsx)
   /* 
 
   console.log('formData', formData) */
@@ -160,7 +162,7 @@ const CreateTransfer: React.FC<any> = ({ newTsx, history, user, users, tsx, load
         }
     </IonItem>
   );
-};
+});
 const mapStateToProps = (state: any) => ({
   users: state.users.users,
   user: state.auth.user,

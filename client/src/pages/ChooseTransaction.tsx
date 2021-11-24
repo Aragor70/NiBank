@@ -1,7 +1,7 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonGrid, IonCol, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonRow } from '@ionic/react';
 import { connect } from 'react-redux';
-import { arrowForward, businessOutline, checkmark, people } from 'ionicons/icons';
+import { alert, arrowForward, businessOutline, checkmark, people } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
@@ -12,6 +12,7 @@ import PageSubTitle from '../components/PageSubTitle';
 import { clearProjects, getProjects } from '../store/actions/project';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 import Loading from './Loading';
+import Approval from '../components/Approval';
 
 const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth }) => {
 
@@ -25,18 +26,19 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
 
   useEffect(() => {
 
-    getProjects()
+    getProjects(auth.user)
 
     return () => {
-      
-      clearProjects()
+      console.log('close tsx')
       setSelectView({
         investment: 0,
         transfer: 0
       })
     }
     
-  }, [])
+  }, [location.pathname])
+
+
   
   
   return (
@@ -101,26 +103,35 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
             <IonList>
               <IonListHeader>
                 <IonTitle style={{ textAlign: 'center' }}>
-                    Choose transaction
+                    New transaction
 
                 </IonTitle>
               </IonListHeader>
-              <IonItem onClick={()=> setSelectView({ transfer: 0, investment: 1 })}>
+              {
+                auth?.user?.approved ? <Fragment>
+                  
+                    <IonItem onClick={()=> setSelectView({ investment: 1 })}>
 
-                <IonIcon icon={businessOutline} slot="start" color="primary"></IonIcon>
-                <IonText>
-                  Invest
-                </IonText>
-                
-              </IonItem>
-              <IonItem onClick={()=> setSelectView({ investment: 0, transfer: 1 })}>
+                      <IonIcon icon={businessOutline} slot="start" color="primary"></IonIcon>
+                      <IonText>
+                        Invest
+                      </IonText>
+                      
+                    </IonItem>
+                    <IonItem onClick={()=> setSelectView({ transfer: 1 })}>
 
-              <IonIcon icon={people} slot="start" color="primary"></IonIcon>
-                <IonText>
-                  Transfer
-                </IonText>
+                    <IonIcon icon={people} slot="start" color="primary"></IonIcon>
+                      <IonText>
+                        Transfer
+                      </IonText>
 
-              </IonItem>
+                    </IonItem>
+                  
+                </Fragment> : <Fragment>
+                  <Approval />
+                </Fragment>
+              }
+              
                 
               
             </IonList>

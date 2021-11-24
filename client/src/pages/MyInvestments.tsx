@@ -7,13 +7,11 @@ import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import CreateTransfer from '../components/form/CreateTransfer';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import MyTsxListElement from '../components/tsx/MyTsxListElement';
 import { Fragment, useEffect, useState } from 'react';
 import { clearProjects, getProjects } from '../store/actions/project';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
-import CreateProject from '../components/form/CreateProject';
 
-const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
+const Projects: React.FC<any> = ({ project, getProjects, location, auth, account }) => {
 
     useEffect(() => {
         getProjects(auth.user)
@@ -45,64 +43,98 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
       
             <PageSubTitle subTitle={"Home > My investments"} />
         
-            
-                {
-                    project.underConsiderationProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length > 0 && <Fragment>
-                        <IonList>
 
-                        <IonListHeader>
-                            <IonTitle style={{ textAlign: 'center', position: 'relative' }} onClick={() => setShowMore({...showMore, underConsideration: !showMore.underConsideration})}>
-                                Under consideration - {project.underConsiderationProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length} projects
+        
+            <IonList>
+
+                <IonListHeader>
+                    <IonTitle style={{ textAlign: 'center' }}>
+                        My investments
+
+                    </IonTitle>
+                </IonListHeader>
+
+                <IonCard>
+                    <IonCardContent>
+                    <IonList>
+                    
+                        
+                        {
+                            account.loading ? <IonItem>loading...</IonItem> : account?.investments?.length === 0 && <IonItem>
+                            <IonAvatar slot="start">
+                                <IonIcon size="large" color="secondary" icon={informationCircleOutline}></IonIcon>
+                            </IonAvatar>
+                            <IonText>
+                                No available investments.
+                            </IonText>
+                            </IonItem>
+                        }
+
+
+                        {
+                            project.underConsiderationProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length > 0 && <Fragment>
+                                <IonList>
+
+                                <IonListHeader>
+                                    <IonTitle style={{ textAlign: 'center', position: 'relative' }} onClick={() => setShowMore({...showMore, underConsideration: !showMore.underConsideration})}>
+                                        Under consideration - {project.underConsiderationProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length} projects
+                                        
+                                    </IonTitle>
+                                    
+                                </IonListHeader>
+
+                                {
+                                    showMore.underConsideration && project.underConsiderationProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).map((element: any, index: any) => <GlobalProjectListElement key={element.project_id} project={element} index={index} />)
+                                }
                                 
-                            </IonTitle>
-                            
-                        </IonListHeader>
 
-                        {
-                            showMore.underConsideration && project.underConsiderationProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).map((element: any, index: any) => <GlobalProjectListElement key={element.project_id} project={element} index={index} />)
+                                </IonList>
+                            </Fragment>
                         }
                         
-
-                        </IonList>
-                    </Fragment>
-                }
-                
-                {
-                    project.openProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length > 0 && <Fragment>
-
-                    <IonList>
-                        <IonListHeader>
-                        <IonTitle style={{ textAlign: 'center' }} onClick={() => setShowMore({...showMore, open: !showMore.open})}>
-                            Open - {project.openProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length} projects
-
-                        </IonTitle>
-                        </IonListHeader>
                         {
-                            showMore.open && project.openProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />)
+                            project.openProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length > 0 && <Fragment>
+
+                            <IonList>
+                                <IonListHeader>
+                                <IonTitle style={{ textAlign: 'center' }} onClick={() => setShowMore({...showMore, open: !showMore.open})}>
+                                    Open - {project.openProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length} projects
+
+                                </IonTitle>
+                                </IonListHeader>
+                                {
+                                    showMore.open && project.openProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />)
+                                }
+                            </IonList>
+
+                            </Fragment>
                         }
+                        
+                        {
+
+                            project.closedProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length > 0 && <Fragment>
+                                
+                            <IonList>
+                                <IonListHeader>
+                                <IonTitle style={{ textAlign: 'center' }} onClick={() => setShowMore({...showMore, closed: !showMore.closed})}>
+                                    Closed - {project.closedProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length} projects
+
+                                </IonTitle>
+                                </IonListHeader>
+                                {
+                                    showMore.closed && project.closedProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />)
+                                }
+                                
+                            </IonList>
+                            </Fragment>
+                        }
+
+
                     </IonList>
+                    </IonCardContent>
+                </IonCard>
+                </IonList>
 
-                    </Fragment>
-                }
-                
-                {
-
-                    project.closedProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length > 0 && <Fragment>
-                        
-                    <IonList>
-                        <IonListHeader>
-                        <IonTitle style={{ textAlign: 'center' }} onClick={() => setShowMore({...showMore, closed: !showMore.closed})}>
-                            Closed - {project.closedProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).length} projects
-
-                        </IonTitle>
-                        </IonListHeader>
-                        {
-                            showMore.closed && project.closedProjects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]).map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />)
-                        }
-                        
-                    </IonList>
-                    </Fragment>
-                }
                     
             </Fragment>
         }
@@ -116,6 +148,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
 };
 const mapStateToProps = (state: any) => ({
     project: state.project,
-    auth: state.auth
+    auth: state.auth,
+    account: state.account
 })
 export default connect(mapStateToProps, { getProjects })(withRouter(Projects));

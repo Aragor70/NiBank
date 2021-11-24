@@ -94,8 +94,9 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
             if(err) {
                 return next(new ErrorResponse(err.message, 422))
             }
+            const code = (Math.floor(100000 + Math.random() * 900000)).toString()
             
-            await pool.query(`UPDATE accounts SET token = $1 WHERE email = $2`, [token, email]);
+            await pool.query(`UPDATE accounts SET token = $1, code = $2 WHERE email = $3`, [token, code, email]);
 
             res.json({ success: true, token }); 
             

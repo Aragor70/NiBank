@@ -25,6 +25,7 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
                 <IonItem onClick={()=> history.push('/projects')}>Projects</IonItem>
                 <IonItem onClick={()=> history.push('/transactions')}>Transactions</IonItem>
                 <IonItem onClick={()=> history.push('/currency_exchange')}>Currency exchange</IonItem>
+                <IonItem onClick={()=> history.push('/security_center')}>Security Center</IonItem>
                 <IonItem onClick={()=> history.push('/settings')}>Settings</IonItem>
                 <IonItem onClick={()=> logout(history)}>Logout</IonItem>
               </Fragment> : <Fragment>

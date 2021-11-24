@@ -11,13 +11,14 @@ import PageSubTitle from '../components/PageSubTitle';
 import PlatformOverwiev from '../components/PlatformOverwiev';
 import { clearProject, getProject } from '../store/actions/project';
 
-const Project: React.FC<any> = ({ project, match, getProject, location }) => {
+const Project: React.FC<any> = ({ project, match, getProject, auth }) => {
     const [ loadingData, setLoadingData ] = useState(false)
 
     const [ projectData, setProjectData ] = useState(null)
+
     const getData = async () => {
-        if (match.params.project_id) {
-            const value = await getProject(match.params.project_id)
+        if (match?.params?.project_id) {
+            const value = await getProject(match?.params?.project_id)
             setProjectData(value)
         }
     }
@@ -29,7 +30,7 @@ const Project: React.FC<any> = ({ project, match, getProject, location }) => {
             console.log('clear project')
             clearProject()
         } */
-    }, [])
+    }, [match?.params?.project_id])
     console.log(projectData)
 
   return (
@@ -70,18 +71,20 @@ const Project: React.FC<any> = ({ project, match, getProject, location }) => {
             </IonGrid>
         </IonItem>
         {
-            project?.loading || loadingData ? <Fragment>
+            project?.loading ? <Fragment>
                 loading...
             </Fragment> : projectData ? <Fragment>
                 
+
+
                 {
-                    project.project.status === "UNDER_CONSIDERATION" ? <Fragment>
+                    auth?.user?.approved ? project?.project?.status === "UNDER_CONSIDERATION" ? <Fragment>
                         Under consideration
                     </Fragment> : <Fragment>
-
+                        
                         <CreateInvestment prevTsx={projectData} />
-
-                    </Fragment>
+                        
+                    </Fragment> : false
                 }
                 
 
@@ -106,6 +109,7 @@ const Project: React.FC<any> = ({ project, match, getProject, location }) => {
   );
 };
 const mapStateToProps = (state: any) => ({
-    project: state.project
+    project: state.project,
+    auth: state.auth
 })
 export default connect(mapStateToProps, { getProject })(withRouter(Project));

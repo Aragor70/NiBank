@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonText, IonGrid, IonRow, IonCol, IonBadge, IonRouterLink, IonAvatar } from '@ionic/react';
-import { add, businessOutline, card, informationCircleOutline, person } from 'ionicons/icons';
+import { add, alert, businessOutline, card, informationCircleOutline, person } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import PageSubTitle from '../components/PageSubTitle';
 import { logout } from '../store/actions/auth';
 import { ISO_COUNTRY_CODES } from '../utils/constants';
 import getMonthlyArry from '../utils/getMonthlyArry';
+import Approval from '../components/Approval';
 
 const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, project, auth, tsx }) => {
 
@@ -33,18 +34,25 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
 
       <IonContent fullscreen>
 
-      
       <PageSubTitle subTitle={"Home"} />
         
 
       
       <IonList>
+
         <IonListHeader color="primary" style={{ borderRadius: '7.5px' }}>
+
           <IonTitle>
             <span>Welcome {auth.user.name}</span>
           </IonTitle>
         </IonListHeader>
-
+        
+        {
+          auth?.user?.approved === false && <Fragment>
+            <Approval />
+          </Fragment>
+        }
+          
             <IonItem style={{ padding: '10px 0'}}>
                 
               <IonCol>
@@ -108,6 +116,23 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
               <IonIcon icon={add} slot="start"></IonIcon>
               <IonRouterLink>
                 New transaction
+              </IonRouterLink>
+              </IonItem>
+            </IonCol>
+            <IonCol>
+              <IonItem lines="none">
+              {/* <IonButton slot="end">
+                <IonIcon icon={person} size="small"></IonIcon>
+              </IonButton> */}
+              </IonItem>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol className="ion-items-center">
+              <IonItem onClick={() => history.push('/new_project')}>
+              <IonIcon icon={add} slot="start"></IonIcon>
+              <IonRouterLink>
+                New project
               </IonRouterLink>
               </IonItem>
             </IonCol>

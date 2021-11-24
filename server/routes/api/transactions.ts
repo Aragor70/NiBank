@@ -68,13 +68,14 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
         const recipient = matchRecipient.rows[0] || false;
         
-        const previousTransaction = await pool.query(`SELECT * FROM transactions ORDER BY "tsx_id" DESC LIMIT 1`);
+        const previousTransaction = await pool.query(`SELECT * FROM transactions ORDER BY tsx_id DESC LIMIT 1`);
 
         const previousHash = previousTransaction?.rows[0]?.current_hash;
         const nonce = previousTransaction?.rows[0]?.nonce + 1;
 
-        const hash = await SHA256((previousTransaction?.rows[0]?.tsx_id) || 0 + (previousHash || 'genesis') + new Date().getTime() + user.user_id + to + amount + nonce).toString();
-
+        const hash = await SHA256(((previousTransaction?.rows[0]?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user.user_id + to + amount + nonce).toString()).toString();
+        
+        
         const transactions = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [ user.user_id, recipient.user_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
         
         res.json(transactions);

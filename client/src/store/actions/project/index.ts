@@ -83,7 +83,7 @@ export const getProjects = (user: any = null) => async(dispatch: Dispatch<any>) 
 
 export const getProject = (id: number) => async(dispatch: Dispatch<any>) => {
     try {
-        dispatch({ type: Project_Loading });
+        await dispatch({ type: Project_Loading });
 
         const res: any = await axios.get(`/api/projects/${id}`);
         

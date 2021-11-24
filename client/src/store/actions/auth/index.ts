@@ -151,15 +151,17 @@ export const logout = (history: any) => async(dispatch: Dispatch<AuthDispatchTyp
 }
 
 
-export const confirm = (formData: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+export const confirm = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         
-        const res: any = await axios.post('/api/users/confirm', formData);
+        const res: any = await axios.put('/api/auth/approve', formData);
         
+        history.push('/')
         return res.data.success
         
     } catch (err: any) {
-        dispatch(setAlert(err.response.data.message, 'danger'))
+        console.log(err.message)
+        //dispatch(setAlert(err.response.data.message, 'danger'))
         
     }
 }

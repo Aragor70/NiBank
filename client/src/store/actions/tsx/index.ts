@@ -47,7 +47,7 @@ export const newInvest = (id: number, formData: any, history: any, present: any)
         
     } catch (err: any) {
         dispatch({ type: Invest_Create_Fail });
-        dispatch(setAlert(err.response.data.message, 'danger'))
+        //dispatch(setAlert(err.response.data.message, 'danger'))
 
         present({
             cssClass: '',

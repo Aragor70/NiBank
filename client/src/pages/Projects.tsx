@@ -18,10 +18,10 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
     useEffect(() => {
         getProjects(auth.user)
 
-        return () => {
+        /* return () => {
             
             clearProjects()
-        }
+        } */
     }, [location.pathname, auth.user])
 
     const [ step, setStep ] = useState<any>(0);

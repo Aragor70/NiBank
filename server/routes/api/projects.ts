@@ -101,14 +101,14 @@ router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) 
         const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
         const user = rows[0] || false;
-        
+        console.log('hoi')
                 
         if (!user) {
             return next(new ErrorResponse('User not found.', 404))
         }
 
         const { project_id } = req.params;
-        const { amount, currency, accounting_date } = req.body;
+        const { amount, currency, accounting_date, description } = req.body;
 
         const projects = await pool.query(`SELECT * FROM projects WHERE project_id = $1`, [project_id]);
         const project = projects.rows[0] || false;
@@ -124,15 +124,15 @@ router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) 
         if (moment(today) > moment(project.closedate)) {
             return next(new ErrorResponse('Project is not open.', 422))
         }
-
-        const previousTransaction = await pool.query(`SELECT * FROM transactions ORDER BY "tsx_id" DESC LIMIT 1`);
+        
+        const previousTransaction = await pool.query(`SELECT * FROM transactions ORDER BY tsx_id DESC LIMIT 1`);
 
         const previousHash = previousTransaction?.rows[0]?.current_hash;
         const nonce = previousTransaction?.rows[0]?.nonce + 1;
 
-        const hash = await SHA256((previousTransaction?.rows[0]?.tsx_id) || 0 + (previousHash || 'genesis') + new Date().getTime() + user.user_id + project_id + amount + nonce).toString();
-
-        const transactions = await pool.query(`INSERT INTO transactions (from_id, to_project_id, amount, previous_hash, current_hash, nonce, accounting_date, currency) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`, [ user.user_id, project_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency ]);
+        const hash = await SHA256(((previousTransaction?.rows[0]?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user?.user_id + project_id + amount + nonce).toString()).toString();
+        
+        const transactions = await pool.query(`INSERT INTO transactions (from_id, to_project_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [ user.user_id, project.project_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
 
         res.json({ transactions });
 

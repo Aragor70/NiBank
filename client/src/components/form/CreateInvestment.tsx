@@ -1,13 +1,13 @@
 
 import { IonButton, IonInput, IonItem, IonLabel, IonList, IonSearchbar, IonText, useIonAlert, IonToolbar, IonCard, IonCardHeader, IonCardContent, IonAlert, IonVirtualScroll, IonRouterLink, IonSelect, IonSelectOption } from '@ionic/react';
 import moment from 'moment';
-import { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { clearTsx, getTsx, newInvest } from '../../store/actions/tsx';
 
 
-const CreateInvestment: React.FC<any> = ({ newInvest, history, user, project, tsx, prevTsx = null, getTsx, clearTsx, match }) => {
+const CreateInvestment: React.FC<any> = React.memo(({ newInvest, history, user, project, tsx, prevTsx = null, getTsx, clearTsx, match }) => {
 
 
   const [formData, setFormData] = useState({
@@ -20,19 +20,18 @@ const CreateInvestment: React.FC<any> = ({ newInvest, history, user, project, ts
     projectname: ''
   })
 
-  
 
   useEffect(() => {
 
     if (prevTsx) {
 
+      console.log(prevTsx)
       setFormData({...formData, ...prevTsx, description: 'Investment', accounting_date: moment().format('YYYY-MM-DD')})
 
     }
 
     return () => {
-
-      console.log('clear invest from')
+      console.log('clear tsx from')
       setFormData({
         project_id: '',
         amount: '',
@@ -45,7 +44,7 @@ const CreateInvestment: React.FC<any> = ({ newInvest, history, user, project, ts
 
     }
 
-  }, [prevTsx, tsx.loading, project.loading])
+  }, [prevTsx, tsx.loading, project.loading, formData?.project_id])
   
   const [present] = useIonAlert();
 
@@ -55,7 +54,7 @@ const CreateInvestment: React.FC<any> = ({ newInvest, history, user, project, ts
       e.preventDefault();
       console.log(formData)
 
-      if (prevTsx) {
+      if (tsx?.tsx?.to_project_id) {
 
         await newInvest(tsx.tsx.to_project_id, formData, history, present)
 
@@ -95,12 +94,12 @@ const CreateInvestment: React.FC<any> = ({ newInvest, history, user, project, ts
             </IonItem>
             <IonItem>
               <IonLabel>Description</IonLabel>
-              <IonInput slot="end" name="description" value={formData.description || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" name="description" value={formData?.description || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
             <IonItem>
               <IonLabel>Amount</IonLabel>
-              <IonInput slot="end" name="amount" value={formData.amount || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" name="amount" value={formData?.amount || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>   
             <IonItem>
@@ -127,7 +126,7 @@ const CreateInvestment: React.FC<any> = ({ newInvest, history, user, project, ts
         
     </IonItem>
   );
-};
+});
 const mapStateToProps = (state: any) => ({
   user: state.auth.user,
   project: state.project,
