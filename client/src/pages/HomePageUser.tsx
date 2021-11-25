@@ -64,7 +64,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
               </IonCol>
               <IonCol>
                 <IonText style={{ fontSize: '24px' }} className="ion-items-center">
-                    { account.balance }
+                    { account.balance === undefined ? 'N/A' : account.balance }
                 </IonText>
               </IonCol>
                 
@@ -110,44 +110,24 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
         </IonGrid>
       </IonList>
 
-      <IonItem>
-        <IonGrid>
-          <IonRow>
-            <IonCol className="ion-items-center">
-              <IonItem onClick={() => history.push('/new_transaction')}>
-              <IonIcon icon={add} slot="start"></IonIcon>
-              <IonRouterLink>
-                New transaction
-              </IonRouterLink>
+      <IonList>
+            
+              <IonItem >
+                <IonIcon icon={add} slot="start" onClick={() => history.push('/new_transaction')}></IonIcon>
+                <IonRouterLink onClick={() => history.push('/new_transaction')}>
+                  New transaction
+                </IonRouterLink>
               </IonItem>
-            </IonCol>
-            <IonCol>
-              <IonItem lines="none">
-              {/* <IonButton slot="end">
-                <IonIcon icon={person} size="small"></IonIcon>
-              </IonButton> */}
+              
+            
+              <IonItem>
+                <IonIcon icon={add} slot="start" onClick={() => history.push('/new_project')}></IonIcon>
+                <IonRouterLink onClick={() => history.push('/new_project')}>
+                  New project
+                </IonRouterLink>
               </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol className="ion-items-center">
-              <IonItem onClick={() => history.push('/new_project')}>
-              <IonIcon icon={add} slot="start"></IonIcon>
-              <IonRouterLink>
-                New project
-              </IonRouterLink>
-              </IonItem>
-            </IonCol>
-            <IonCol>
-              <IonItem lines="none">
-              {/* <IonButton slot="end">
-                <IonIcon icon={person} size="small"></IonIcon>
-              </IonButton> */}
-              </IonItem>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonItem>
+              
+      </IonList>
       
       <IonList>
         <IonListHeader>

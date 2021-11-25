@@ -13,7 +13,7 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history }) => {
     const [ loadingData, setLoadingData ] = useState(false)
 
 
-    const [ formData, setFormData ] = useState({
+    const [ formData, setFormData ] = useState<any>({
       code: ''
     })
 
@@ -58,11 +58,11 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history }) => {
               Code
           </IonLabel>
         
-        <IonInput style={{ letterSpacing: '3px' }} name="code" value={formData.code || ''} maxlength={6} onIonChange={(e: any) => setFormData({ ...formData, code: e.target.value })} placeholder="000000"></IonInput>
+        <IonInput style={{ letterSpacing: '3px', textAlign: 'center' }} name="code" value={formData.code || ''} maxlength={6} onIonChange={(e: any) => setFormData({ ...formData, code: e.target.value })} placeholder="000000"></IonInput>
         
         </IonItem>
         <IonItem>
-        <IonButton slot="end" type="submit">Confirm</IonButton>
+        <IonButton slot="end" disabled={!(formData?.code?.length === 6 && !isNaN(formData?.code))} type="submit">Confirm</IonButton>
         </IonItem>
       </form>
         </IonCardContent>

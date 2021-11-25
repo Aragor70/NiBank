@@ -52,6 +52,7 @@ import Tsx from './pages/Tsx';
 import MyInvestments from './pages/MyInvestments';
 import NewProject from './pages/NewProject';
 import ApprovePage from './pages/ApprovePage';
+import Settings from './pages/Settings';
 
 
 const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx, loadUsers }) => {
@@ -143,6 +144,9 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
               </Route>
               <Route exact path="/projects">
                 <Projects />
+              </Route>
+              <Route exact path="/settings">
+                <Settings />
               </Route>
                 
               <Route exact path="/account_approvement">
