@@ -38,7 +38,7 @@ const GSA: React.FC <RouteComponentProps> = () => {
       
       <IonContent fullscreen>
 
-      <PageSubTitle subTitle={"Nibank > Register > General Services Administration"} />
+      <PageSubTitle subTitle={"NiVest > Register > General Services Administration"} />
 
       <Alert />
 

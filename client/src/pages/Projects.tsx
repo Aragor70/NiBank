@@ -99,16 +99,22 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
                     }
                     
                 </IonList>
-                    
-                <IonItem>
-                    <div className="ion-items-center">
-                        <IonButton onClick={() => setStep(1)}>New project</IonButton>
-                    </div>
-                </IonItem>
+                {
+                    auth?.user?.approved && <Fragment>
+
+                        <IonItem>
+                            <div className="ion-items-center">
+                                <IonButton onClick={() => setStep(1)}>New project</IonButton>
+                            </div>
+                        </IonItem>
+
+                    </Fragment>
+                }
+                
             </Fragment>
         }
         {
-            step === 1 && <Fragment>
+            step === 1 ? auth.user.approved ? <Fragment>
             <PageSubTitle subTitle={"Home > All project > New project"} />
             <IonList>
                 <IonListHeader>
@@ -119,7 +125,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
 
                 <CreateProject />
             </IonList>
-            </Fragment>
+            </Fragment> : false : false
         }
       </IonContent>
 

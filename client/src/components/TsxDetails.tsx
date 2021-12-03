@@ -13,7 +13,7 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
 
   const [ isOpen, setIsOpen ] = useState(false)
   
-
+  console.log('hey', tsx)
 
   return (
     <Fragment>
@@ -28,41 +28,48 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
                 <IonCardContent>
                     <IonList className="no-padding">
                       <IonItem className="no-padding">
-                        <IonLabel slot="start">FROM</IonLabel>
-                        <IonText className="ion-wrap-text">{from?.name || "N/A"} </IonText>
-                      </IonItem>
-                      <IonItem className="no-padding">
-                        <IonText style={{ wordBreak: 'break-all' }}>{from?.public_key || "N/A"}</IonText>
-
-                      </IonItem>
-
-                      <IonItem className="no-padding">
-                        <IonLabel slot="start">TO</IonLabel>
-                        <IonText className="ion-wrap-text">{tsx?.name || tsx?.projectname || "N/A"}</IonText>
-                      </IonItem>
-                      {
-                        tsx?.to_user_id && <Fragment>
+                          <IonLabel slot="start">FROM</IonLabel>
+                            <IonText className="ion-wrap-text">{from?.name || "N/A"} </IonText>
+                          </IonItem>
                           <IonItem className="no-padding">
-                            <IonText style={{ wordBreak: 'break-all' }}>{tsx?.public_key || "N/A"}</IonText>
+                            <IonText style={{ wordBreak: 'break-all' }}>{from?.public_key || "N/A"}</IonText>
 
                           </IonItem>
-                        </Fragment>
-                      }
+
+                          <IonItem className="no-padding">
+                            <IonLabel slot="start">TO</IonLabel>
+                            <IonText className="ion-wrap-text">{tsx?.name || tsx?.projectname || "N/A"}</IonText>
+                          </IonItem>
+                          {
+                            tsx?.to_user_id && <Fragment>
+                              <IonItem className="no-padding">
+                                <IonText style={{ wordBreak: 'break-all' }}>{tsx?.public_key || "N/A"}</IonText>
+
+                              </IonItem>
+                            </Fragment>
+                          }
                       
                       <IonItem className="no-padding">
                         <IonLabel slot="start">AMOUNT</IonLabel>
                         <IonText className="ion-wrap-text">{tsx?.amount} {tsx?.currency}</IonText>
-                      </IonItem>                      
-                      <IonItem className="no-padding">
-                        <IonLabel slot="start">DESCRIPTION</IonLabel>
-                        <IonText className="ion-wrap-text"></IonText>
                       </IonItem>
+                      {
+                        ((auth?.user?.user_id === tsx?.from_id) || (auth?.user?.user_id === tsx?.to_user_id)) ? <Fragment>
+                          <IonItem className="no-padding">
+                            <IonLabel slot="start">DESCRIPTION</IonLabel>
+                            <IonText className="ion-wrap-text"></IonText>
+                          </IonItem>
+
+                          <IonItem className="no-padding ion-wrap-text">
+                            <IonText className="ion-wrap-text" style={{ wordBreak: 'break-all' }}>{tsx?.description || "N/A"}</IonText>
+
+                          </IonItem>
+
+
+                        </Fragment> : false
+                      }
                       
-                      <IonItem className="no-padding ion-wrap-text">
-                        <IonText className="ion-wrap-text" style={{ wordBreak: 'break-all' }}>{tsx?.description || "N/A"}</IonText>
-
-                      </IonItem>
-
+                      
                     </IonList>
                 </IonCardContent>
             </IonCard>
@@ -103,7 +110,7 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
               </Fragment> : false : false
             }
             {
-              isOpen ? tsx?.from_id === auth?.user?.user_id ? tsx?.to_project_id ? auth?.user?.approved ? <CreateInvestment prevTsx={tsx} /> : <CreateTransfer prevTsx={tsx} /> : false : false : false
+              (isOpen && auth?.user?.approved) ? tsx?.from_id === auth?.user?.user_id ? tsx?.to_project_id ? <CreateInvestment prevTsx={tsx} /> : <CreateTransfer prevTsx={tsx} /> : false : false
             }
         </Fragment> : <Fragment>
             <IonCard>
@@ -114,27 +121,7 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
                 </IonCardHeader>
                 <IonCardContent>
                     <IonList className="no-padding">
-                      <IonItem className="no-padding">
-                        <IonLabel slot="start">FROM</IonLabel>
-                        <IonText className="ion-wrap-text"></IonText>
-                      </IonItem>
-                      <IonItem className="no-padding">
-                        <IonText style={{ wordBreak: 'break-all' }}>{from?.public_key || "N/A"}</IonText>
-
-                      </IonItem>
-
-                      <IonItem className="no-padding">
-                        <IonLabel slot="start">TO</IonLabel>
-                        <IonText className="ion-wrap-text"></IonText>
-                      </IonItem>
-                      {
-                        tsx?.to_user_id && <Fragment>
-                          <IonItem className="no-padding">
-                            <IonText style={{ wordBreak: 'break-all' }}>{tsx?.public_key || "N/A"}</IonText>
-
-                          </IonItem>
-                        </Fragment>
-                      }
+                      
                       <IonItem className="no-padding">
                         <IonLabel slot="start">AMOUNT</IonLabel>
                         <IonText className="ion-wrap-text">{tsx.amount} {tsx.currency}</IonText>

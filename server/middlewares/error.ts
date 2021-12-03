@@ -6,7 +6,6 @@ const errorHandler = (err: any, req: any, res: any, next: any) => {
 
     error.message = err.message
 
-    
     // if unique record exists in mongodb already - duplication 
     if (error.code === 11000) {
         const location = Object.keys(err.keyValue)[0]

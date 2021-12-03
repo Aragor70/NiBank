@@ -35,21 +35,21 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         <IonList>
         <IonItem>
         <IonText>
-            Welcome to NiBank!
-            These terms and conditions outline the rules and regulations for the use of Company App, located at NiBank.com.
+            Welcome to NiVest!
+            These terms and conditions outline the rules and regulations for the use of Company App, located at NiVest.com.
 
         </IonText>
         </IonItem>
         <IonItem>
         <IonText>
-            By accessing this Application we assume you accept these terms and conditions. Do not continue to use NiBank App if you do not agree to take all of the terms and conditions stated on this page.
+            By accessing this Application we assume you accept these terms and conditions. Do not continue to use NiVest App if you do not agree to take all of the terms and conditions stated on this page.
 
 
         </IonText>
         </IonItem>
         <IonItem>
         <IonText>
-            The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: “Client”, “You” and “Your” refers to you, the person log on this Application and compliant to the NiBank's terms and conditions. “The Company”, “Ourselves”, “We”, “Our” and “Us”, refers to our Company. “Party”, “Parties”, or “Us”, refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of provision of the Company's stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
+            The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: “Client”, “You” and “Your” refers to you, the person log on this Application and compliant to the NiVest's terms and conditions. “The Company”, “Ourselves”, “We”, “Our” and “Us”, refers to our Company. “Party”, “Parties”, or “Us”, refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of provision of the Company's stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
 
 
         </IonText>
@@ -70,7 +70,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
             <IonList>
         <IonItem>
         <IonText>
-            We employ the use of cookies. By accessing NiBank App, you agreed to use cookies in agreement with the NiBank's Privacy Policy.
+            We employ the use of cookies. By accessing NiVest App, you agreed to use cookies in agreement with the NiVest's Privacy Policy.
 
         </IonText>
         </IonItem>
@@ -93,7 +93,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
             </IonAvatar>
             <IonLabel>
             <IonText className="ion-text-wrap">
-                Republish material from NiBank App
+                Republish material from NiVest App
 
             </IonText>
             </IonLabel>
@@ -107,22 +107,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
             </IonAvatar>
             <IonLabel>
             <IonText className="ion-text-wrap">
-                Sell, rent or sub-license material from NiBank App
-
-
-            </IonText>
-            </IonLabel>
-
-
-        </IonItem>
-        <IonItem>
-            
-            <IonAvatar slot="start">
-                <IonIcon size="large" color="secondary" icon={checkmark}></IonIcon>
-            </IonAvatar>
-            <IonLabel>
-            <IonText className="ion-text-wrap">
-                Reproduce, duplicate or copy material from NiBank App
+                Sell, rent or sub-license material from NiVest App
 
 
             </IonText>
@@ -137,7 +122,22 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
             </IonAvatar>
             <IonLabel>
             <IonText className="ion-text-wrap">
-                Redistribute content from NiBank Service
+                Reproduce, duplicate or copy material from NiVest App
+
+
+            </IonText>
+            </IonLabel>
+
+
+        </IonItem>
+        <IonItem>
+            
+            <IonAvatar slot="start">
+                <IonIcon size="large" color="secondary" icon={checkmark}></IonIcon>
+            </IonAvatar>
+            <IonLabel>
+            <IonText className="ion-text-wrap">
+                Redistribute content from NiVest Service
 
 
             </IonText>
@@ -154,14 +154,14 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         </IonItem>
         <IonItem>
         <IonText>
-            Parts of this Application offer an opportunity for users to post and exchange opinions and information in certain areas of the Application. NiBank does not filter, edit, publish or review Comments prior to their presence on the Application. Comments do not reflect the views and opinions of NiBank,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, NiBank shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this Application.
+            Parts of this Application offer an opportunity for users to post and exchange opinions and information in certain areas of the Application. NiVest does not filter, edit, publish or review Comments prior to their presence on the Application. Comments do not reflect the views and opinions of NiVest,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, NiVest shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this Application.
 
 
         </IonText>
         </IonItem>
         <IonItem>
         <IonText>
-            NiBank reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
+            NiVest reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
 
         </IonText>
         </IonItem>
@@ -242,7 +242,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         
         <IonItem>
             
-            You hereby grant NiBank a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.
+            You hereby grant NiVest a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.
 
 
 
@@ -469,7 +469,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
             </IonItem>
             <IonItem>
             <IonText>
-                We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of NiBank; and (d) the link is in the context of general resource information.
+                We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of NiVest; and (d) the link is in the context of general resource information.
 
             </IonText>
             </IonItem>
@@ -482,7 +482,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
             </IonItem>
             <IonItem>
             <IonText>
-                If you are one of the organizations listed in paragraph 2 above and are interested in linking to our Application, you must inform us by sending an e-mail to NiBank. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Application, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.
+                If you are one of the organizations listed in paragraph 2 above and are interested in linking to our Application, you must inform us by sending an e-mail to NiVest. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Application, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.
 
             </IonText>
             </IonItem>
@@ -535,7 +535,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
 
             </IonItem>
             <IonItem>
-                No use of NiBank's logo or other artwork will be allowed for linking absent a trademark license agreement.
+                No use of NiVest's logo or other artwork will be allowed for linking absent a trademark license agreement.
 
 
             </IonItem>

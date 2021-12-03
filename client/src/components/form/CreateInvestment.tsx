@@ -95,12 +95,12 @@ const CreateInvestment: React.FC<any> = React.memo(({ newInvest, history, user, 
             </IonItem>
             <IonItem>
               <IonLabel>Description</IonLabel>
-              <IonInput slot="end" name="description" value={formData?.description || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" autocomplete={"off"} name="description" value={formData?.description || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
             <IonItem>
               <IonLabel>Amount</IonLabel>
-              <IonInput slot="end" name="amount" value={formData?.amount || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" autocomplete={"off"} name="amount" value={formData?.amount || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>   
             <IonItem>
@@ -115,7 +115,7 @@ const CreateInvestment: React.FC<any> = React.memo(({ newInvest, history, user, 
             </IonItem>            
             <IonItem>
               <IonLabel>date</IonLabel>
-              <IonInput type="date" slot="end" name="accounting_date" value={moment(formData.accounting_date).format('YYYY-MM-DD') || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput type="date" autocomplete={"off"} slot="end" name="accounting_date" value={moment(formData.accounting_date).format('YYYY-MM-DD') || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
             <IonItem>

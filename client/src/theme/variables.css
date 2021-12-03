@@ -298,6 +298,7 @@ ion-router-link:active
   top: 2px;
   color: #3dc2ff;
 }
+
 .green
 {
   color: green;
@@ -313,7 +314,12 @@ ion-router-link:active
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
 
+.error-message *
+{
+  text-align: center;
+  color: #3880ff;
 }
 
 .alert-success .alert-wrapper {

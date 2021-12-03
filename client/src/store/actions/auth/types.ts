@@ -12,6 +12,7 @@ export const Pre_Login_Fail = 'Pre_Login_Fail';
 export const Pre_Register_Success = 'Pre_Register_Success';
 export const Pre_Register_Fail = 'Pre_Register_Fail';
 export const Loading_Auth = 'Loading_Auth';
+export const User_Update_Fail = 'User_Update_Fail';
 
 export type UserType = {
     name?: string | null,

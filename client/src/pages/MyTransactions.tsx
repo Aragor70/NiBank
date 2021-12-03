@@ -39,7 +39,7 @@ const Transactions: React.FC<any> = ({ account }) => {
 
         <IonListHeader>
             <IonTitle style={{ textAlign: 'center' }}>
-                My transactions
+                Recent transactions
 
             </IonTitle>
         </IonListHeader>

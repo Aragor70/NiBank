@@ -1,10 +1,161 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonCardSubtitle, IonText, IonGrid, IonRow, IonCol, IonLabel, IonButtons } from '@ionic/react';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import tsx from '../store/reducers/tsx';
+import { connect } from 'react-redux';
+import { registerables  } from 'chart.js';
+import Chart from 'chart.js/auto';
 
-const Home: React.FC <RouteComponentProps> = ({ history }) => {
+import { ChartConfiguration, LineController, LineElement, PointElement, LinearScale, Title} from 'chart.js' 
+
+
+import { Fragment, useEffect } from 'react';
+import { bookmarksOutline, bookOutline, businessOutline, card, extensionPuzzleOutline, open, people } from 'ionicons/icons';
+import Loader from '../components/Loader';
+import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
+/* import { Bar } from 'react-chartjs-2'; */
+
+const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, project }) => {
+
+  const setArryOfColors = (values: any[]) => {
+
+        
+    let allColors: any[] = 
+    [
+        {index: 0, value: 'rgba(0, 55, 72, 0.8)'},
+        {index: 1, value: 'rgba(50, 84, 100, 0.8)'},
+        {index: 2, value: 'rgba(90, 116, 129, 0.8)'},
+        {index: 3, value: 'rgba(129, 149, 159, 0.8)'},
+        {index: 4, value: 'rgba(170, 183, 190, 0.8)'},
+        {index: 5, value: 'rgba(212, 218, 222, 0.8)'},
+        {index: 6, value: 'rgba(225,236, 255, 0.8)'},
+        {index: 7, value: 'rgba(225,236, 230, 0.8)'},
+        {index: 8, value: 'rgba(225, 236, 219, 0.8)'},
+        {index: 9, value: 'rgba(195, 217, 184, 0.8)'},
+        {index: 10, value: 'rgba(165, 199, 150, 0.8)'},
+        {index: 11, value: 'rgba(135, 180, 116, 0.8)'},
+        {index: 12, value: 'rgba(105, 161, 83, 0.8)'},
+        {index: 13, value: 'rgba(72, 143, 49, 0.8)'},
+    ]
+
+    let positives: any[] = [
+        {index: 7, value: 'rgba(225, 236, 219, 1)'},
+        {index: 8, value: 'rgba(195, 217, 184, 1)'},
+        {index: 9, value: 'rgba(165, 199, 150, 1)'},
+        {index: 10, value: 'rgba(135, 180, 116, 1)'},
+        {index: 11, value: 'rgba(105, 161, 83, 1)'},
+        {index: 12, value: 'rgba(72, 143, 49, 1)'},
+    ]
+
+    let negatives: any[] = [
+        {index: 0, value: 'rgba(0, 55, 72, 1)'},
+        {index: 1, value: 'rgba(50, 84, 100, 1)'},
+        {index: 2, value: 'rgba(90, 116, 129, 1)'},
+        {index: 3, value: 'rgba(129, 149, 159, 1)'},
+        {index: 4, value: 'rgba(170, 183, 190, 1)'},
+        {index: 5, value: 'rgba(212, 218, 222, 1)'},
+    ]
+
+
+    const half: any = values.length / 2;
+    
+    /* console.log(half) */
+
+    let colors: any[] = values.length < 8 ? negatives.slice(0, half).concat(positives.slice(half)) : allColors
+
+    /* console.log(negatives.slice(0, half), 'neg')
+    console.log(positives.slice(half), 'pos') */
+
+    const arry: any[] = values.slice()
+    
+    
+
+    /* console.log(arry) */
+    
+    colors = colors.map((element: any, index: any) => {return { sortBy: arry[index], ...element}})
+
+    let toReturn: any[] = []
+
+    values.forEach((key: any) => {
+        let found = false;
+        colors = colors.filter(function(item: any) {
+            if(!found && item.sortBy == key) {
+                toReturn.push(item);
+                found = true;
+                return false;
+            } else 
+                return true;
+        })
+    })
+
+    /* console.log(toReturn) */
+    return toReturn.map((element: any) => element.value)
+  }
+        
+  const options: any = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+    scales: {
+      xAxes:
+        {
+          stacked: true,
+          display: true,
+        }
+      ,
+      yAxis: {
+        display: false,
+      }
+    }
+  };
+
+  const sortedDataset: any[] = [
+    { value: project?.underConsiderationProjects?.length || 0, label: 'COMING SOON' },
+    { value: project?.openProjects?.length || 0, label: 'ACTIVE' },
+    { value: project?.closedProjects?.length || 0, label: 'CLOSED' },
+  ]
+
+  const values: any[] = sortedDataset.map((element: any) => element?.value)
+
+  const labels: any[] = sortedDataset.map((element: any) => element?.label)
+
+  const data: any = {
+    labels,
+    datasets: [
+      {
+        label: '',
+        data: values,
+        backgroundColor: setArryOfColors(values),
+        borderColor: setArryOfColors(values),
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  useEffect(() => {
+    
+    const myChart: any = new Chart('myChart', { type: 'bar',
+    data: data,
+    options
+   });
+
+   Chart.register(...registerables);
+
+   Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
+
+    return () => {
+      myChart.destroy()
+    }
+
+    }, [project.openProjects, project.underConsiderationProjects, project.closedProjects, project.projects, project.loading])
+
+
   return (
     <IonPage>
 
@@ -55,12 +206,177 @@ const Home: React.FC <RouteComponentProps> = ({ history }) => {
               </IonItem>
               
               <IonToolbar>
-                <IonButton onClick={() => history.push('/logon')} type="button" size="small" color="secondary" slot="end">Log on {">"}</IonButton>
+                <IonButton onClick={() => history.push('/logon')} type="button" size="small" color="primary" slot="end">Log on {">"}</IonButton>
               </IonToolbar>
             </IonCardContent>
           </IonCard>
 
         </IonList>
+        <IonList>
+          <IonCard>
+
+            <IonCardHeader>
+              <IonCardTitle className="ion-text-center">
+                NiVest
+              </IonCardTitle>
+              <IonCardSubtitle className="ion-text-center" style={{ fontSize: '16px' }}>
+              Cross-platform app. Powered by the Web.
+              </IonCardSubtitle>
+            </IonCardHeader>
+
+
+          </IonCard>
+
+        </IonList>
+
+
+        <IonList>
+            <IonListHeader>
+              <IonTitle style={{ textAlign: 'center' }}>
+                STATISTICS
+
+              </IonTitle>
+            </IonListHeader>
+          <IonCard>
+
+            <IonCardContent>
+              
+              <IonList>
+              <IonGrid>
+                <IonRow>
+                  <IonCol className="ion-items-center">
+                    <IonIcon size="large" icon={people}></IonIcon>
+                    <IonText color='dark'>Investors</IonText>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol className="ion-items-center">
+                    <IonText style={{ fontSize: '22px' }}>{users?.users?.length || 0}</IonText>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol className="ion-items-center">
+                    <IonIcon size="large" icon={card}></IonIcon>
+                    <IonText color='dark'>Transactions</IonText>
+                  </IonCol>
+                  <IonCol className="ion-items-center">
+                    <IonIcon size="large" icon={businessOutline}></IonIcon>
+                    <IonText color='dark'>Projects</IonText>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol className="ion-items-center">
+                    <IonText style={{ fontSize: '22px' }}>{tsx?.tsxs?.length || 0}</IonText>
+                  </IonCol>
+                  <IonCol className="ion-items-center">
+                    <IonText style={{ fontSize: '22px' }}>{project?.projects?.length || 0}</IonText>
+                  </IonCol>
+                </IonRow>
+              </IonGrid>
+              </IonList>
+            </IonCardContent>
+          
+          </IonCard>
+          <IonCard>
+            <IonCardHeader>
+              <IonCardTitle className="ion-items-center">
+                Investment opportunities
+              </IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonList>
+                
+                
+                  {/* <Bar 
+                    data={data}
+                    options={options}
+                    redraw={false} 
+                  /> */}
+                  {
+                    project?.loading ? <Loader /> : <canvas id="myChart" width="400" height="400"></canvas>
+                  }
+                  
+                  
+                
+                  <IonGrid>
+                    <IonRow>
+                      <IonCol className="ion-items-center">
+                        <IonText style={{ fontSize: '22px' }}>{project?.underConsiderationProjects?.length === undefined ? 'N/A' : project?.underConsiderationProjects?.length}</IonText>
+                      </IonCol>
+                      <IonCol className="ion-items-center">
+                        <IonText style={{ fontSize: '22px' }}>{project?.openProjects?.length === undefined ? 'N/A' : project?.openProjects?.length}</IonText>
+                      </IonCol>
+                      <IonCol className="ion-items-center">
+                        <IonText style={{ fontSize: '22px' }}>{project?.closedProjects?.length === undefined ? 'N/A' : project?.closedProjects?.length}</IonText>
+                      </IonCol>
+                    </IonRow>
+                  </IonGrid>
+
+              </IonList>
+
+            </IonCardContent>
+
+          </IonCard>
+          
+          {
+            project?.loading ? <Loader /> : project?.projects?.filter((element: any) => element?.images?.length ).length ? <Fragment>
+
+              <IonCard>
+                  <IonCardHeader>
+                    <IonCardTitle className="ion-items-center">
+                      Marketplace
+                    </IonCardTitle>
+                  </IonCardHeader>
+                  <IonCardContent style={{ rowGap: '15px', }} className="ion-items-center">
+                      {
+                        project?.projects?.filter((element: any) => element?.images?.length )?.slice(0, 2).map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />)
+                      }
+                      
+                  
+                  <IonCard>
+                    <IonCardContent>
+                      <IonItem>
+                      <IonIcon size="large" icon={bookOutline} slot="start" color="primary"></IonIcon>
+                    
+                      <IonText className="ion-items-center" style={{ fontSize: '16px', fontWeight: 'bold' }} color="primary" onClick={() => history.push('/logon')}>Show more opportunities</IonText>
+                      </IonItem>
+                    </IonCardContent>
+                  </IonCard>
+                </IonCardContent>
+              </IonCard>
+            </Fragment> : false
+          }
+        </IonList>
+        
+        {
+          users.loading ? <Loader /> : users?.users?.length ? <Fragment>
+
+            <IonList>
+            <IonCard>
+              
+              <IonCardHeader>
+                <IonCardTitle className="ion-items-center">
+                  Join now
+                </IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                
+                <IonText style={{ textAlign: 'center', fontSize: '20px' }} className="ion-items-center">Join {users?.users?.length} other investors and make your money work for you.</IonText>
+                <IonItem>
+                  <div className="ion-items-center" style={{ padding: '15px 0' }} >
+                    <IonButton color="primary" style={{ fontWeight: 'bold', fontSize: '20px' }} onClick={() => history.push('/register')}>
+                      Sign up
+                    </IonButton>
+                  </div>
+                </IonItem>
+              </IonCardContent>
+            </IonCard>
+
+
+            </IonList>
+          </Fragment> : false
+        }
+
         <IonList>
 
           <IonListHeader>
@@ -107,9 +423,7 @@ const Home: React.FC <RouteComponentProps> = ({ history }) => {
 
             </IonCardHeader>
             <IonCardContent>
-              The NiBank service exists only as a mobile application.
-
-
+              The NiVest service exists only as a mobile application.
 
             </IonCardContent>
           </IonCard>
@@ -120,5 +434,10 @@ const Home: React.FC <RouteComponentProps> = ({ history }) => {
     </IonPage>
   );
 };
+const mapStateToProps = (state: any) => ({
+  tsx: state.tsx,
+  users: state.users,
+  project: state.project
+})
 
-export default withRouter(Home);
+export default connect(mapStateToProps, {})(withRouter(Home));

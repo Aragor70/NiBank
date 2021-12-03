@@ -37,7 +37,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
       
       <IonContent fullscreen>
 
-      <PageSubTitle subTitle={"Nibank > Register"} />
+      <PageSubTitle subTitle={"NiVest > Register"} />
 
       <IonList>
 

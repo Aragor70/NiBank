@@ -6,6 +6,7 @@ import { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
+import Loader from '../components/Loader';
 import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
@@ -40,7 +41,7 @@ const Transactions: React.FC<any> = ({ tsx }) => {
             <IonCardContent>
             <IonList>
             {
-              tsx?.tsxs?.length > 0 ? Object.values(getMonthlyArry(tsx?.tsxs, 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <GlobalTsxListElement key={element?.tsx_id || index} tsx={element} index={index} />)}</IonList></Fragment>) : 
+              tsx.loading ? <Loader /> : tsx?.tsxs?.length > 0 ? Object.values(getMonthlyArry(tsx?.tsxs, 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <GlobalTsxListElement key={element?.tsx_id || index} tsx={element} index={index} />)}</IonList></Fragment>) : 
                 <NotFound message="No available transactions." />
             }
             </IonList>

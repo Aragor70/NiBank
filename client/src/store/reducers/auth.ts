@@ -1,4 +1,4 @@
-import { AuthType, Loading_Auth, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, UserType, User_Update } from '../actions/auth/types'
+import { AuthType, Loading_Auth, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, UserType, User_Update, User_Update_Fail } from '../actions/auth/types'
 
 
 export const initialState = {
@@ -9,7 +9,8 @@ export const initialState = {
         accountType: null,
         avatar: null,
         role: null,
-        two_factor: null
+        two_factor: null,
+        currency: null
     },
     loading: false,
     token: localStorage.getItem('token'),
@@ -38,7 +39,11 @@ const auth = (state: AuthType = initialState, action: any) => {
             return {...state, user: null, token: null, isAuthenticated: false, loading: false }    
         
         case User_Update:
-            return { ...state, user: payload.user, loading: false }
+            return { ...state, user: payload?.user, loading: false }
+                
+        case User_Update_Fail:
+            return { ...state, loading: false }
+        
 
         default:
             return state;

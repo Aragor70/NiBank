@@ -11,7 +11,6 @@ import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import { clearProjects, getProjects } from '../store/actions/project';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
-import Loading from './Loading';
 import Approval from '../components/Approval';
 
 const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth }) => {
@@ -100,6 +99,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
             
           </Fragment> : <Fragment>
 
+            <PageSubTitle subTitle={"Home > New transaction"} />
             <IonList>
               <IonListHeader>
                 <IonTitle style={{ textAlign: 'center' }}>
@@ -122,7 +122,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
 
                     <IonIcon icon={people} slot="start" color="primary"></IonIcon>
                       <IonText>
-                        Transfer
+                        Transfer to the recipient
                       </IonText>
 
                     </IonItem>

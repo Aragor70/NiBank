@@ -61,37 +61,37 @@ const CreateProject: React.FC<any> = ({ newProject, history, user }) => {
             </IonItem>
             <IonItem>
               <IonLabel>Project name</IonLabel>
-              <IonInput slot="end" name="projectname" value={formData.projectname || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" autocomplete={"off"} name="projectname" value={formData.projectname || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>Country</IonLabel>
-              <IonInput slot="end" name="country" value={formData.country || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" autocomplete={"off"} name="country" value={formData.country || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>YieldPA</IonLabel>
-              <IonInput slot="end" name="yieldpa" value={formData.yieldpa || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" autocomplete={"off"} name="yieldpa" value={formData.yieldpa || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>Volume total</IonLabel>
-              <IonInput slot="end" name="volumetotal" value={formData.volumetotal || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" autocomplete={"off"} name="volumetotal" value={formData.volumetotal || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>Minimum investment</IonLabel>
-              <IonInput slot="end" name="minimuminvestment" value={formData.minimuminvestment || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" autocomplete={"off"} name="minimuminvestment" value={formData.minimuminvestment || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>
             <IonItem>
               <IonLabel>Description</IonLabel>
-              <IonInput slot="end" name="description" value={formData.description || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput slot="end" autocomplete={"off"} name="description" value={formData.description || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>            
             <IonItem>
               <IonLabel>Image</IonLabel>
-              <IonInput type="text" slot="end" name="image" value={formData.image || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput type="text" autocomplete={"off"} slot="end" name="image" value={formData.image || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
             <IonItem>
@@ -142,12 +142,12 @@ const CreateProject: React.FC<any> = ({ newProject, history, user }) => {
             </IonItem>            
             <IonItem>
               <IonLabel>Start date</IonLabel>
-              <IonInput type="date" slot="end" name="startdate" value={formData.startdate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput type="date" autocomplete={"off"} slot="end" name="startdate" value={formData.startdate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>            
             <IonItem>
               <IonLabel>Close date</IonLabel>
-              <IonInput type="date" slot="end" name="closedate" value={formData.closedate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+              <IonInput type="date" autocomplete={"off"} slot="end" name="closedate" value={formData.closedate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
             
             </IonItem>
             <IonItem>

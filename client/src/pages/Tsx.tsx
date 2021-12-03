@@ -68,7 +68,7 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
             clearTsx()
         } */
         
-    }, [match.params.tsx_id])
+    }, [match?.params?.tsx_id, tsxData?.tsx_id])
 
   return (
     <IonPage>
@@ -92,7 +92,7 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
             tsx.loading || users.loading ? <Loader /> : tsxData ? <Fragment>
                 
                 {
-                    auth.user ? tsxData.from_id === auth.user.user_id || tsxData.to_user_id === auth.user.user_id ? <Fragment>
+                    auth?.user ? tsxData.from_id === auth?.user?.user_id || tsxData.to_user_id === auth?.user?.user_id ? <Fragment>
                         <TsxDetails access='user' tsx={tsxData} from={from} />
                     </Fragment> : <Fragment>
                         <TsxDetails access='guest' tsx={tsxData} from={from} />

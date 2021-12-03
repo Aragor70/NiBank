@@ -16,7 +16,6 @@ const router: Router = express.Router();
 //description  get all transactions
 //access       public
 router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
-    try {
         
         //const transactions = await pool.query('SELECT * FROM transactions join accounts ON transactions.to_user_id = accounts.user_id join projects ON transactions.to_project_id = projects.project_id');
         const transactions = await pool.query('SELECT * FROM transactions join accounts ON transactions.to_user_id = accounts.user_id WHERE transactions.to_user_id IS NOT NULL ORDER BY created_on DESC');
@@ -25,18 +24,12 @@ router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
         
         res.json(output);
 
-    }
-    catch(err: any){
-        console.error(err.message);
-        res.status(500).send('Auth server error.')
-    }
 }));
 
 //route post   api/auth
 //description  post new transaction
 //access       private
 router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
-    try {
 
         if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -51,7 +44,7 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
 
         const { to, amount, accounting_date, currency, description } = req.body;
-        console.log(accounting_date)
+
    
         const today = moment().format('YYYY-MM-DD');
 
@@ -67,6 +60,12 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
         const matchRecipient = await pool.query(`SELECT * FROM accounts WHERE public_key = $1`, [to]);
 
         const recipient = matchRecipient.rows[0] || false;
+
+        const isMatch = recipient?.wallets?.filter((element: any) => currency?.toString() === element?.toString())
+
+        if (!recipient || !isMatch || !isMatch[0]) {
+            return next(new ErrorResponse('Recipient does not allow this currency.', 422))
+        }
         
         const previousTransaction = await pool.query(`SELECT * FROM transactions ORDER BY tsx_id DESC LIMIT 1`);
 
@@ -75,16 +74,10 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
         const hash = await SHA256(((previousTransaction?.rows[0]?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user.user_id + to + amount + nonce).toString()).toString();
         
+        const tsx = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`, [ user.user_id, recipient.user_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
         
-        const transactions = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [ user.user_id, recipient.user_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
-        
-        res.json(transactions);
+        res.json({ tsx: tsx.rows[0], message: 'success'});
 
-    }
-    catch(err: any){
-        console.error(err.message);
-        res.status(500).send('Auth server error.')
-    }
 }));
 
 
@@ -92,7 +85,6 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 //description  get tsx
 //access       public
 router.get('/:tsx_id', asyncHandler( async (req: any, res: any, next: any) => {
-    try {
 
         if (!req.params.tsx_id) {
             return next(new ErrorResponse('Transactions not found.', 404))
@@ -105,11 +97,6 @@ router.get('/:tsx_id', asyncHandler( async (req: any, res: any, next: any) => {
 
         res.json({ tsxs: output });
 
-    }
-    catch(err: any){
-        console.error(err.message);
-        res.status(500).send('Auth server error.')
-    }
 }));
 
 

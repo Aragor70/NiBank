@@ -7,7 +7,7 @@ const FooterLoggedOut: React.FC<RouteComponentProps> = ({ history }) => {
   return (
       <IonFooter style={{ postion: 'static'}}>
         <IonItem className="ion-items-center">
-          <span onClick={() => history.push("/")}>NiBank</span>
+          <span onClick={() => history.push("/")}>NiVest</span>
           
         </IonItem>
       </IonFooter>

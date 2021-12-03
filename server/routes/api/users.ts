@@ -18,31 +18,36 @@ const router: Router = express.Router();
 //description  test route
 //access       private
 router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
-    try {
         
-        if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
-            return next(new ErrorResponse('Go to log on.', 422))
+
+        if(req?.headers?.authorization && req?.headers?.authorization?.includes('Bearer')) {
+            const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+
+            const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+
+            const user = rows[0] || false;
+
+            if(user){
+    
+                const users = await pool.query('SELECT * FROM accounts');
+    
+                res.json(users.rows);
+
+            } else {
+
+                const users = await pool.query('SELECT user_id FROM accounts');
+            
+                res.json(users.rows);
+            }
+            
+        } else {
+
+            const users = await pool.query('SELECT user_id FROM accounts');
+            
+            res.json(users.rows);
+
         }
 
-        const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
-
-        const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
-
-        const user = rows[0] || false;
-
-        if(!user){
-            return next(new ErrorResponse('Invalid Credentials.', 422))
-        }
-        
-        const users = await pool.query('SELECT * FROM accounts');
-
-        res.json(users.rows);
-
-    }
-    catch(err: any){
-        console.error(err.message);
-        res.status(500).send('Auth server error.')
-    }
 }));
 
 router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFunction) => {

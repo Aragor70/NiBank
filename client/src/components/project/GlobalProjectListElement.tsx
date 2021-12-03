@@ -7,7 +7,7 @@ import { withRouter } from 'react-router';
 import Flag from "react-world-flags"
 import { ISO_COUNTRY_CODES } from '../../utils/constants'
 
-const GlobalProjectListElement: React.FC<any> = ({ project, index, history }) => {
+const GlobalProjectListElement: React.FC<any> = ({ project, auth, history }) => {
 
   
   const getCountryCode = (str: string) => {
@@ -83,6 +83,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, index, history }) =>
               Type of property
             </IonText>
             <IonText slot="end">
+
               {
                 project.typeofproperty
               }
@@ -128,11 +129,11 @@ const GlobalProjectListElement: React.FC<any> = ({ project, index, history }) =>
 
 
         {
-          project.images && <img src={project.images[0] } />
+          project?.images && <img src={project?.images[0] } />
         }
         <IonItem>
           <div className="ion-items-center">
-            <IonButton style={{ fontWeight: 'bold', fontSize: '17px' }} onClick={() => history.push(`/projects/${project.project_id}`)}>Get more</IonButton>
+            <IonButton style={{ fontWeight: 'bold', fontSize: '17px' }} onClick={auth?.user?.user_id ? () => history.push(`/projects/${project.project_id}`) : () => history.push('/logon') }>Get more</IonButton>
           </div>
         </IonItem>
         </IonCardContent>

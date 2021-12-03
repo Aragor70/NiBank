@@ -1,8 +1,8 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonText, IonGrid, IonRow, IonCol, IonBadge, IonRouterLink, IonAvatar } from '@ionic/react';
-import { add, alert, businessOutline, card, informationCircleOutline, person } from 'ionicons/icons';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonText, IonGrid, IonRow, IonCol, IonBadge, IonRouterLink, IonAvatar, IonSlides, IonSlide, IonLabel } from '@ionic/react';
+import { add, addCircle, addCircleOutline, alert, businessOutline, card, informationCircleOutline, person, pinOutline } from 'ionicons/icons';
 import moment from 'moment';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Flag from 'react-world-flags';
@@ -20,6 +20,7 @@ import NotFound from '../components/NotFound';
 
 const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, project, auth, tsx }) => {
 
+  const slides: any = useRef(null)
 
   const getCountryCode = (str: string) => {
 
@@ -28,7 +29,28 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
   }
   const [extendTsx, setExtendTsx] = useState(0)
 
+  const [selectWalletView, setSelectWalletView] = useState(0)
   
+  const handleWalletChange = async (id: number) => {
+
+    if (slides.current) {
+
+      const swiper = await slides.current.getSwiper();
+      
+      swiper.slideTo(id)
+
+    }
+
+  }
+
+  /* console.log(await slides.current.getActiveIndex()) */
+
+  const handleWalletSwipe = async () => {
+
+    const value = await slides.current.getActiveIndex()
+    setSelectWalletView(value)
+  }
+
   return (
     <IonPage>
 
@@ -41,101 +63,227 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
 
       
       <IonList>
-
-        <IonListHeader color="primary" style={{ borderRadius: '7.5px' }}>
-
-          <IonTitle>
-            <span>Welcome {auth.user.name}</span>
+        <IonCard style={{ boxShadow: 'none' }}>
+        <IonCardHeader color="primary" style={{ borderRadius: '7.5px', minHeight: '120px', lineHeight: '2' }}>
+          
+          <IonTitle style={{ fontSize: '22px' }}>
+            <span>Welcome { (auth?.user?.first_name && auth?.user?.last_name) ? (auth?.user?.first_name + ' ' + auth?.user?.last_name) : auth?.user?.name || "N/A"}</span>
+            
           </IonTitle>
-        </IonListHeader>
+          <IonTitle style={{ fontSize: '16px' }}>
+            <span>Here is a quick look at your accounts.</span>
+          </IonTitle>
+        </IonCardHeader>
+
+        </IonCard>
         
         {
           auth?.user?.approved === false && <Fragment>
             <Approval />
           </Fragment>
         }
-          
-            <IonItem style={{ padding: '10px 0'}}>
+        <IonSlides ref={slides} onIonSlideDidChange={() => handleWalletSwipe()}>
+
+            {
+              auth?.user?.approved ? account.wallets.length ? <Fragment> {account.wallets.map((element: any, index: number) => <Fragment key={index}>
                 
-              <IonCol>
-                <IonText className="ion-items-center" style={{ fontSize: '18px' }}>
-                  Pay account
-                </IonText>
-              </IonCol>
-              <IonCol>
-                <IonText style={{ fontSize: '24px' }} className="ion-items-center">
-                    { account.balance === undefined ? 'N/A' : account.balance }
-                </IonText>
-              </IonCol>
+
+                <IonSlide>
+
+
+                  <IonCard style={{ width: '100%'}}>
+                    <IonCardHeader>
+                    <IonItem style={{ padding: '10px 0'}}>
+                        
+                      <IonCol>
+                        <IonText className="ion-items-center" style={{ fontSize: '18px' }}>
+                          Pay account
+                        </IonText>
+                      </IonCol>
+                      <IonCol>
+                        
+                            <IonText style={{ fontSize: '24px', textAlign: 'center' }} className="ion-items-center">
+                                { element ? element.balance : 'N/A' } { element ? element.currency : 'N/A' }
+                            </IonText>
+                        
+                      </IonCol>
+                        
+                      
+                    </IonItem>
+                    </IonCardHeader>
+                    <IonCardContent>
+                      <IonGrid>
+                        <IonRow>    
+                          <IonCol>
+                            <IonItem lines="none" style={{ border: '1px solid #000'}}>
+                              <IonText className="ion-items-center" style={{ color: '#000', fontWeight: 'bold' }}>
+                                  In
+                              </IonText>
+                            </IonItem>
+                          </IonCol>
+                          <IonCol>
+                            <IonItem lines="none" style={{ border: '1px solid #000' }}>
+                            
+                                  <IonText className="ion-items-center" style={{ color: '#000', fontWeight: 'bold', textAlign: 'center' }}>
+                                      { element ? element.in : 'N/A' } { element ? element.currency : 'N/A' }
+                                  </IonText>
+
+                            </IonItem>
+                          </IonCol>
+                        </IonRow>
+
+                        
+                        <IonRow>
+                          <IonCol>
+                            <IonItem lines="none" style={{ border: '1px solid #000'}}>
+                              <IonText className="ion-items-center" style={{ color: '#000', fontWeight: 'bold' }}>
+                                  Out
+                              </IonText>
+                            </IonItem>
+                          </IonCol>
+                          <IonCol>
+                            <IonItem lines="none" style={{ border: '1px solid #000'}}>
+                            
+                              <IonText className="ion-items-center" style={{ color: '#000', fontWeight: 'bold', textAlign: 'center' }}>
+                                  { element ? '-' + element.out : 'N/A' } { element ? element.currency : 'N/A' }
+                              </IonText>
+
+                            </IonItem>
+                          </IonCol>
+                        </IonRow>
+
+                      </IonGrid>
+                    </IonCardContent>
+                  </IonCard>
+
+                </IonSlide>
+
                 
+              </Fragment>)} 
               
-            </IonItem>
-        
-        <IonGrid>
-          <IonRow>    
-            <IonCol>
-              <IonItem lines="none" style={{ border: '1px solid #000'}}>
-                <IonText className="ion-items-center" style={{ color: '#000', fontWeight: 'bold' }}>
-                    In
-                </IonText>
-              </IonItem>
-            </IonCol>
-            <IonCol>
-              <IonItem lines="none" style={{ border: '1px solid #000'}}>
-                <IonText className="ion-items-center" style={{ color: '#000', fontWeight: 'bold' }}>
-                    { account.yieldPA === undefined ? 'N/A' : account.yieldPA }
-                </IonText>
-              </IonItem>
-            </IonCol>
-          </IonRow>
+              <IonSlide>
 
-          
-          <IonRow>
-            <IonCol>
-              <IonItem lines="none" style={{ border: '1px solid #000'}}>
-                <IonText className="ion-items-center" style={{ color: '#000', fontWeight: 'bold' }}>
-                    Out
-                </IonText>
-              </IonItem>
-            </IonCol>
-            <IonCol>
-              <IonItem lines="none" style={{ border: '1px solid #000'}}>
-                <IonText className="ion-items-center" style={{ color: '#000', fontWeight: 'bold' }}>
-                { account.totalFunds === undefined ? 'N/A' : account.totalFunds > 0 ? '-' + account.totalFunds : account.totalFunds }
-                </IonText>
-              </IonItem>
-            </IonCol>
-          </IonRow>
 
-        </IonGrid>
-      </IonList>
-
-      <IonList>
-            
-              <IonItem >
-                <IonIcon icon={add} slot="start" onClick={() => history.push('/new_transaction')}></IonIcon>
-                <IonRouterLink onClick={() => history.push('/new_transaction')}>
-                  New transaction
-                </IonRouterLink>
-              </IonItem>
-              
-            
-              <IonItem>
-                <IonIcon icon={add} slot="start" onClick={() => history.push('/new_project')}></IonIcon>
-                <IonRouterLink onClick={() => history.push('/new_project')}>
-                  New project
-                </IonRouterLink>
-              </IonItem>
-              
-      </IonList>
+<IonCard style={{ width: '100%'}}>
+  <IonCardHeader>
+  <IonItem style={{ padding: '10px 0'}} onClick={() => history.push('/settings')}>
       
+    <IonCol>
+      <IonText className="ion-items-center" style={{ fontSize: '18px' }}>
+        Create a new wallet
+      </IonText>
+      
+          <IonText style={{ fontSize: '24px' }} className="ion-items-center">
+              <IonIcon icon={addCircleOutline}></IonIcon>
+          </IonText>
+      
+    </IonCol>
+      
+    
+  </IonItem>
+  </IonCardHeader>
+  
+</IonCard>
+
+</IonSlide> </Fragment> : <Fragment>
+                
+
+                <IonSlide>
+
+
+                  <IonCard style={{ width: '100%'}}>
+                    <IonCardHeader>
+                    <IonItem style={{ padding: '10px 0'}} onClick={() => history.push('/settings')}>
+                        
+                      <IonCol>
+                        <IonText className="ion-items-center" style={{ fontSize: '18px' }}>
+                          Create a new wallet
+                        </IonText>
+                        
+                            <IonText style={{ fontSize: '24px' }} className="ion-items-center">
+                                <IonIcon icon={addCircleOutline}></IonIcon>
+                            </IonText>
+                        
+                      </IonCol>
+                        
+                      
+                    </IonItem>
+                    </IonCardHeader>
+                    
+                  </IonCard>
+
+                </IonSlide>
+
+                
+              </Fragment>
+            : false}
+
+
+          </IonSlides>
+          {
+            auth?.user?.approved ? <Fragment>
+                <IonList className="ion-items-center" style={{ flexDirection: 'row' }} >
+                  {
+                    account?.wallets?.length ? <Fragment>{account?.wallets?.map((element: any, index: number) => <IonItem key={index}><div className="ion-items-center" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem>)}<IonItem><div className="ion-items-center" onClick={() => handleWalletChange(account?.wallets?.length || 0)}><IonIcon color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''} icon={addCircle} size="small"></IonIcon><IonText color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''}>NEW</IonText></div></IonItem></Fragment> : <Fragment><IonItem><div className="ion-items-center"><IonIcon color="primary" icon={addCircle} size="small"></IonIcon><IonText color="primary">NEW</IonText></div></IonItem></Fragment>
+                  }
+                </IonList>
+            </Fragment> : false
+          }
+            
+          
+          </IonList>
+
+          {
+            auth.user.approved && <Fragment>
+
+                
+              <IonList>
+                <IonCard>
+                  <IonCardHeader>
+                  <IonGrid>
+                    <IonRow>
+                      <IonCol>
+                        <IonText style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                          Set up a new order
+                        </IonText>
+                      </IonCol>
+                    </IonRow>
+                  </IonGrid>
+                  </IonCardHeader>
+                  <IonCardContent>
+                  <IonList>
+                    <IonItem >
+                      <IonIcon icon={add} slot="start" onClick={() => history.push('/new_transaction')}></IonIcon>
+                      <IonRouterLink onClick={() => history.push('/new_transaction')}>
+                        New transaction
+                      </IonRouterLink>
+                    </IonItem>
+                    
+                  
+                    <IonItem>
+                      <IonIcon icon={add} slot="start" onClick={() => history.push('/new_project')}></IonIcon>
+                      <IonRouterLink onClick={() => history.push('/new_project')}>
+                        New project
+                      </IonRouterLink>
+                    </IonItem>
+                  </IonList>
+                  </IonCardContent>
+                </IonCard>
+              </IonList>
+
+
+
+            </Fragment>
+          }
+
       <IonList>
-        <IonListHeader>
+        <IonCard>
+        <IonCardHeader>
           <IonGrid>
             <IonRow>
               <IonCol>
                 <IonText style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                  My Transactions
+                   Recent transactions
                 </IonText>
               </IonCol>
               <IonCol style={{ justifyContent: 'flex-end', display: 'flex', alignItems: 'center' }}>
@@ -145,7 +293,8 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
               </IonCol>
             </IonRow>
           </IonGrid>
-        </IonListHeader>
+        </IonCardHeader>
+        <IonCardContent className="no-padding">
         <IonGrid>
         <IonCard style={{ boxShadow: 'none' }}>
             <IonCardContent className="no-padding">
@@ -168,18 +317,19 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
             </IonCardContent>
         </IonCard>
         </IonGrid>
-
-
+        </IonCardContent>
+        </IonCard>
       </IonList>
 
 
       <IonList>
-        <IonListHeader>
+        <IonCard>
+        <IonCardHeader>
           <IonGrid>
             <IonRow>
               <IonCol>
                 <IonText style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                  My Investments
+                  Recent Investments
                 </IonText>
               </IonCol>
               <IonCol style={{ justifyContent: 'flex-end', display: 'flex', alignItems: 'center' }}>
@@ -189,7 +339,8 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
               </IonCol>
             </IonRow>
           </IonGrid>
-        </IonListHeader>
+        </IonCardHeader>
+        <IonCardContent className="no-padding">
         <IonGrid>
         <IonCard style={{ boxShadow: 'none' }}>
             <IonCardContent className="no-padding">
@@ -199,10 +350,8 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
               
               <IonRow>
                 <IonItem>
-                <IonCol style={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', lineHeight: '2' }}>
+                <IonCol style={{ fontWeight: 'bold', display: 'flex', alignItems: 'left', justifyContent: 'center', flexDirection: 'column', lineHeight: '2' }}>
                   <IonText>{element.projectname}</IonText>
-                  <IonText>Status: {element.status}</IonText>
-                  <IonText>Invested: {(element?.listofinvestors?.filter((elem: any) => (elem?.user_id === auth?.user?.user_id) ).map((elem: any) => elem?.amount) || [])?.reduce((a: any, b: any) => a + b, 0 )}</IonText>
                   <IonRouterLink onClick={() => history.push(`/projects/${element.project_id}`)}>Get more</IonRouterLink>
                 </IonCol>
                 <IonCol style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
@@ -228,8 +377,8 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
           </IonCardContent>
         </IonCard>
         </IonGrid>
-
-
+        </IonCardContent>
+        </IonCard>
       </IonList>
 
       </IonContent>

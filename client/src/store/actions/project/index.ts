@@ -21,11 +21,11 @@ export const newProject = (formData: any, history: any, present: any) => async(d
         dispatch(setAlert(err.response.data.message, 'danger'))
 
         present({
-            cssClass: '',
-            header: 'Error:',
-            message: err.message,
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
             buttons: [
-              { text: 'Ok', handler: () => console.log('ok pressed') },
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
             ],
             onDidDismiss: () => console.log('did dismiss')
         });
@@ -40,27 +40,24 @@ export const getProjects = (user: any = null) => async(dispatch: Dispatch<any>) 
         const res: any = await axios.get('/api/projects');
         const resTsx: any = await axios.get('/api/tsx');
         
-        let projects = res.data.projects.slice().map((element: any) => ({...element, listofinvestors: []}))
+        let projects = await res.data.projects.slice().map((element: any) => ({...element, listofinvestors: []}))
         
-        let tsxs = resTsx.data.filter((element: any) => element.to_project_id !== undefined)
+        let tsxs = await resTsx.data.sort((a: any, b: any) => a.tsx_id - b.tsx_id).filter((element: any, index: number) => (element.to_project_id !== undefined) && (element.previous_hash !== element.current_hash) && ( index ? element?.previous_hash?.toString() === resTsx?.data[index - 1]?.current_hash?.toString() : true ))
+        console.log(tsxs)
+        //let tsxs = resTsx.data.filter((element: any) => element.to_project_id !== undefined)
         
         for (const transaction of tsxs) {
             
             projects = await projects.map((element: any) => element.project_id === transaction.to_project_id ? {...element, volumeinvested: element.volumeinvested + transaction.amount, listofinvestors: [...element.listofinvestors, { user_id: transaction?.from_id, amount: transaction?.amount }] } : element)
             
         }
-
+        console.log(projects)
         const openProjects = await projects.filter((element: any) => element.status.toString() === "OPEN")
         const underconsideration = await projects.filter((element: any) => element.status?.toString() === "UNDER_CONSIDERATION")
         const closedProjects = await projects.filter((element: any) => (element.status !== "OPEN" && element.status !== "UNDER_CONSIDERATION"))
         
-        
-
         const myInvestments = user ? await projects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem?.user_id === user?.user_id)[0]) : [];
         
-            
-
-
         dispatch({ type: Get_Projects_Success, payload: projects })
         dispatch({ type: Get_Open_Projects_Success, payload: openProjects })
         dispatch({ type: Get_Under_Consideration_Projects_Success, payload: underconsideration })
@@ -86,12 +83,21 @@ export const getProject = (id: number) => async(dispatch: Dispatch<any>) => {
         await dispatch({ type: Project_Loading });
 
         const res: any = await axios.get(`/api/projects/${id}`);
-        
+        const resTsx: any = await axios.get('/api/tsx');
 
-        await dispatch({ type: Get_Project_Success, payload: res?.data?.projects[0] })
+        let tsxs = await resTsx.data.sort((a: any, b: any) => a.tsx_id - b.tsx_id).filter((element: any, index: number) => (element.to_project_id !== undefined) && (element.previous_hash !== element.current_hash) && ( index ? element?.previous_hash?.toString() === resTsx?.data[index - 1]?.current_hash?.toString() : true ))
+
+        const investedValues: any = await tsxs.filter((element: any) => (element?.to_project_id?.toString() === id?.toString()) )?.map((element: any)=> element?.amount || 0)
+        
+        const volumeinvested: number = investedValues.length ? investedValues?.reduce((a: number, b: number) => a + b) : 0
+        
+        const projectData = {...res?.data?.projects[0], volumeinvested }
+        
+        //console.log(projectData)
+        await dispatch({ type: Get_Project_Success, payload: projectData })
         
         //await dispatch(setAlert(res.data.message, 'success'))
-        return res?.data?.projects[0]
+        return projectData
         
     } catch (err: any) {
         dispatch({ type: Get_Project_Fail });

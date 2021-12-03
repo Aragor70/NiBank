@@ -13,7 +13,7 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
     <IonMenu side="start" menuId="first" contentId="output">
         <IonHeader>
         <IonToolbar color="primary">
-            <IonTitle>NiBank Menu</IonTitle>
+            <IonTitle>NiVest Menu</IonTitle>
         </IonToolbar>
         </IonHeader>
         <IonContent>
@@ -21,10 +21,10 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
             {
               auth.isAuthenticated ? <Fragment>
                 <IonItem onClick={()=> history.push('/')}>Overview</IonItem>
-                <IonItem onClick={()=> history.push('/my_wallet')}>My wallet</IonItem>
+                <IonItem onClick={()=> history.push('/wallets')}>My wallet</IonItem>
                 <IonItem onClick={()=> history.push('/projects')}>Projects</IonItem>
                 <IonItem onClick={()=> history.push('/transactions')}>Transactions</IonItem>
-                <IonItem onClick={()=> history.push('/currency_exchange')}>Currency exchange</IonItem>
+                {/* <IonItem onClick={()=> history.push('/currency_exchange')}>Currency exchange</IonItem> */}
                 <IonItem onClick={()=> history.push('/security_center')}>Security Center</IonItem>
                 <IonItem onClick={()=> history.push('/settings')}>Settings</IonItem>
                 <IonItem onClick={()=> logout(history)}>Logout</IonItem>
@@ -33,6 +33,7 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
                 <IonItem onClick={()=> history.push('/logon')}>Log on</IonItem>
                 <IonItem onClick={()=> history.push('/register')}>Register</IonItem>
                 <IonItem onClick={()=> history.push('/security_center')}>Security Center</IonItem>
+                <IonItem onClick={()=> history.push('/projects')}>Project Opportunities</IonItem>
               </Fragment>
             }
               

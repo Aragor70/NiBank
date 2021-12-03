@@ -15,24 +15,17 @@ const router: Router = express.Router();
 //description  get all projects
 //access       public
 router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
-    try {
         
         const projects = await pool.query('SELECT * FROM projects');
         
         res.json({ projects: projects.rows});
 
-    }
-    catch(err: any){
-        console.error(err.message);
-        res.status(500).send('Auth server error.')
-    }
 }));
 
 //route get    api/auth
 //description  get all projects
 //access       public
 router.get('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {
-    try {
 
         if (!req.params.project_id) {
             return next(new ErrorResponse('Project not found.', 404))
@@ -41,18 +34,12 @@ router.get('/:project_id', asyncHandler( async (req: any, res: any, next: any) =
         
         res.json({ projects: projects.rows});
 
-    }
-    catch(err: any){
-        console.error(err.message);
-        res.status(500).send('Auth server error.')
-    }
 }));
 
 //route post   api/auth
 //description  post new project
 //access       private
 router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
-    try {
 
         if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -82,18 +69,12 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
         res.json({ projects });
 
-    }
-    catch(err: any){
-        console.error(err.message);
-        res.status(500).send('Auth server error.')
-    }
 }));
 
 //route post   api/auth
 //description  invest on project by project_id
 //access       private
 router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {
-    try {
 
         if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -101,7 +82,6 @@ router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) 
         const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
         const user = rows[0] || false;
-        console.log('hoi')
                 
         if (!user) {
             return next(new ErrorResponse('User not found.', 404))
@@ -116,12 +96,15 @@ router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) 
         const today = moment().format('YYYY-MM-DD');
 
         if (project.status !== "OPEN") {
+            console.log('status')
             return next(new ErrorResponse('Project is not open.', 422))
         }
         if (!amount || amount < project.minimuminvestment) {
-            return next(new ErrorResponse('Volume is too little.', 422))
+            console.log('amount')
+            return next(new ErrorResponse('The amount is too little.', 422))
         }
         if (moment(today) > moment(project.closedate)) {
+            console.log('close date')
             return next(new ErrorResponse('Project is not open.', 422))
         }
         
@@ -132,15 +115,10 @@ router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) 
 
         const hash = await SHA256(((previousTransaction?.rows[0]?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user?.user_id + project_id + amount + nonce).toString()).toString();
         
-        const transactions = await pool.query(`INSERT INTO transactions (from_id, to_project_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [ user.user_id, project.project_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
+        const tsx = await pool.query(`INSERT INTO transactions (from_id, to_project_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`, [ user.user_id, project.project_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
 
-        res.json({ transactions });
+        res.json({ tsx: tsx.rows[0], message: 'success' });
 
-    }
-    catch(err: any){
-        console.error(err.message);
-        res.status(500).send('Auth server error.')
-    }
 }));
 
 export default router;

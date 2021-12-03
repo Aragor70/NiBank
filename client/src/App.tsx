@@ -32,7 +32,6 @@ import RecoverPassword from './pages/auth/RecoverPassword';
 import { loadUser, loadUsers } from './store/actions/auth';
 import setAuthToken from './utils/setAuthToken';
 import { connect } from 'react-redux';
-import Wallet from './pages/Wallet';
 import Transactions from './pages/Transactions';
 import Statistics from './pages/Statistics';
 import { getBalance } from './store/actions/tsx';
@@ -53,9 +52,11 @@ import MyInvestments from './pages/MyInvestments';
 import NewProject from './pages/NewProject';
 import ApprovePage from './pages/ApprovePage';
 import Settings from './pages/Settings';
+import Wallets from './pages/Wallets';
+import Wallet from './pages/Wallet';
 
 
-const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx, loadUsers }) => {
+const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx, loadUsers, users }) => {
 
 
   useEffect(() => {
@@ -66,15 +67,20 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
   }, [loadUser])
   
   useEffect(() => {
-    if (auth.user) {
-      getBalance(auth.user)
+    if (auth?.user?.user_id) {
+      getBalance(auth?.user)
+    } else {
+      getBalance()
     }
     
-  }, [auth.user])
+  }, [auth?.user?.user_id, auth?.user?.currency])
 
   useEffect(() => {
-    
-    getProjects(auth.user)
+    if (auth?.user?.user_id) {
+      getProjects(auth?.user)
+    } else {
+      getProjects()
+    }
 
     /* return () => {
       
@@ -82,7 +88,7 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
       clearProjects()
     } */
     
-  }, [auth.user])
+  }, [auth?.user])
   
   useEffect(() => {
     
@@ -104,13 +110,12 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
         {
           auth.loading ? <Fragment>
             <Loading />
+          </Fragment> : users.loading ? <Fragment>
+            <Loading />
           </Fragment> : isAuthenticated ? <Fragment>
             <IonRouterOutlet id="output">
               <Route exact path="/">
                 <HomePageUser />
-              </Route>
-              <Route exact path="/my_wallet">
-                <Wallet />
               </Route>
               <Route exact path="/my_transactions">
                 <MyTransactions />
@@ -149,6 +154,15 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
                 <Settings />
               </Route>
                 
+              <Route exact path="/wallets">
+                <Wallets />
+              </Route>
+              <Route exact path="/wallets/:currency">
+                <Wallet />
+              </Route>
+              <Route exact path="/security_center">
+                <SecurityCenter />
+              </Route>
               <Route exact path="/account_approvement">
                 {
                   auth?.user?.approved ? <PageNotFound /> : <ApprovePage />
@@ -190,6 +204,18 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
               <Route exact path="/register/gsa">
                 <GSA />
               </Route>
+              <Route exact path="/transactions">
+                <Transactions />
+              </Route>
+              <Route exact path="/transactions/:tsx_id">
+                <Tsx />
+              </Route>
+              <Route exact path="/projects/:project_id">
+                <Project />
+              </Route>
+              <Route exact path="/projects">
+                <Projects />
+              </Route>
 
               <Route exact>
                 <PageNotFound />
@@ -212,6 +238,8 @@ const mapStateToProps = (state: any) => ({
   isAuthenticated: state.auth.isAuthenticated,
   auth: state.auth,
   project: state.project, 
-  tsx: state.tsx
+  tsx: state.tsx,
+  account: state.account,
+  users: state.users
 })
 export default connect(mapStateToProps, { loadUser, getBalance, getProjects, clearProjects, loadUsers })(withRouter(App));

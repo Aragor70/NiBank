@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonInput, IonCardSubtitle } from '@ionic/react';
-import { checkmark } from 'ionicons/icons';
+import { checkmark, informationCircleOutline, star } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -44,11 +44,15 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history }) => {
         
         <IonCard>
         <IonCardHeader>
-          <IonCardTitle style={{ textAlign: 'center'}}>
+          <IonLabel className="ion-items-center">
+            
+            <IonIcon icon={star} color="primary" size="large"></IonIcon>
+          </IonLabel>
+          <IonCardTitle className="ion-items-center" color="primary">
             Approve your account
           </IonCardTitle>
-          <IonCardSubtitle style={{ textAlign: 'center'}}>
-            Enter your 6 digit code
+          <IonCardSubtitle className="ion-items-center">
+            Enter your 6 digit code from you email
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
@@ -65,8 +69,37 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history }) => {
         <IonButton slot="end" disabled={!(formData?.code?.length === 6 && !isNaN(formData?.code))} type="submit">Confirm</IonButton>
         </IonItem>
       </form>
+          <IonToolbar>
+            <IonItem>
+              <IonRouterLink class="spacing">Send me the code again</IonRouterLink>
+            </IonItem>
+          </IonToolbar>
         </IonCardContent>
         </IonCard>
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle className="ion-items-center">
+              Don’t receive the verification email?
+            </IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonItem>
+              <IonIcon icon={informationCircleOutline} color="secondary" slot="start"></IonIcon>
+              <IonText>
+                Update your email address again, carefully checking the spelling and any special characters
+              </IonText>
+
+            </IonItem>
+            <IonItem>
+              <IonIcon icon={informationCircleOutline} color="secondary" slot="start"></IonIcon>
+              <IonText>
+                Check your spam / junk folder
+              </IonText>
+              
+            </IonItem>
+          </IonCardContent>
+        </IonCard>
+
       </IonContent>
 
       <FooterLoggedIn />

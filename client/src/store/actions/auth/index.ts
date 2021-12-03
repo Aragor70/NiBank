@@ -1,4 +1,4 @@
-import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, Pre_Login_Success, Register_Fail, Register_Success, User_Update, Pre_Login_Fail, RegisterUserType, Pre_Register_Success, Pre_Register_Fail, Loading_Auth } from "./types";
+import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, Pre_Login_Success, Register_Fail, Register_Success, User_Update, Pre_Login_Fail, RegisterUserType, Pre_Register_Success, Pre_Register_Fail, Loading_Auth, User_Update_Fail } from "./types";
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert/";
@@ -51,11 +51,11 @@ export const login = (formData: LoginUserType, history: any, present: any) => as
         dispatch(setAlert(err.response.data.message, 'danger'))
 
         present({
-            cssClass: '',
-            header: 'Error:',
-            message: err.message,
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
             buttons: [
-              { text: 'Ok', handler: () => console.log('ok pressed') },
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
             ],
             onDidDismiss: () => console.log('did dismiss')
         });
@@ -75,11 +75,11 @@ export const preLogin = (formData: LoginUserType, present: any, setStep: any) =>
         dispatch(setAlert(err.response.data.message, 'danger'))
 
         present({
-            cssClass: '',
-            header: 'Error:',
-            message: err.message,
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
             buttons: [
-              { text: 'Ok', handler: () => console.log('ok pressed') },
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
             ],
             onDidDismiss: () => console.log('did dismiss')
         });
@@ -99,11 +99,11 @@ export const preRegister = (formData: RegisterUserType, present: any, setStep: a
         dispatch(setAlert(err.response.data.message, 'danger'))
 
         present({
-            cssClass: '',
-            header: 'Error:',
-            message: err.message,
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
             buttons: [
-              { text: 'Ok', handler: () => console.log('ok pressed') },
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
             ],
             onDidDismiss: () => console.log('did dismiss')
         });
@@ -128,11 +128,11 @@ export const register = (formData: LoginUserType, history: any, present: any) =>
         dispatch({ type: Register_Fail });
         dispatch(setAlert(err.response.data.message, 'danger'))
         present({
-            cssClass: '',
-            header: 'Error:',
-            message: err.message,
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
             buttons: [
-              { text: 'Ok', handler: () => console.log('ok pressed') },
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
             ],
             onDidDismiss: () => console.log('did dismiss')
         });
@@ -153,30 +153,46 @@ export const logout = (history: any) => async(dispatch: Dispatch<AuthDispatchTyp
 
 export const confirm = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        
+        dispatch({type: Loading_Auth })
         const res: any = await axios.put('/api/auth/approve', formData);
         
+        dispatch({ type: User_Update, payload: res?.data?.user })
         history.push('/')
         return res.data.success
         
     } catch (err: any) {
+        dispatch({ type: User_Update_Fail })
         console.log(err.message)
         //dispatch(setAlert(err.response.data.message, 'danger'))
         
     }
 }
 
-export const update = (formData: any, setView: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+export const update = (formData: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        
-        const res: any = await axios.put('/api/users', formData);
+        dispatch({type: Loading_Auth })
+        const res: any = await axios.put('/api/auth', formData);
         
         dispatch({type: User_Update, payload: res.data})
         
-        setView(false)
         
     } catch (err: any) {
-        dispatch(setAlert(err.response.data.message, 'danger'))
+        dispatch({ type: User_Update_Fail })
+        //dispatch(setAlert(err.response.data.message, 'danger'))
+        
+    }
+}
+export const createWallet = (formData: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        dispatch({type: Loading_Auth })
+        const res: any = await axios.put('/api/auth/wallets', formData);
+        
+        dispatch({type: User_Update, payload: res.data})
+        
+        
+    } catch (err: any) {
+        dispatch({ type: User_Update_Fail })
+        //dispatch(setAlert(err.response.data.message, 'danger'))
         
     }
 }

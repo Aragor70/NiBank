@@ -62,8 +62,25 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
             
           </IonItem>
           
-        </Fragment> : <Fragment>
+        </Fragment> : (tsx.to_user_id === auth.user.user_id && tsx.from_id === auth.user.user_id) ? <Fragment>
 
+        <IonItem style={{ position: 'relative', padding: '10px 0' }} onClick={()=> history.push(`/transactions/${tsx.tsx_id}`)}>
+            
+            <IonAvatar slot="start" style={{ position: 'relative' }}>
+              <IonIcon icon={tsx.to_project_id !== null ? businessOutline : people} size="small" style={{ position: 'absolute', top: '-9px', right: 0, zIndex: 10 }}></IonIcon>
+              <IonIcon size="large" color="secondary" icon={!isUp ? trendingUp : trendingDown}></IonIcon>
+            </IonAvatar>
+            <div style={{ textAlign: 'left' }}>
+              <IonLabel style={{ fontSize: '15px', marginBottom: '2px' }}>
+                {moment(tsx.created_on).format('DD-MM-YYYY')}
+              </IonLabel>
+              <IonText style={{ fontWeight: 'normal', fontSize: '16px'}}>
+                {isUp ? from?.name || "N/A" : tsx.name }
+              </IonText>
+              </div>
+            <IonBadge slot="end" color={!isUp ? "success" : "primary"} style={{ width: '90px', textAlign: 'center', lineHeight: '1.6' }} className="ion-text-wrap" onClick={() => setDetailsOn(!detailsOn)}>{!isUp ? "+" : "-"}{tsx.amount} {tsx.currency}</IonBadge>
+            
+          </IonItem>
         <IonItem style={{ position: 'relative', padding: '10px 0' }} onClick={()=> history.push(`/transactions/${tsx.tsx_id}`)}>
             
             <IonAvatar slot="start" style={{ position: 'relative' }}>
@@ -82,6 +99,27 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
             
           </IonItem>
           
+        </Fragment> : <Fragment>
+
+          
+        <IonItem style={{ position: 'relative', padding: '10px 0' }} onClick={()=> history.push(`/transactions/${tsx.tsx_id}`)}>
+            
+            <IonAvatar slot="start" style={{ position: 'relative' }}>
+              <IonIcon icon={tsx.to_project_id !== null ? businessOutline : people} size="small" style={{ position: 'absolute', top: '-9px', right: 0, zIndex: 10 }}></IonIcon>
+              <IonIcon size="large" color="secondary" icon={isUp ? trendingUp : trendingDown}></IonIcon>
+            </IonAvatar>
+            <div style={{ textAlign: 'left' }}>
+              <IonLabel style={{ fontSize: '15px', marginBottom: '2px' }}>
+                {moment(tsx.created_on).format('DD-MM-YYYY')}
+              </IonLabel>
+              <IonText style={{ fontWeight: 'normal', fontSize: '16px'}}>
+                {isUp ? from?.name || "N/A" : tsx.name }
+              </IonText>
+              </div>
+            <IonBadge slot="end" color={isUp ? "success" : "primary"} style={{ width: '90px', textAlign: 'center', lineHeight: '1.6' }} className="ion-text-wrap" onClick={() => setDetailsOn(!detailsOn)}>{isUp ? "+" : "-"}{tsx.amount} {tsx.currency}</IonBadge>
+            
+          </IonItem>
+
         </Fragment>
       }
 

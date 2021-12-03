@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "NiBank app",
+  "description": "NiVest app",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,7 +12,7 @@
     "client": "npm start --prefix ../client"
   },
   "keywords": [
-    "NiBank",
+    "NiVest",
     "blockchain"
   ],
   "author": "mikey.prus@gmail.com",

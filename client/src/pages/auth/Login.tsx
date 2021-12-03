@@ -35,7 +35,7 @@ const { email, password } = formData;
       
       <IonContent fullscreen>
 
-      <PageSubTitle subTitle={"Nibank > Log on"} />
+      <PageSubTitle subTitle={"NiVest > Log on"} />
 
       <IonList>
 

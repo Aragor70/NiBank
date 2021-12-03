@@ -1,18 +1,21 @@
 
-import { IonItem } from '@ionic/react';
+import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonItem } from '@ionic/react';
 
 interface PageSubTitle {
     subTitle: string
 }
 
-const PageSubTitle: React.FC<PageSubTitle> = ({ subTitle }) => {
-
+const PageSubTitle: React.FC<PageSubTitle | any> = ({ subTitle }) => {
 
   return (
     <IonItem>
-        <p>
-            {subTitle}
-        </p>
+        <IonCard style={{ boxShadow: 'none' }} className="no-padding">
+            <IonCardSubtitle className="no-padding">
+              <IonCardTitle style={{ fontSize: '16px' }} >
+                {subTitle}
+              </IonCardTitle>
+            </IonCardSubtitle>
+        </IonCard>
     </IonItem>
   );
 };
