@@ -153,11 +153,27 @@ export const logout = (history: any) => async(dispatch: Dispatch<AuthDispatchTyp
 
 export const confirm = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        dispatch({type: Loading_Auth })
-        const res: any = await axios.put('/api/auth/approve', formData);
+        dispatch({ type: Loading_Auth })
+        const res: any = await axios.post('/api/auth/approve', formData);
         
-        dispatch({ type: User_Update, payload: res?.data?.user })
+        dispatch({ type: User_Update, payload: res?.data })
         history.push('/')
+        return res.data.success
+        
+    } catch (err: any) {
+        dispatch({ type: User_Update_Fail })
+        console.log(err.message)
+        //dispatch(setAlert(err.response.data.message, 'danger'))
+        
+    }
+}
+export const codeUpdate = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        dispatch({ type: Loading_Auth })
+        const res: any = await axios.put('/api/auth/approve');
+        
+        dispatch({ type: User_Update, payload: res?.data })
+        
         return res.data.success
         
     } catch (err: any) {

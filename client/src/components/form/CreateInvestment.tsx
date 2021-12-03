@@ -85,7 +85,7 @@ const CreateInvestment: React.FC<any> = React.memo(({ newInvest, history, user, 
             
             <IonItem>
               <IonLabel>From</IonLabel>
-              <IonText slot="end">{user?.accountType || "You"}</IonText>
+              <IonLabel slot="end">{user?.accountType || "You"}</IonLabel>
             
             </IonItem>
             <IonItem>

@@ -9,7 +9,7 @@ const PageHeader: React.FC<RouteComponentProps> = ({ history }) => {
   return (
       <IonHeader>
         <IonItem>
-          <IonTitle className="no-padding"><span onClick={() => history.push("/")}>NiVest</span></IonTitle>
+          <IonTitle className="no-padding"><span onClick={() => history.push("/")} className="brand-icon"><span style={{ color: '#3880ff' }}>Ni</span><span style={{ color: '#3dc2ff' }}>Vest</span></span></IonTitle>
           
           <IonIcon size="large" color="dark" name="menu-outline" slot="end" onClick={()=> menuController.open()}></IonIcon>
         </IonItem>

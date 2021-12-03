@@ -172,6 +172,7 @@ router.put('/main_wallet', asyncHandler(async (req: Request, res: Response, next
     res.json({ success: true, user: updates?.rows[0] || {} });
        
 }));
+
 router.put('/wallets', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     
     if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
@@ -201,7 +202,7 @@ router.put('/wallets', asyncHandler(async (req: Request, res: Response, next: Ne
        
 }));
 
-router.put('/approve', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+router.post('/approve', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     
     if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
         return next(new ErrorResponse('Go to log on.', 422))
@@ -231,6 +232,34 @@ router.put('/approve', asyncHandler(async (req: Request, res: Response, next: Ne
     }
 
     const users: any = await pool.query(`UPDATE accounts SET approved = true, code = '' WHERE email = $1 RETURNING *`, [user.email]);
+
+    res.json({ success: true, user: users?.rows[0] });
+       
+}));
+
+router.put('/approve', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+    if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
+        return next(new ErrorResponse('Go to log on.', 422))
+    }
+    
+    const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+
+    const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+
+    const user = rows[0] || false;
+    
+    if (!user) {
+        return next(new ErrorResponse('Go to log on.', 422))
+    }
+
+    const code: string = (Math.floor(100000 + Math.random() * 900000)).toString();
+
+    if (!code) {
+        return next(new ErrorResponse('Code generator issue.', 500))
+    }
+
+    const users: any = await pool.query(`UPDATE accounts SET code = $1 WHERE email = $2 RETURNING *`, [code, user.email]);
 
     res.json({ success: true, user: users?.rows[0] });
        

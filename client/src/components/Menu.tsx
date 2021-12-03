@@ -4,6 +4,7 @@ import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { logout } from '../store/actions/auth';
+import Approval from './Approval';
 
 
 const Menu: React.FC<any> = ({ history, logout, auth }) => {
@@ -28,6 +29,10 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
                 <IonItem onClick={()=> history.push('/security_center')}>Security Center</IonItem>
                 <IonItem onClick={()=> history.push('/settings')}>Settings</IonItem>
                 <IonItem onClick={()=> logout(history)}>Logout</IonItem>
+                
+                {
+                  !auth.user.approved && <Approval />
+                }
               </Fragment> : <Fragment>
                 <IonItem onClick={()=> history.push('/')}>Dashboard</IonItem>
                 <IonItem onClick={()=> history.push('/logon')}>Log on</IonItem>

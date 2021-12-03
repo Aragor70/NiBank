@@ -3,13 +3,13 @@ import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard,
 import { checkmark, informationCircleOutline, star } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import { confirm } from '../store/actions/auth';
+import { codeUpdate, confirm } from '../store/actions/auth';
 
-const ApprovePage: React.FC<any> = ({ auth, confirm, history }) => {
+const ApprovePage: React.FC<any> = ({ auth, confirm, history, codeUpdate }) => {
     const [ loadingData, setLoadingData ] = useState(false)
 
 
@@ -30,6 +30,20 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history }) => {
       }
         
     }
+    const handleRequest = async (e: any) => {
+      try {
+
+        e.preventDefault();
+
+        await codeUpdate()
+
+        
+      } catch (err: any) {
+        console.log(err.message)
+      }
+        
+    }
+
 
 
   return (
@@ -71,7 +85,7 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history }) => {
       </form>
           <IonToolbar>
             <IonItem>
-              <IonRouterLink class="spacing">Send me the code again</IonRouterLink>
+              <IonRouterLink class="spacing" onClick={(e: any) => handleRequest(e)}>Send me the code again</IonRouterLink>
             </IonItem>
           </IonToolbar>
         </IonCardContent>
@@ -110,4 +124,4 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history }) => {
 const mapStateToProps = (state: any) => ({
     auth: state.auth
 })
-export default connect(mapStateToProps, { confirm })(withRouter(ApprovePage));
+export default connect(mapStateToProps, { confirm, codeUpdate })(withRouter(ApprovePage));
