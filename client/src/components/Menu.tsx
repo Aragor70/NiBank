@@ -31,7 +31,7 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
                 <IonItem onClick={()=> logout(history)}>Logout</IonItem>
                 
                 {
-                  !auth.user.approved && <Approval />
+                  !auth?.user?.approved && <Approval />
                 }
               </Fragment> : <Fragment>
                 <IonItem onClick={()=> history.push('/')}>Dashboard</IonItem>

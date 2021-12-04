@@ -100,7 +100,8 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
       clearProjects()
     } */
     
-  }, [])
+  }, [auth?.user])
+
 
 
   return (

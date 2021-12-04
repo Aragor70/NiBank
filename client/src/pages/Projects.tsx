@@ -114,7 +114,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
             </Fragment>
         }
         {
-            step === 1 ? auth.user.approved ? <Fragment>
+            step === 1 ? auth?.user?.approved ? <Fragment>
             <PageSubTitle subTitle={"Home > All project > New project"} />
             <IonList>
                 <IonListHeader>

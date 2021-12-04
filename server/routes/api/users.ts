@@ -9,6 +9,7 @@ import ErrorResponse from "../../utils/ErrorResponse";
 import { pool } from '../../config/db';
 
 import { ec } from 'elliptic';
+import SendingEmail from '../../utils/SendingEmail';
 
 const ecGenerate = new ec('secp256k1');
 
@@ -85,7 +86,7 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
     const privateKey = key.getPrivate('hex');
     
     user = await pool.query(
-        `INSERT INTO accounts (name, email, password, avatar, public_key, private_key, account_type) VALUES($1, $2, $3, $4, $5, $6, $7)`, [userName, email, safePassword, avatar || '', publicKey, privateKey, accountType]
+        `INSERT INTO accounts (name, email, password, avatar, public_key, private_key, account_type, code) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`, [userName, email, safePassword, avatar || '', publicKey, privateKey, accountType, '']
     );
 
     const payload = {
@@ -100,6 +101,10 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
                 return next(new ErrorResponse(err.message, 422))
             }
             const code = (Math.floor(100000 + Math.random() * 900000)).toString()
+
+            user.code = code || '';
+
+            await SendingEmail(user)
             
             await pool.query(`UPDATE accounts SET token = $1, code = $2 WHERE email = $3`, [token, code, email]);
 

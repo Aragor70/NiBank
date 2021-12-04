@@ -234,7 +234,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
           </IonList>
 
           {
-            auth.user.approved && <Fragment>
+            auth?.user?.approved && <Fragment>
 
                 
               <IonList>

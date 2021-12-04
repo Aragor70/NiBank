@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import ErrorResponse from "../../utils/ErrorResponse";
 import asyncHandler from "../../middlewares/async";
 import { pool } from '../../config/db';
+import SendingEmail from '../../utils/SendingEmail';
 
 const router: Router = express.Router();
 
@@ -255,9 +256,12 @@ router.put('/approve', asyncHandler(async (req: Request, res: Response, next: Ne
 
     const code: string = (Math.floor(100000 + Math.random() * 900000)).toString();
 
-    if (!code) {
+    if (!code || !user.email) {
         return next(new ErrorResponse('Code generator issue.', 500))
     }
+    user.code = code
+
+    await SendingEmail(user)
 
     const users: any = await pool.query(`UPDATE accounts SET code = $1 WHERE email = $2 RETURNING *`, [code, user.email]);
 

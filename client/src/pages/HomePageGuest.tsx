@@ -12,7 +12,7 @@ import { ChartConfiguration, LineController, LineElement, PointElement, LinearSc
 
 
 import { Fragment, useEffect } from 'react';
-import { bookmarksOutline, bookOutline, businessOutline, card, extensionPuzzleOutline, open, people } from 'ionicons/icons';
+import { analytics, bookmarksOutline, bookOutline, businessOutline, card, extensionPuzzleOutline, open, people } from 'ionicons/icons';
 import Loader from '../components/Loader';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 /* import { Bar } from 'react-chartjs-2'; */
@@ -61,18 +61,11 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
 
     const half: any = values.length / 2;
     
-    /* console.log(half) */
-
     let colors: any[] = values.length < 8 ? negatives.slice(0, half).concat(positives.slice(half)) : allColors
 
-    /* console.log(negatives.slice(0, half), 'neg')
-    console.log(positives.slice(half), 'pos') */
 
     const arry: any[] = values.slice()
     
-    
-
-    /* console.log(arry) */
     
     colors = colors.map((element: any, index: any) => {return { sortBy: arry[index], ...element}})
 
@@ -139,19 +132,27 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
   };
 
   useEffect(() => {
-    
-    const myChart: any = new Chart('myChart', { type: 'bar',
-    data: data,
-    options
-   });
+      if (!project.loading) {
 
-   Chart.register(...registerables);
 
-   Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
+        
+      const myChart: any = new Chart('myChart', { 
+        type: 'bar',
+        data: data,
+        options
+      });
 
-    return () => {
-      myChart.destroy()
-    }
+      Chart?.register(...registerables);
+
+      Chart?.register(LineController, LineElement, PointElement, LinearScale, Title);
+
+      return () => {
+        
+        myChart.destroy()
+        
+      }
+
+      }
 
     }, [project.openProjects, project.underConsiderationProjects, project.closedProjects, project.projects, project.loading])
 
@@ -166,6 +167,46 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
       
       <PageSubTitle subTitle={"Home"} />
 
+
+
+        <IonList>
+
+          <IonCard>
+
+            <IonCardHeader>
+              
+              <IonListHeader>
+                <IonTitle style={{ textAlign: 'center', fontSize: '25px', lineHeight: '1.8', fontWeight: 'bold' }} color="primary">
+
+                  Welcome to <span style={{ color: '#3880ff', fontWeight: 'bold' }}>Ni</span><span style={{ color: '#3dc2ff', fontWeight: 'bold' }}>Vest</span>
+
+                </IonTitle>
+                
+              </IonListHeader>
+
+              <IonCardTitle style={{ textAlign: 'center', fontSize: '25px', lineHeight: '1.8', fontWeight: 'bold' }}>
+                Real Estate Crowdfunding Market Simulator
+              </IonCardTitle>
+            </IonCardHeader>
+
+            <IonCardContent>
+              <IonItem>
+                <div className="ion-items-center">
+                  <IonIcon style={{ fontSize: '64px', padding: '7.5px' }} icon={analytics}></IonIcon>
+                </div>
+              </IonItem>
+              <IonItem>
+                
+                <IonText>
+                  Start learning how to invest with virtual money to sharpen your knowledge of how the market works and how to use an online Blockchain investment platform.
+                </IonText>
+              </IonItem>
+            </IonCardContent>
+          </IonCard>
+
+
+
+        </IonList>
         <IonList>
           
           <IonListHeader>
@@ -338,7 +379,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
                       <IonItem>
                       <IonIcon size="large" icon={bookOutline} slot="start" color="primary"></IonIcon>
                     
-                      <IonText className="ion-items-center" style={{ fontSize: '16px', fontWeight: 'bold' }} color="primary" onClick={() => history.push('/logon')}>Show more opportunities</IonText>
+                      <IonText className="ion-items-center" style={{ fontSize: '16px', fontWeight: 'bold' }} color="primary" onClick={() => history.push('/projects')}>Show more opportunities</IonText>
                       </IonItem>
                     </IonCardContent>
                   </IonCard>

@@ -18,6 +18,7 @@
   "author": "mikey.prus@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "@sendgrid/mail": "^7.6.0",
     "@types/cors": "^2.8.12",
     "@types/pg": "^8.6.1",
     "bcryptjs": "^2.4.3",
