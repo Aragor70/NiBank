@@ -12,6 +12,7 @@ import PageSubTitle from '../components/PageSubTitle';
 import { clearProjects, getProjects } from '../store/actions/project';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 import Approval from '../components/Approval';
+import NotFound from '../components/NotFound';
 
 const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth }) => {
 
@@ -68,9 +69,13 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
 
                         </IonTitle>
                       </IonListHeader>
-                      {
-                        project.openProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />)
-                      }
+                      <IonCard>
+                        <IonCardContent>
+                          {
+                            project.openProjects.length ? project.openProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : <NotFound message="No available projects." />
+                          }
+                        </IonCardContent>
+                      </IonCard>
                     </IonList>
 
                   </Fragment>
@@ -90,42 +95,50 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
 
                     </IonTitle>
                   </IonListHeader>
-                  
-                  <CreateTransfer />
-                  
+                  <IonCard>
+                    <IonCardContent>
+                      <CreateTransfer />
+                    </IonCardContent>
+                  </IonCard>
                 </IonList>
               </Fragment>
             }
             
           </Fragment> : <Fragment>
 
-            <PageSubTitle subTitle={"Home > New transaction"} />
+            <PageSubTitle subTitle={"Home > Choose transaction"} />
             <IonList>
               <IonListHeader>
                 <IonTitle style={{ textAlign: 'center' }}>
-                    New transaction
+                    Choose transaction
 
                 </IonTitle>
               </IonListHeader>
               {
                 auth?.user?.approved ? <Fragment>
                   
-                    <IonItem onClick={()=> setSelectView({ investment: 1 })}>
+                  
+                  <IonCard>
+                    <IonCardContent>
+                      <IonItem onClick={()=> setSelectView({ investment: 1 })}>
 
                       <IonIcon icon={businessOutline} slot="start" color="primary"></IonIcon>
                       <IonText>
                         Invest
                       </IonText>
-                      
-                    </IonItem>
-                    <IonItem onClick={()=> setSelectView({ transfer: 1 })}>
 
-                    <IonIcon icon={people} slot="start" color="primary"></IonIcon>
+                      </IonItem>
+                      <IonItem onClick={()=> setSelectView({ transfer: 1 })}>
+
+                      <IonIcon icon={people} slot="start" color="primary"></IonIcon>
                       <IonText>
                         Transfer to the recipient
                       </IonText>
 
-                    </IonItem>
+                      </IonItem>
+                    </IonCardContent>
+                  </IonCard>
+                    
                   
                 </Fragment> : <Fragment>
                   <Approval />

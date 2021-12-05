@@ -9,7 +9,7 @@ const PageSubTitle: React.FC<PageSubTitle | any> = ({ subTitle }) => {
 
   return (
     <IonItem>
-        <IonCard style={{ boxShadow: 'none' }} className="no-padding">
+        <IonCard style={{ boxShadow: 'none' }} className="no-padding no-borders">
             <IonCardSubtitle className="no-padding">
               <IonCardTitle style={{ fontSize: '16px' }} >
                 {subTitle}

@@ -66,14 +66,14 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history, codeUpdate }) => {
             Approve your account
           </IonCardTitle>
           <IonCardSubtitle className="ion-items-center">
-            Enter your 6 digit code from you email
+            Enter the 6-digit security key that you received at your e-mail address
           </IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>
       <form onSubmit={(e: any) => handleSubmit(e)}>
         <IonItem>
           <IonLabel slot="start">
-              Code
+            Digital Secure Key
           </IonLabel>
         
         <IonInput style={{ letterSpacing: '3px', textAlign: 'center' }} name="code" value={formData.code || ''} maxlength={6} onIonChange={(e: any) => setFormData({ ...formData, code: e.target.value })} placeholder="000000"></IonInput>
@@ -85,7 +85,7 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history, codeUpdate }) => {
       </form>
           <IonToolbar>
             <IonItem>
-              <IonRouterLink class="spacing" onClick={(e: any) => handleRequest(e)}>Send me the code again</IonRouterLink>
+              <IonRouterLink class="spacing" onClick={(e: any) => handleRequest(e)}>Send me the Digital Secure Key again</IonRouterLink>
             </IonItem>
           </IonToolbar>
         </IonCardContent>

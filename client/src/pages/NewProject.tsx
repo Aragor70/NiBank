@@ -36,11 +36,25 @@ const NewProject: React.FC<any> = ({ auth }) => {
             </IonTitle>
         </IonListHeader>
 
-        {
-          auth?.user?.approved ? <CreateProject /> : <Fragment>
-          <Approval />
-        </Fragment>
-        }
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>
+              Apply for financing, providing details of the property project. We will contact you within 24 hours to confirm whether your application is appropriate to start the fundraising process or not.
+            </IonCardTitle>
+
+          </IonCardHeader>
+
+          <IonCardContent>
+
+            {
+              auth?.user?.approved ? <CreateProject /> : <Fragment>
+                <Approval />
+              </Fragment>
+            }
+
+          </IonCardContent>
+        </IonCard>
+        
         
     
       </IonList>

@@ -218,13 +218,13 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
           <IonCard>
             <IonCardHeader>
             <IonCardTitle>
-              If you’re not yet an online banking customer:
+              If you’re not yet an Mobile Investor:
 
             </IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
               <IonItem>
-                Follow the on screen instructions to register and activate your Digital Secure Key.
+                Follow the instructions to register and activate your Digital Secure Key.
               </IonItem>
               
               <IonToolbar>
@@ -236,13 +236,13 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
           <IonCard>
             <IonCardHeader>
             <IonCardTitle>
-            If you’re already registered for online banking:
+              If you’re already registered for online investing:
 
             </IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
               <IonItem>
-              Follow the instructions of the Mobile Banking app by entering your online banking log on details.
+                Follow the instructions of the Mobile app by entering your online log on details.
 
               </IonItem>
               
