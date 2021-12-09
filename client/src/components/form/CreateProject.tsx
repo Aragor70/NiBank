@@ -70,7 +70,7 @@ const CreateProject: React.FC<any> = ({ newProject, history, user }) => {
 
             </IonItem>
             <IonItem>
-              <IonLabel>YieldPA</IonLabel>
+              <IonLabel>Yield</IonLabel>
               <IonInput slot="end" autocomplete={"off"} name="yieldpa" value={formData.yieldpa || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
             </IonItem>

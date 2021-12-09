@@ -43,14 +43,14 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
 
           
           <IonListHeader>
-            <IonTitle style={{ textAlign: 'center' }} color="dark">Register for digital banking</IonTitle>
+            <IonTitle style={{ textAlign: 'center' }} color="dark">Register to digital platform</IonTitle>
           </IonListHeader>
 
           <IonCard>
             <IonCardHeader>
 
               <IonCardTitle>
-                How to register for Mobile {"&"} Online Banking
+                How to register to Mobile {"&"} Online Platform
               </IonCardTitle>
               <IonCardSubtitle>
                 Before you begin, you'll need:
@@ -120,7 +120,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
             
             <IonToolbar>
               <IonButton  onClick={() => history.push('/register/gsa')} type="button" size="default" color="primary" slot="end">
-                Register for Online Banking
+                Register to Online Platform
               </IonButton>
             </IonToolbar>
 
@@ -151,7 +151,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
             </IonItem>
             <IonItem>
               
-                <IonRouterLink href="#" class="spacing">Online Banking features </IonRouterLink>
+                <IonRouterLink href="#" class="spacing">Online Platform features </IonRouterLink>
               
             </IonItem>
             </IonToolbar>

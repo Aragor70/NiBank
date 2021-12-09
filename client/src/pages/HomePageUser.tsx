@@ -1,5 +1,5 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonText, IonGrid, IonRow, IonCol, IonBadge, IonRouterLink, IonAvatar, IonSlides, IonSlide, IonLabel, IonButtons } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonText, IonGrid, IonRow, IonCol, IonBadge, IonRouterLink, IonAvatar, IonSlides, IonSlide, IonLabel, IonButtons, IonImg } from '@ionic/react';
 import { add, addCircle, addCircleOutline, alert, businessOutline, card, cardOutline, informationCircleOutline, person, pinOutline, returnDownBack, returnDownForward, returnUpForward } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useRef, useState } from 'react';
@@ -24,7 +24,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
 
   const getCountryCode = (str: string) => {
 
-    return Object.keys(ISO_COUNTRY_CODES).filter(function(key) {return ISO_COUNTRY_CODES[key]?.toLowerCase() === str?.toLowerCase()})[0];
+    return Object.keys(ISO_COUNTRY_CODES).filter(function(key) {return ISO_COUNTRY_CODES[key]?.toLowerCase()?.includes(str?.toLowerCase())})[0];
     
   }
   const [extendTsx, setExtendTsx] = useState(0)
@@ -42,6 +42,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
     }
 
   }  
+  
   const prevSlide = async () => {
 
     if (slides.current) {
@@ -71,6 +72,11 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
     const value = await slides.current.getActiveIndex()
     setSelectWalletView(value)
   }
+
+  
+    const handleDefaultSrc = (e: any) => {
+        e.target.src = 'https://www.investopedia.com/thmb/FKP-u7NEKNODSvAkMo-9WUz0E_c=/2121x1193/smart/filters:no_upscale()/GettyImages-1169053915-76068125fc394f9691db9edaf7c76baf.jpg'
+    }
 
   return (
     <IonPage>
@@ -418,7 +424,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
                 </IonCol>
                 <IonCol style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                   {
-                    element.images ? <img src={element.images[0]} /> : <img src="https://www.investopedia.com/thmb/FKP-u7NEKNODSvAkMo-9WUz0E_c=/2121x1193/smart/filters:no_upscale()/GettyImages-1169053915-76068125fc394f9691db9edaf7c76baf.jpg" />
+                    element.images ? <IonImg onIonError={(e: any) => handleDefaultSrc(e)} src={element.images[0]} alt="property" /> : <IonImg onIonError={(e: any) => handleDefaultSrc(e)} src="https://www.investopedia.com/thmb/FKP-u7NEKNODSvAkMo-9WUz0E_c=/2121x1193/smart/filters:no_upscale()/GettyImages-1169053915-76068125fc394f9691db9edaf7c76baf.jpg" alt="property" />
                   }
                   
                   <IonBadge color="light" style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>

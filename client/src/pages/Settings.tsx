@@ -1,5 +1,5 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonGrid, IonRow, IonCol, IonInput, IonSelect, IonSelectOption, IonButtons } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonGrid, IonRow, IonCol, IonInput, IonSelect, IonSelectOption, IonButtons, IonImg } from '@ionic/react';
 import axios from 'axios';
 import { checkmark, lockClosed, lockOpen } from 'ionicons/icons';
 import moment from 'moment';
@@ -161,7 +161,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
 
                                     </IonCol>
                                     <IonCol className="ion-items-center" style={ selected === 1 ? { fontWeight: 'bold' } : {} }>
-                                        <span onClick={() => setSelected(1)}>My wallets</span>
+                                        <span onClick={() => setSelected(1)}>My wallet</span>
 
                                     </IonCol>
                                 </IonRow>
@@ -176,7 +176,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                 
                                 {
                                     <IonItem><div className="ion-items-center">
-                                        <img onError={(e) => handleDefaultSrc(e)} src={auth?.user?.avatar ? auth?.user?.avatar : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOth66OC9IjxBJ2qqyFqbdzg19cZ1Bhbj4AWkruWZtygzopH9DUbV6vgrL7NlL_cOth6k&usqp=CAU"} alt="avatar" />
+                                        <IonImg onIonError={(e) => handleDefaultSrc(e)} src={auth?.user?.avatar ? auth?.user?.avatar : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOth66OC9IjxBJ2qqyFqbdzg19cZ1Bhbj4AWkruWZtygzopH9DUbV6vgrL7NlL_cOth6k&usqp=CAU"} alt="avatar" />
                                     </div></IonItem>
                                 }
 
@@ -274,9 +274,9 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
 
                             </Fragment> : selected === 1 ? <Fragment>
                                 <IonList>
-                                    <IonListHeader>
+                                    <IonListHeader className="ion-items-center">
                                         <IonTitle>
-                                            Current wallets
+                                            Pay accounts
 
                                         </IonTitle>
                                     </IonListHeader>
@@ -318,9 +318,9 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
 
                                 <IonList>
                                     
-                                    <IonListHeader>
+                                    <IonListHeader className="ion-items-center">
                                         <IonTitle>
-                                            Protection
+                                            Pay accounts
 
                                         </IonTitle>
                                     </IonListHeader>

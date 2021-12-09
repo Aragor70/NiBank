@@ -13,7 +13,6 @@ import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import TsxDetails from '../components/TsxDetails';
 import { clearTsx, getTsx } from '../store/actions/tsx';
-import auth from '../store/reducers/auth';
 
 const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
     const [ loadingData, setLoadingData ] = useState(false)

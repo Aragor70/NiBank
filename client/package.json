@@ -85,7 +85,7 @@
       "last 1 safari version"
     ]
   },
-  "description": "Register for Online Banking",
+  "description": "Register to Online Platform",
   "proxy": "http://localhost:5000",
   "devDependencies": {
     "@capacitor/cli": "3.2.5"

@@ -99,6 +99,8 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
                   </IonItem>
               </IonCardContent>
             </IonCard>
+            <IonCard>
+              <IonCardContent>
             {
               tsx?.from_id === auth?.user?.user_id ? auth?.user?.approved ? <Fragment>
                 <IonItem onClick={() => setIsOpen(!isOpen)}>
@@ -109,8 +111,11 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
                 </IonItem>
               </Fragment> : false : false
             }
+            </IonCardContent>
+            </IonCard>
+            
             {
-              (isOpen && auth?.user?.approved) ? tsx?.from_id === auth?.user?.user_id ? tsx?.to_project_id ? <CreateInvestment prevTsx={tsx} /> : <CreateTransfer prevTsx={tsx} /> : false : false
+              (isOpen && auth?.user?.approved) ? tsx?.from_id === auth?.user?.user_id ? tsx?.to_project_id ? <IonCard><IonCardContent><CreateInvestment prevTsx={tsx} /></IonCardContent></IonCard> : <IonCard><IonCardContent><CreateTransfer prevTsx={tsx} /></IonCardContent></IonCard> : false : false
             }
         </Fragment> : <Fragment>
             <IonCard>

@@ -4,6 +4,7 @@ import { card, checkmark, close, informationCircleOutline } from 'ionicons/icons
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 
@@ -71,7 +72,7 @@ const SecurityCenter: React.FC<any> = ({ tsx, history }) => {
                         How to protect yourself
                       </IonText>
                       <IonItemDivider className="ion-text-wrap">
-                        Find out what steps you can take to keep yourself safe and secure when banking online.
+                        Find out what steps you can take to keep yourself safe when investing online.
 
                       </IonItemDivider>
                     </IonLabel>
@@ -85,7 +86,7 @@ const SecurityCenter: React.FC<any> = ({ tsx, history }) => {
                         How we protect you
                       </IonText>
                       <IonItemDivider className="ion-text-wrap">
-                        When you bank online with NiVest, you're protected by our global security network and by advanced security technology.
+                        When you invest online with NiVest, you're protected by our global security network and by advanced security technology.
 
                       </IonItemDivider>
                     </IonLabel>
@@ -150,7 +151,11 @@ const SecurityCenter: React.FC<any> = ({ tsx, history }) => {
                         <IonCol className="ion-items-center"><IonIcon color="secondary" size="small" icon={informationCircleOutline}></IonIcon></IonCol>
                         <IonCol className="ion-items-center"><IonIcon color="secondary" size="small" icon={informationCircleOutline}></IonIcon></IonCol>
                         <IonCol className="ion-items-center">{index ? ((element.previous_hash !== element.current_hash) && (element.previous_hash === arry[index - 1].current_hash) ) ? <IonIcon icon={checkmark} color='success' size="large"></IonIcon> : <IonIcon icon={close} color='danger' size="large"></IonIcon> : <IonIcon icon={checkmark} color='success' size="large"></IonIcon>}</IonCol>
-                      </IonRow>) : false
+                      </IonRow>) : <IonRow>
+                        <IonCol>
+                          <NotFound message="No available transactions" />
+                        </IonCol>
+                      </IonRow>
                     }
 
                   </IonGrid>

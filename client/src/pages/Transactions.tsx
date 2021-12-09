@@ -11,7 +11,6 @@ import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import GlobalTsxListElement from '../components/tsx/GlobalTsxListElement';
-import { getBalance } from '../store/actions/tsx';
 import getMonthlyArry from '../utils/getMonthlyArry';
 
 const Transactions: React.FC<any> = ({ tsx }) => {
@@ -39,12 +38,12 @@ const Transactions: React.FC<any> = ({ tsx }) => {
 
         <IonCard>
             <IonCardContent>
-            <IonList>
-            {
-              tsx.loading ? <Loader /> : tsx?.tsxs?.length > 0 ? Object.values(getMonthlyArry(tsx?.tsxs, 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <GlobalTsxListElement key={element?.tsx_id || index} tsx={element} index={index} />)}</IonList></Fragment>) : 
-                <NotFound message="No available transactions." />
-            }
-            </IonList>
+              <IonList>
+                {
+                  tsx.loading ? <Loader /> : tsx?.tsxs?.length > 0 ? Object.values(getMonthlyArry(tsx?.tsxs, 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <GlobalTsxListElement key={element?.tsx_id || index} tsx={element} index={index} />)}</IonList></Fragment>) : 
+                    <NotFound message="No available transactions." />
+                }
+              </IonList>
             </IonCardContent>
         </IonCard>
       </IonList>

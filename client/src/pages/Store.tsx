@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
-import { checkmark } from 'ionicons/icons';
+import { businessOutline, card, checkmark } from 'ionicons/icons';
 import { withRouter } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import PageHeader from '../components/PageHeader';
@@ -26,14 +26,18 @@ const Store: React.FC<any> = ({ history }) => {
 
             </IonTitle>
         </IonListHeader>
-
-        <IonItem onClick={() => history.push('/projects')}>
-          Projects
-        </IonItem>
-        <IonItem onClick={() => history.push('/transactions')}>
-          Transactions
-        </IonItem>
-        
+        <IonCard>
+          <IonCardContent>
+            <IonItem onClick={() => history.push('/projects')}>
+              <IonIcon slot="start" icon={businessOutline} color="primary"></IonIcon>
+              <IonText>Projects</IonText>
+            </IonItem>
+            <IonItem onClick={() => history.push('/transactions')}>
+              <IonIcon slot="start" icon={card}></IonIcon>
+              <IonText>Transactions</IonText>
+            </IonItem>
+          </IonCardContent>
+        </IonCard>
       </IonList>
         
         

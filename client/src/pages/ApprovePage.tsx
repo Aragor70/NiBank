@@ -100,14 +100,14 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history, codeUpdate }) => {
             <IonItem>
               <IonIcon icon={informationCircleOutline} color="secondary" slot="start"></IonIcon>
               <IonText>
-                Update your email address again, carefully checking the spelling and any special characters
+                Update your email address again, carefully checking the spelling and any special characters.
               </IonText>
 
             </IonItem>
             <IonItem>
               <IonIcon icon={informationCircleOutline} color="secondary" slot="start"></IonIcon>
               <IonText>
-                Check your spam / junk folder
+                Check your spam / junk folder.
               </IonText>
               
             </IonItem>

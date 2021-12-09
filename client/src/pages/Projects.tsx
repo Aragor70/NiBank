@@ -34,15 +34,19 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
     })
     useEffect(() => {
 
+        const value = showMore;
+
         if (!project.underConsiderationProjects.length) {
-            setShowMore({...showMore, underConsideration: false})
+            value.underConsideration = false
         }
         if (!project.openProjects.length) {
-            setShowMore({...showMore, open: false})
+            value.open = false
         }
         if (!project.closedProjects.length) {
-            setShowMore({...showMore, closed: false})
+            value.closed = false
         }
+
+        setShowMore({ ...showMore, ...value })
 
     }, [])
 
@@ -67,10 +71,16 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
                 </IonTitle>
                 </IonListHeader>
                 {
-                    showMore.underConsideration ? project.underConsiderationProjects.length > 0 ? project.underConsiderationProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
-                    <NotFound message="No available projects." /> : false
+                    showMore.underConsideration ? <IonCard>
+                        <IonCardContent>
+                            {
+                                project.underConsiderationProjects.length > 0 ? project.underConsiderationProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
+                                <NotFound message="No available projects." />
+                            }
+                        </IonCardContent>
+                    </IonCard> : false
                 }
-                
+                        
                 </IonList>
 
                 <IonList>
@@ -81,9 +91,18 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
                     </IonTitle>
                     </IonListHeader>
                     {
-                        showMore.open ? project.openProjects.length > 0 ? project.openProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
-                        <NotFound message="No available projects." /> : false
+                        showMore.open ? <IonCard>
+                            <IonCardContent>
+
+                                {
+                                    project.openProjects.length > 0 ? project.openProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
+                                    <NotFound message="No available projects." />
+                                }
+
+                            </IonCardContent>
+                        </IonCard> : false
                     }
+                            
                 </IonList>
 
                 <IonList>
@@ -94,12 +113,19 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
                     </IonTitle>
                     </IonListHeader>
                     {
-                        showMore.closed ? project.closedProjects.length > 0 ? project.closedProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
-                        <NotFound message="No available projects." /> : false
+                        showMore.closed ? 
+                        
+                        <IonCard>
+                            <IonCardContent>
+                                {
+                                    project.closedProjects.length > 0 ? project.closedProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
+                                    <NotFound message="No available projects." />
+                                }
+                            </IonCardContent>
+                        </IonCard> : false
                     }
-                    
                 </IonList>
-                {
+                {/* {
                     auth?.user?.approved && <Fragment>
 
                         <IonItem>
@@ -109,7 +135,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
                         </IonItem>
 
                     </Fragment>
-                }
+                } */}
                 
             </Fragment>
         }

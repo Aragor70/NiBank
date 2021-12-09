@@ -42,7 +42,7 @@ const { email, password } = formData;
           
 
           <IonListHeader>
-            <IonTitle style={{ textAlign: 'center' }} color="dark">Log on to Online Banking</IonTitle>
+            <IonTitle style={{ textAlign: 'center' }} color="dark">Log on to Online Platform</IonTitle>
           </IonListHeader>
 
         <IonCard>
@@ -50,7 +50,7 @@ const { email, password } = formData;
 
 
           <IonCardHeader>
-            <IonTitle color="dark">Online Banking</IonTitle>
+            <IonTitle color="dark">Online Platform</IonTitle>
           </IonCardHeader>
           <IonCardContent>
 
@@ -75,13 +75,13 @@ const { email, password } = formData;
 
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>Register for Online Banking</IonCardTitle>
+            <IonCardTitle>Register to Online Platform</IonCardTitle>
 
           </IonCardHeader>
           <IonCardContent>
               
             <IonItem>
-            Manage your money online with our secure Online Banking service.
+              Manage your virtual money online with our secure Online Platform service.
 
             </IonItem>
                 

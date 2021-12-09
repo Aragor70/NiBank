@@ -15,7 +15,9 @@ import { Fragment, useEffect } from 'react';
 import { analytics, bookmarksOutline, bookOutline, businessOutline, card, extensionPuzzleOutline, open, people } from 'ionicons/icons';
 import Loader from '../components/Loader';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
-/* import { Bar } from 'react-chartjs-2'; */
+
+
+import snowman from '../theme/images/svg/snowman1.svg'
 
 const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, project }) => {
 
@@ -274,7 +276,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
         <IonList>
             <IonListHeader>
               <IonTitle style={{ textAlign: 'center' }}>
-                STATISTICS
+                Statistics
 
               </IonTitle>
             </IonListHeader>
@@ -422,6 +424,57 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
 
           <IonListHeader>
           <IonTitle style={{ textAlign: 'center' }}>
+            How it works?
+          </IonTitle>
+          </IonListHeader>
+          <IonCard>
+            <IonCardHeader>
+              Transaction notifications
+
+            </IonCardHeader>
+            <IonCardContent>
+              Get notified when money goes in or out of your account.
+
+            </IonCardContent>
+          </IonCard>
+          <IonCard>
+            <IonCardHeader>
+              Chat with us
+
+            </IonCardHeader>
+            <IonCardContent>
+              Chat with us at a time that’s convenient for you with 24/7 support on mobile chat. 
+
+
+            </IonCardContent>
+          </IonCard>
+          <IonCard>
+            <IonCardHeader>
+              Confirm your purchases
+
+            </IonCardHeader>
+            <IonCardContent>
+              Keep yourself safe from fraud by confirming online card payments in the app.
+
+
+
+            </IonCardContent>
+          </IonCard>
+          <IonCard>
+            <IonCardHeader>
+              You have no other choice
+
+            </IonCardHeader>
+            <IonCardContent>
+              The NiVest service exists only as a mobile application.
+
+            </IonCardContent>
+          </IonCard>
+        </IonList>
+        <IonList>
+
+          <IonListHeader>
+          <IonTitle style={{ textAlign: 'center' }}>
             Why use the app?
           </IonTitle>
           </IonListHeader>
@@ -469,8 +522,10 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
             </IonCardContent>
           </IonCard>
         </IonList>
+        
+      {/* <img src={snowman} width='100%' style={{ position: 'fixed', bottom: 0, zIndex: 1, opacity: '0.6' }} /> */}
       </IonContent>
-
+      
       
     </IonPage>
   );

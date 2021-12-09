@@ -400,6 +400,7 @@ http://ionicframework.com/docs/theming/ */
 
     --ion-background-color: #4d4d4d;
     
+    
     --ion-border-color: #dbdbdb;
 
     --ion-item-background: #4d4d4d;
@@ -412,13 +413,24 @@ http://ionicframework.com/docs/theming/ */
 
     
     --ion-color-step-550: #dbdbdb;
-  }
 
+    
+  }
+/* body.dark ion-content
+{
+  
+  --background: url('./images/svg/snowman2.svg') no-repeat fixed bottom;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+} */
 
 body.dark ion-card
 {
   box-shadow: 0 !important;
   border: 3px solid #dbdbdb;
+  z-index: 2;
 }
 
 body.dark ion-card ion-card

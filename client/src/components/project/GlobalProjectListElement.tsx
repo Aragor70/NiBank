@@ -1,5 +1,5 @@
 
-import { IonAvatar, IonBadge, IonButton, IonCard, IonCardContent, IonCardHeader, IonIcon, IonItem, IonProgressBar, IonRouterLink, IonText, IonTitle } from '@ionic/react';
+import { IonAvatar, IonBadge, IonButton, IonCard, IonCardContent, IonCardHeader, IonIcon, IonImg, IonItem, IonProgressBar, IonRouterLink, IonText, IonTitle } from '@ionic/react';
 import { accessibility, addCircleOutline, addOutline, businessOutline, cardOutline, lockClosed, lockClosedOutline, lockOpen, open, openOutline, peopleOutline, stopwatch, stopwatchOutline, trendingDown, trendingUp } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -12,22 +12,28 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history }) => 
   
   const getCountryCode = (str: string) => {
 
-    return Object.keys(ISO_COUNTRY_CODES).filter(function(key) {return ISO_COUNTRY_CODES[key]?.toLowerCase() === str?.toLowerCase()})[0];
+    return Object.keys(ISO_COUNTRY_CODES).filter(function(key) {return ISO_COUNTRY_CODES[key]?.toLowerCase()?.includes(str?.toLowerCase())})[0];
     
   }
+
+  
+    const handleDefaultSrc = (e: any) => {
+        e.target.src = 'https://www.investopedia.com/thmb/FKP-u7NEKNODSvAkMo-9WUz0E_c=/2121x1193/smart/filters:no_upscale()/GettyImages-1169053915-76068125fc394f9691db9edaf7c76baf.jpg'
+    }
 
   return (
     <Fragment>
 
       <IonCard style={{ position: 'relative' }}>
         
-          <IonBadge color="light" style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}>
-            <Flag code={getCountryCode(project.country) || ""} height="30" />
-          </IonBadge>
 
         <IonCardHeader>
           
           <IonItem>
+            
+            <IonBadge className="no-padding" color="light" slot="end" /* style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }} */>
+              <Flag code={getCountryCode(project.country) || ""} height="30" />
+            </IonBadge>
             <IonAvatar slot="start">
               {/* <IonIcon size="large" color="secondary" icon={project.status === "OPEN" ? lockOpen : lockClosed}></IonIcon> */}
               {
@@ -38,8 +44,10 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history }) => 
                 
               }
             </IonAvatar>
-            <IonTitle>
-              {project.projectname}
+            <IonTitle >
+              <div className="ion-text-wrap" style={{ textAlign: 'left' }}>
+                {project.projectname}
+              </div>
             </IonTitle>
           </IonItem>
           <IonItem>
@@ -59,10 +67,10 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history }) => 
 
           <IonItem>
             <IonText>
-              YieldPA
+              Yield
             </IonText>
             <IonText slot="end">
-              {project.yieldpa}
+              {project.yieldpa}%
             </IonText>
               
           </IonItem>
@@ -116,7 +124,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history }) => 
           {
             project.status !== "UNDER_CONSIDERATION" && <Fragment>
                 <IonItem style={{ position: 'relative'}}>
-                  <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1', backgroundColor: '#fff' }} color="light">Invested: {project.volumeinvested} {project.currency} ({ (project.volumeinvested / project.volumetotal).toFixed(3)} %)</IonBadge>
+                  <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1' }} color="light">Invested: {project.volumeinvested} {project.currency} ({ (project.volumeinvested / project.volumetotal).toFixed(3)} %)</IonBadge>
                   <IonProgressBar style={{ position: 'absolute', bottom: '12px', left: 0, padding: 0 }} value={project.volumeinvested / project.volumetotal}></IonProgressBar>
                     
                 </IonItem>
@@ -129,7 +137,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history }) => 
 
 
         {
-          project?.images && <img src={project?.images[0] } />
+          project?.images && <IonImg src={project?.images[0] } onIonError={(e) => handleDefaultSrc(e)} alt="property" />
         }
         <IonItem>
           <div className="ion-items-center">

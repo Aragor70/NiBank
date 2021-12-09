@@ -57,7 +57,7 @@ const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormDa
                 </IonItem>
                 <IonItem>
                     <IonLabel className="ion-text-wrap">
-                    I accept the Digital Banking Terms for Online and Mobile Banking
+                        I accept the terms of use of the digital in online and mobile platform
                     </IonLabel>
                     {
                         termsAndConditions ? <Fragment>

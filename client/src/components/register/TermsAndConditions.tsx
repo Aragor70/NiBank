@@ -742,7 +742,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         <IonItem>
         <IonCheckbox onClick={ () => setFormData({ ...formData, termsAndConditions: !termsAndConditions }) } slot="start"></IonCheckbox>
         <IonLabel className="ion-text-wrap">
-            I accept the Digital Banking Terms for Online and Mobile Banking
+            I accept the terms of use of the digital in online and mobile platform
         </IonLabel>
         </IonItem>
         <IonItem>

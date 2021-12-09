@@ -130,7 +130,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
                       </IonItem>
                       <IonItem onClick={()=> setSelectView({ transfer: 1 })}>
 
-                      <IonIcon icon={people} slot="start" color="primary"></IonIcon>
+                      <IonIcon icon={people} slot="start" ></IonIcon>
                       <IonText>
                         Transfer to the recipient
                       </IonText>
