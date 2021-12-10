@@ -12,6 +12,7 @@ import CreateProject from '../components/form/CreateProject';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import PlatformOverwiev from '../components/PlatformOverwiev';
+import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 import { clearProject, getProject, newProject } from '../store/actions/project';
 
 const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
@@ -33,6 +34,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
     typeofinvestment: '',
     project: '',
     image: '',
+    images: []
   });
 
 
@@ -54,6 +56,9 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
 
   }
   const handleChange = (e: any) => {
+    if (e.target.name === 'images') {
+        return setFormData({...formData, images: [e.target.value]})
+    }
     return setFormData({...formData, [e.target.name]: e.target.value})
   }
 
@@ -82,7 +87,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
     }
 
   }
-
+  console.log(formData)
 
   return (
     <IonPage>
@@ -164,7 +169,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
 
                         <IonItem>
                           <IonLabel>Image</IonLabel>
-                          <IonInput type="text" autocomplete={"off"} slot="end" name="image" value={formData.image || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+                          <IonInput type="text" autocomplete={"off"} slot="end" name="images" value={formData.images ? formData.images[0] : ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
                         
                         </IonItem>
 
@@ -372,9 +377,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
                       </IonCardHeader>
                       <IonCardContent>
 
-                      <IonItem>
-                        
-                      </IonItem>
+                        <GlobalProjectListElement project={formData} />
 
                       </IonCardContent>
 
