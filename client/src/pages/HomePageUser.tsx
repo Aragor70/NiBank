@@ -257,21 +257,24 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
             selectWalletView < account?.wallets?.length && <IonIcon onClick={() => nextSlide()} icon={returnDownForward} size="large" color="dark" style={{ position: 'absolute', bottom: 0, right: 0, zIndex: 10 }}></IonIcon>
           }
           </section>
-          <IonCard>
-          
-            <IonCardContent>
               {
                 auth?.user?.approved ? <Fragment>
-                    <IonList className="ion-items-center" style={{ flexDirection: 'row' }} >
-                      {
-                        account?.wallets?.length ? <Fragment>{account?.wallets?.map((element: any, index: number) => <IonItem key={index}><div className="ion-items-center" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem>)}<IonItem><div className="ion-items-center" onClick={() => handleWalletChange(account?.wallets?.length || 0)}><IonIcon color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''} icon={addCircle} size="small"></IonIcon><IonText color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''}>NEW</IonText></div></IonItem></Fragment> : <Fragment><IonItem><div className="ion-items-center"><IonIcon color="primary" icon={addCircle} size="small"></IonIcon><IonText color="primary">NEW</IonText></div></IonItem></Fragment>
-                      }
-                    </IonList>
+
+                <IonCard>
+                          
+                    <IonCardContent>
+
+                      <IonList className="ion-items-center" style={{ flexDirection: 'row' }} >
+                        {
+                          account?.wallets?.length ? <Fragment>{account?.wallets?.map((element: any, index: number) => <IonItem key={index}><div className="ion-items-center" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem>)}<IonItem><div className="ion-items-center" onClick={() => handleWalletChange(account?.wallets?.length || 0)}><IonIcon color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''} icon={addCircle} size="small"></IonIcon><IonText color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''}>NEW</IonText></div></IonItem></Fragment> : <Fragment><IonItem><div className="ion-items-center"><IonIcon color="primary" icon={addCircle} size="small"></IonIcon><IonText color="primary">NEW</IonText></div></IonItem></Fragment>
+                        }
+                      </IonList>
+
+                    </IonCardContent>
+                </IonCard>
+            
                 </Fragment> : false
               }
-            </IonCardContent>
-          </IonCard>
-            
           
           </IonList>
 

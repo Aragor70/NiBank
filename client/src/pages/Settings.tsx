@@ -49,7 +49,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
         try {
             e.preventDefault();
 
-            const res = await axios.put('/api/auth', avatarField)
+            await axios.put('/api/auth', avatarField)
 
         } catch (err: any) {
             console.log(err.message)
@@ -200,7 +200,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                                     </IonRow>
                                                     <IonRow>
                                                         <IonCol className="ion-items-center">
-                                                            <IonButton type="button" onClick={() => setOpenAvatarInput(false)} size="small" style={{ width: '80%'}}>Cancel</IonButton>
+                                                            <IonButton type="button" color="secondary" onClick={() => setOpenAvatarInput(false)} size="small" style={{ width: '80%'}}>Cancel</IonButton>
                                                         </IonCol>
                                                         <IonCol className="ion-items-center">
                                                             <IonButton type="submit" disabled={!(avatarField?.avatar)} size="small" style={{ width: '80%'}}>Save</IonButton>
@@ -208,8 +208,8 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                                     </IonRow>
                                                 </IonGrid>
                                                 </form>
-                                                </Fragment> : <IonButton color="grey" style={{ color: "#000"}} onClick={() => setOpenAvatarInput(!openAvatarInput)}>
-                                                    Update your picture
+                                                </Fragment> : <IonButton color="white" onClick={() => setOpenAvatarInput(!openAvatarInput)}>
+                                                    <IonText color="dark" >Update your picture</IonText>
                                                 </IonButton>
                                         }
 

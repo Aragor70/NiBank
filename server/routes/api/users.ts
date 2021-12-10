@@ -88,7 +88,7 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
     user = await pool.query(
         `INSERT INTO accounts (name, email, password, avatar, public_key, private_key, account_type, code) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`, [userName, email, safePassword, avatar || '', publicKey, privateKey, accountType, '']
     );
-
+    console.log(user)
     const payload = {
         user: {
             id: user.user_id

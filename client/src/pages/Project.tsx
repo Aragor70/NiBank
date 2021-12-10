@@ -288,29 +288,33 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
 
                             </IonCard>
-                            <IonCard>
+                            {
+                                formData.status !== "UNDER_CONSIDERATION" ?
+                                    <IonCard>
 
-                                <IonCardContent>
-                                    <IonList>
+                                        <IonCardContent>
+                                            <IonList>
 
-                                                     
-                                        <IonItem>
-                                            <IonLabel>Start date</IonLabel>
-                                            <IonInput type="date" autocomplete={"off"} slot="end" name="startdate" value={formData.startdate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
-                                        
-                                        </IonItem>
+                                                            
+                                                <IonItem>
+                                                    <IonLabel>Start date</IonLabel>
+                                                    <IonInput type="date" autocomplete={"off"} slot="end" name="startdate" value={formData.startdate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+                                                
+                                                </IonItem>
 
-                                        <IonItem>
-                                            <IonLabel>Close date</IonLabel>
-                                            <IonInput type="date" autocomplete={"off"} slot="end" name="closedate" value={formData.closedate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
-                                        
-                                        </IonItem>
-                                        
-                                    </IonList>
-                                </IonCardContent>
+                                                <IonItem>
+                                                    <IonLabel>Close date</IonLabel>
+                                                    <IonInput type="date" autocomplete={"off"} slot="end" name="closedate" value={formData.closedate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+                                                
+                                                </IonItem>
+                                                
+                                            </IonList>
+                                        </IonCardContent>
 
 
-                            </IonCard>
+                                    </IonCard> : false
+                            }
+                            
                             <IonCard>
 
                                 <IonCardContent>
@@ -319,7 +323,8 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                                      
                                     <IonItem>
                                         <IonLabel>Status</IonLabel>
-                                        <IonSelect slot="end" name="status" onIonChange={(e: any) => handleChange(e)}>
+                                        <IonSelect slot="end" name="status" value={formData.status || ""} onIonChange={(e: any) => handleChange(e)}>
+                                            <IonSelectOption value="UNDER_CONSIDERATION">UNDER_CONSIDERATION</IonSelectOption>
                                             <IonSelectOption value="OPEN">OPEN</IonSelectOption>
                                         </IonSelect>
                                         
@@ -336,7 +341,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                     
                                         <IonItem>
                                             <form onSubmit={(e: any) => handleSubmit(e)} className="ion-items-center">
-                                                <IonButton type='submit' size="default" slot="end" /* onClick={()=> nextSlide()} */>Continue</IonButton>
+                                                <IonButton type='submit' size="default" slot="end" /* onClick={()=> nextSlide()} */>Save changes</IonButton>
                                             </form>
                                         </IonItem>
                                     </IonList>
