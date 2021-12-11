@@ -1,5 +1,5 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonCardSubtitle, IonText, IonGrid, IonRow, IonCol, IonLabel, IonButtons } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonCardSubtitle, IonText, IonGrid, IonRow, IonCol, IonLabel, IonButtons, IonImg } from '@ionic/react';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -420,57 +420,6 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
           </Fragment> : false
         }
 
-        <IonList>
-
-          <IonListHeader>
-          <IonTitle style={{ textAlign: 'center' }}>
-            How it works?
-          </IonTitle>
-          </IonListHeader>
-          <IonCard>
-            <IonCardHeader>
-              Transaction notifications
-
-            </IonCardHeader>
-            <IonCardContent>
-              Get notified when money goes in or out of your account.
-
-            </IonCardContent>
-          </IonCard>
-          <IonCard>
-            <IonCardHeader>
-              Chat with us
-
-            </IonCardHeader>
-            <IonCardContent>
-              Chat with us at a time that’s convenient for you with 24/7 support on mobile chat. 
-
-
-            </IonCardContent>
-          </IonCard>
-          <IonCard>
-            <IonCardHeader>
-              Confirm your purchases
-
-            </IonCardHeader>
-            <IonCardContent>
-              Keep yourself safe from fraud by confirming online card payments in the app.
-
-
-
-            </IonCardContent>
-          </IonCard>
-          <IonCard>
-            <IonCardHeader>
-              You have no other choice
-
-            </IonCardHeader>
-            <IonCardContent>
-              The NiVest service exists only as a mobile application.
-
-            </IonCardContent>
-          </IonCard>
-        </IonList>
         <IonList>
 
           <IonListHeader>

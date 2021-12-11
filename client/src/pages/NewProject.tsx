@@ -377,7 +377,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
                       </IonCardHeader>
                       <IonCardContent>
 
-                        <GlobalProjectListElement project={formData} />
+                        <GlobalProjectListElement project={formData} isSample={true} />
 
                       </IonCardContent>
 

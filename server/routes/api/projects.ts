@@ -18,7 +18,7 @@ router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
         
         const projects = await pool.query('SELECT * FROM projects');
         
-        res.json({ projects: projects.rows});
+        res.json({ projects: projects.rows, message: 'Success' });
 
 }));
 
@@ -32,7 +32,7 @@ router.get('/:project_id', asyncHandler( async (req: any, res: any, next: any) =
         }
         const projects = await pool.query(`SELECT * FROM projects where project_id = $1`, [ req.params.project_id ]);
         
-        res.json({ projects: projects.rows});
+        res.json({ projects: projects.rows, message: 'Success', success: true });
 
 }));
 
@@ -74,7 +74,7 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
         const projects = await pool.query(`INSERT INTO projects (owner_id, startdate, closedate, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, term, volumeinvested, images, listofinvestors, long_description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING *`, [ user.user_id, startdate || today, closedate || null, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, term, 0, images, [], long_description ]);
 
-        res.json({ project: projects.rows[0], message: 'Success' });
+        res.json({ project: projects.rows[0], message: 'Success', success: true });
 
 }));
 
@@ -127,7 +127,7 @@ router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) 
         
         const tsx = await pool.query(`INSERT INTO transactions (from_id, to_project_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`, [ user.user_id, project.project_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
 
-        res.json({ tsx: tsx.rows[0], message: 'success' });
+        res.json({ tsx: tsx.rows[0], message: 'success', success: true });
 
 }));
 
@@ -191,7 +191,7 @@ router.put('/:project_id', asyncHandler( async (req: any, res: any, next: any) =
 
     const projects = await pool.query(`UPDATE projects SET owner_id = $1, startdate = $2, closedate = $3, projectname = $4, country = $5, yieldpa = $6, volumetotal = $7, minimuminvestment = $8, description = $9, currency = $10, status = $11, typeofproperty = $12, typeofinvestment = $13, project = $14, term = $15, volumeinvested = $16, images = $17, listofinvestors = $18, long_description = $19 WHERE project_id = $20 RETURNING *`, [ user.user_id, startdate || today, closedate || null, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, term, 0, images, [], long_description, project_id ]);
 
-    res.json({ project: projects.rows[0], message: 'Success' });
+    res.json({ project: projects.rows[0], message: 'Success', success: true });
 
 }));
 
@@ -217,8 +217,6 @@ router.delete('/:project_id', asyncHandler( async (req: any, res: any, next: any
     const projectObject = await pool.query(`SELECT * FROM projects WHERE project_id = $1`, [project_id]);
     const currentProject = projectObject.rows[0] || false;
     
-
-
     if (currentProject?.owner_id !== user?.user_id) {
         return next(new ErrorResponse('You cannot delete the project opportunity that you do not own.', 401))
     }
@@ -229,7 +227,7 @@ router.delete('/:project_id', asyncHandler( async (req: any, res: any, next: any
 
     const projects = await pool.query(`DELETE FROM projects WHERE project_id = $1 RETURNING *`, [project_id]);
 
-    res.json({ project: projects.rows[0], message: 'Success' });
+    res.json({ project: projects.rows[0], message: 'Success', success: true });
 
 }));
 

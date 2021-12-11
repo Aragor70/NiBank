@@ -85,21 +85,29 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
     const publicKey = key.getPublic('hex');
     const privateKey = key.getPrivate('hex');
     
-    user = await pool.query(
-        `INSERT INTO accounts (name, email, password, avatar, public_key, private_key, account_type, code) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`, [userName, email, safePassword, avatar || '', publicKey, privateKey, accountType, '']
+    const users = await pool.query(
+        `INSERT INTO accounts (name, email, password, avatar, public_key, private_key, account_type, code) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`, [userName, email, safePassword, avatar || '', publicKey, privateKey, accountType, '']
     );
-    console.log(user)
+    
+    user = users?.rows[0];
+
+
     const payload = {
         user: {
             id: user.user_id
         }
     }
-    const JWTSecretKey: any = process.env["jwtSecret"]
+
+
+    const JWTSecretKey: any = process.env["jwtSecret"];
+    
     return jwt.sign(payload, JWTSecretKey, { expiresIn: 360000 },
         async (err, token) => {
             if(err) {
                 return next(new ErrorResponse(err.message, 422))
             }
+
+            
             const code = (Math.floor(100000 + Math.random() * 900000)).toString()
 
             user.code = code || '';
