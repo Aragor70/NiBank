@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert";
-import { Project_Create_Success, Project_Create_Fail, Get_Projects_Success, Get_Open_Projects_Success, Get_Under_Consideration_Projects_Success, Get_Closed_Projects_Success, Get_Project_Success, Get_Project_Fail, Get_Projects_Fail, Get_Open_Projects_Fail, Get_Under_Consideration_Projects_Fail, Get_Closed_Projects_Fail, Project_Loading, Project_Update_Success, Project_Update_Fail } from './types';
+import { Project_Create_Success, Project_Create_Fail, Get_Projects_Success, Get_Open_Projects_Success, Get_Under_Consideration_Projects_Success, Get_Closed_Projects_Success, Get_Project_Success, Get_Project_Fail, Get_Projects_Fail, Get_Open_Projects_Fail, Get_Under_Consideration_Projects_Fail, Get_Closed_Projects_Fail, Project_Loading, Project_Update_Success, Project_Update_Fail, Project_Delete_Success, Project_Delete_Fail } from './types';
 import { Account_Loading, Get_My_Investments_Fail, Get_My_Investments_Success } from '../tsx/types';
 
 export const newProject = (formData: any, history: any, present: any) => async(dispatch: Dispatch<any>) => {
@@ -38,12 +38,39 @@ export const updateProject = (formData: any, present: any) => async(dispatch: Di
 
         const res: any = await axios.put(`/api/projects/${formData.project_id}`, formData);
         
-        dispatch({ type: Project_Update_Success, payload: res.data })
+        dispatch({ type: Project_Update_Success, payload: res.data.project })
         
         dispatch(setAlert(res.data.message, 'success'))
         
     } catch (err: any) {
         dispatch({ type: Project_Update_Fail });
+        dispatch(setAlert(err.response.data.message, 'danger'))
+
+        present({
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
+            buttons: [
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
+        
+    }
+}
+
+export const deleteProject = (id: any, present: any) => async(dispatch: Dispatch<any>) => {
+    try {
+        dispatch({ type: Project_Loading });
+
+        const res: any = await axios.delete(`/api/projects/${id}`);
+        
+        dispatch({ type: Project_Delete_Success })
+        
+        dispatch(setAlert(res.data.message, 'success'))
+        
+    } catch (err: any) {
+        dispatch({ type: Project_Delete_Fail });
         dispatch(setAlert(err.response.data.message, 'danger'))
 
         present({

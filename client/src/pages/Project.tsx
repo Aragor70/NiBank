@@ -12,10 +12,10 @@ import Loader from '../components/Loader';
 import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import { clearProject, getProject, updateProject } from '../store/actions/project';
+import { clearProject, deleteProject, getProject, updateProject } from '../store/actions/project';
 import { ISO_COUNTRY_CODES } from '../utils/constants';
 
-const Project: React.FC<any> = ({ project, match, getProject, auth, updateProject, history }) => {
+const Project: React.FC<any> = ({ project, match, getProject, auth, updateProject, history, deleteProject }) => {
     
         
     const [formData, setFormData] = useState<any>({
@@ -99,6 +99,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
         return Object.keys(ISO_COUNTRY_CODES).filter(function(key) {return ISO_COUNTRY_CODES[key]?.toLowerCase()?.includes(str?.toLowerCase())})[0];
         
     }
+    
 
     
     useEffect(() => {
@@ -125,6 +126,21 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
         }
     
       }, [project?.project, project.loading, formData?.project_id])
+
+
+      const displayDelete = () => {
+
+        present({
+            cssClass: 'error-message',
+            header: 'Confirmation',
+            message: 'Are you sure to delete this project?',
+            buttons: [
+              { text: 'Confirm', handler: async() => deleteProject(formData?.project_id, present) },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
+
+      }
 
   return (
     <IonPage>
@@ -270,7 +286,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                             
                                         </IonItem>
                                         <IonItem>
-                                            <IonTextarea slot="end" name="description" value={formData.description || ""} onIonChange={(e: any) => handleChange(e)}></IonTextarea>
+                                            <IonTextarea name="description" value={formData.description || ""} onIonChange={(e: any) => handleChange(e)}></IonTextarea>
                                         
                                         </IonItem>
 
@@ -279,7 +295,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                             
                                         </IonItem>
                                         <IonItem>
-                                            <IonTextarea slot="end" name="long_description" value={formData.long_description || ""} onIonChange={(e: any) => handleChange(e)}></IonTextarea>
+                                            <IonTextarea name="long_description" value={formData.long_description || ""} onIonChange={(e: any) => handleChange(e)}></IonTextarea>
                                         
                                         </IonItem>
                                         
@@ -304,7 +320,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
                                                 <IonItem>
                                                     <IonLabel>Close date</IonLabel>
-                                                    <IonInput type="date" autocomplete={"off"} slot="end" name="closedate" value={formData.closedate || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+                                                    <IonInput type="date" autocomplete={"off"} slot="end" name="closedate" value={formData.closedate || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
                                                 
                                                 </IonItem>
                                                 
@@ -343,6 +359,9 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                             <form onSubmit={(e: any) => handleSubmit(e)} className="ion-items-center">
                                                 <IonButton type='submit' size="default" slot="end" /* onClick={()=> nextSlide()} */>Save changes</IonButton>
                                             </form>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonButton type='submit' color="danger" size="default" slot="end" onClick={()=> displayDelete()}>DELETE</IonButton>
                                         </IonItem>
                                     </IonList>
                                 </IonCardContent>
@@ -549,4 +568,4 @@ const mapStateToProps = (state: any) => ({
     project: state.project,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getProject, updateProject })(withRouter(Project));
+export default connect(mapStateToProps, { getProject, updateProject, deleteProject })(withRouter(Project));

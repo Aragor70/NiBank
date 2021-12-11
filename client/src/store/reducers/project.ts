@@ -1,4 +1,4 @@
-import { Project_Create_Success, Project_Create_Fail, Get_Projects_Success, Get_Open_Projects_Success, Get_Under_Consideration_Projects_Success, Get_Closed_Projects_Success, Get_Projects_Fail, Get_Open_Projects_Fail, Get_Under_Consideration_Projects_Fail, Get_Closed_Projects_Fail, Get_Project_Success, Get_Project_Fail, Project_Loading } from '../actions/project/types'
+import { Project_Create_Success, Project_Create_Fail, Get_Projects_Success, Get_Open_Projects_Success, Get_Under_Consideration_Projects_Success, Get_Closed_Projects_Success, Get_Projects_Fail, Get_Open_Projects_Fail, Get_Under_Consideration_Projects_Fail, Get_Closed_Projects_Fail, Get_Project_Success, Get_Project_Fail, Project_Loading, Project_Update_Success, Project_Update_Fail, Project_Delete_Success, Project_Delete_Fail } from '../actions/project/types'
 
 
 export const initialState = {
@@ -31,11 +31,23 @@ const project = (state: any = initialState, action: any) => {
         case Get_Closed_Projects_Success:
             return {...state, closedProjects: payload, loading: false }
 
+        case Project_Update_Success:
+            return {...state, project: payload, loading: false }
+
+        case Project_Delete_Success:
+            return {...state, project: null, loading: false }
+
+        case Project_Delete_Fail:
+            return {...state, loading: false }
+
         case Project_Create_Success:
             return {...state, projects: [...state.projects, payload.project], openProjects: payload.project.status === "OPEN" ? [...state.openProjects, payload.project] : state.openProjects, closedProjects: payload.project.status !== "OPEN" ? [...state.closedProjects, payload.project] : state.closedProjects, loading: false }
 
         case Get_Projects_Fail:
             return {...state, projects: [], loading: false }
+
+        case Project_Update_Fail:
+            return {...state, loading: false }
 
         case Get_Project_Fail:
             return {...state, project: null, loading: false }

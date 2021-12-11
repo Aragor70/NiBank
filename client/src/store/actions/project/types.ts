@@ -12,4 +12,6 @@ export const Project_Create_Fail = 'Project_Create_Fail';
 export const Get_Under_Consideration_Projects_Fail = 'Get_Under_Consideration_Projects_Fail';
 export const Get_Project_Fail = 'Get_Project_Fail';
 export const Project_Update_Fail = 'Project_Update_Fail';
+export const Project_Delete_Success = 'Project_Delete_Success';
+export const Project_Delete_Fail = 'Project_Delete_Fail';
 export const Project_Loading = 'Project_Loading';

@@ -137,7 +137,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history }) => 
 
 
         {
-          project?.images && <IonImg src={project?.images[0] } onIonError={(e) => handleDefaultSrc(e)} alt="property" />
+          project?.images && <IonImg src={project?.images[0] || "" } onIonError={(e) => handleDefaultSrc(e)} alt="property" />
         }
         <IonItem>
           <div className="ion-items-center">

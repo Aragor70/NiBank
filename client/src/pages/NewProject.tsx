@@ -125,7 +125,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
                       
                     <IonItem>
                       <IonText>
-                        Provide details of the property project. 
+                        Provide details of the financing project. 
                       </IonText>
                     </IonItem>
                       
