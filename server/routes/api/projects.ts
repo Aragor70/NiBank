@@ -18,7 +18,7 @@ class ProjectController {
         this.getProjects = this.getProjects.bind(this);
     }
 
-    getProjects = asyncHandler (async (req: any, res: any, next: any) => {
+    getProjects = asyncHandler(async (req: any, res: any, next: any) => {
         
         const projects = await pool.query('SELECT * FROM projects');
         
