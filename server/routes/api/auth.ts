@@ -126,22 +126,19 @@ router.put('/', asyncHandler(async (req: Request, res: Response, next: NextFunct
     const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
 
     const user = rows[0] || false;
-    console.log(user)
+    
     if (!user) {
         return next(new ErrorResponse('Go to log on.', 422))
     }
 
-     if ( email ) {
-        await pool.query(`UPDATE accounts SET first_name = $1, last_name = $2, gender_title = $3, date_of_birth = $4, country = $5, email = $6 WHERE email = $7`, [ first_name, last_name, gender_title, date_of_birth, country, email, user.email ]);
-        
+    if (email) {
+        const users = await pool.query(`UPDATE accounts SET first_name = $1, last_name = $2, gender_title = $3, date_of_birth = $4, country = $5, email = $6 WHERE email = $7 RETURNING *`, [ first_name, last_name, gender_title, date_of_birth, country, email, user.email ]);
+        return res.json({ success: true, user: users?.rows[0] });
     } else {
-        console.log(avatar)
-        await pool.query(`UPDATE accounts SET avatar = $1 WHERE email = $2`, [ avatar, user.email ]);
-        
+        const users = await pool.query(`UPDATE accounts SET avatar = $1 WHERE email = $2  RETURNING *`, [ avatar, user.email ]);
+        return res.json({ success: true, user: users?.rows[0] });
     }
 
-
-    res.json({ success: true });
        
 }));
 

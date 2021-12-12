@@ -14,7 +14,7 @@ export const newProject = (formData: any, history: any, present: any) => async(d
         
         dispatch(setAlert(res.data.message, 'success'))
 
-        history.push('/')
+        history.push(`/projects/${res?.data?.project?.project_id}`);
         
     } catch (err: any) {
         dispatch({ type: Project_Create_Fail });

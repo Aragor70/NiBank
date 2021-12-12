@@ -55,14 +55,14 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
         
         const { startdate, closedate, projectname, country, status, yieldpa, volumetotal, minimuminvestment, description, currency, typeofproperty, typeofinvestment, project, images, long_description } = req.body;
         
-        
-
-        
-        if (status === 'UNDER_CONSIDERATION') {
-            const projects = await pool.query(`INSERT INTO projects (owner_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, volumeinvested, images, listofinvestors, long_description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`, [ user.user_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, 0, images, [], long_description ]);
-            return res.json({ project: projects.rows[0], message: 'Success', success: true });
+        if (status !== 'UNDER_CONSIDERATION') {
+            return next(new ErrorResponse('Submit opportinity with a status under consideration.', 404))
         }
-
+        
+        const projects = await pool.query(`INSERT INTO projects (owner_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, volumeinvested, images, listofinvestors, long_description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`, [ user.user_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, 0, images, [], long_description ]);
+        res.json({ project: projects.rows[0], message: 'Success', success: true });
+        
+/* 
         const today = moment().format('YYYY-MM-DD');
 
         const a = moment(closedate);
@@ -75,7 +75,7 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
         const projects = await pool.query(`INSERT INTO projects (owner_id, startdate, closedate, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, term, volumeinvested, images, listofinvestors, long_description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING *`, [ user.user_id, startdate || today, closedate || null, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, term, 0, images, [], long_description ]);
 
-        res.json({ project: projects.rows[0], message: 'Success', success: true });
+        res.json({ project: projects.rows[0], message: 'Success', success: true }); */
 
 }));
 

@@ -189,7 +189,7 @@ export const update = (formData: any) => async(dispatch: Dispatch<AuthDispatchTy
         dispatch({type: Loading_Auth })
         const res: any = await axios.put('/api/auth', formData);
         
-        dispatch({type: User_Update, payload: res.data})
+        dispatch({type: User_Update, payload: res?.data})
         
         
     } catch (err: any) {

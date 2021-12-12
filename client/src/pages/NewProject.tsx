@@ -18,24 +18,25 @@ import { clearProject, getProject, newProject } from '../store/actions/project';
 const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
     const [ loadingData, setLoadingData ] = useState(false)
 
+    const slides: any = useRef(null)
     
-  const [formData, setFormData] = useState<any>({
-    startdate: '',
-    closedate: '',
-    projectname: '',
-    country: '',
-    yieldpa: '',
-    volumetotal: '',
-    minimuminvestment: '',
-    description: '',
-    currency: '',
-    status: '',
-    typeofproperty: '',
-    typeofinvestment: '',
-    project: '',
-    image: '',
-    images: []
-  });
+    const [formData, setFormData] = useState<any>({
+      startdate: '',
+      closedate: '',
+      projectname: '',
+      country: '',
+      yieldpa: '',
+      volumetotal: '',
+      minimuminvestment: '',
+      description: '',
+      currency: '',
+      status: '',
+      typeofproperty: '',
+      typeofinvestment: '',
+      project: '',
+      image: '',
+      images: []
+    });
 
 
     
@@ -46,7 +47,27 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
       e.preventDefault();
 
       await newProject(formData, history, present)
-      setFormData({})
+      setFormData({
+        startdate: '',
+        closedate: '',
+        projectname: '',
+        country: '',
+        yieldpa: '',
+        volumetotal: '',
+        minimuminvestment: '',
+        description: '',
+        currency: '',
+        status: '',
+        typeofproperty: '',
+        typeofinvestment: '',
+        project: '',
+        image: '',
+        images: []
+      })
+
+      const swiper = await slides.current.getSwiper();
+      
+      swiper.slideTo(0)
 
     } catch (err: any) {
 
@@ -64,7 +85,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
 
 
   
-  const slides: any = useRef(null)
+
   const prevSlide = async () => {
 
     if (slides.current) {
@@ -87,7 +108,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
     }
 
   }
-  console.log(formData)
+
 
   return (
     <IonPage>
@@ -131,10 +152,9 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
                       
                     <IonItem>
                       <IonText>
-                        We will confirm your application whether is appropriate to start the fundraising process or not.
+                        After submitting the project in the status under consideration, you can update further details and in the next step move the opportunity to the active status.                      
                       </IonText>
                     </IonItem>
-
                     </IonCardContent>
                 </IonCard>
 

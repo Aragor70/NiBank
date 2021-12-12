@@ -11,7 +11,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
 
   
   const getCountryCode = (str: string) => {
-    console.log(str)
+    if (!str) return ""
     return Object.keys(ISO_COUNTRY_CODES).filter(function(key) {return ISO_COUNTRY_CODES[key]?.toLowerCase()?.includes(str?.toLowerCase())})[0];
     
   }
@@ -74,18 +74,22 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
             </IonText>
               
           </IonItem>
-          <IonItem>
-            <IonText>
-              Term
-            </IonText>
-            <IonText slot="end">
-              {
-                project.term ? <Fragment>{project.term} days</Fragment> : 'N/A'
-              }
-              
-            </IonText>
-              
-          </IonItem>
+          {
+            !isSample && 
+            
+              <IonItem>
+                <IonText>
+                  Term
+                </IonText>
+                <IonText slot="end">
+                  {
+                    project.term ? <Fragment>{project.term} days</Fragment> : 'N/A'
+                  }
+                  
+                </IonText>
+                  
+              </IonItem>
+          }
           <IonItem>
             <IonText>
               Type of property
@@ -122,7 +126,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
           </IonItem>
           
           {
-            project.status !== "UNDER_CONSIDERATION" && <Fragment>
+            ((project.status !== "UNDER_CONSIDERATION") && !isSample) && <Fragment>
                 <IonItem style={{ position: 'relative'}}>
                   <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1' }} color="light">Invested: {project.volumeinvested} {project.currency} ({ (project.volumeinvested / project.volumetotal).toFixed(3)} %)</IonBadge>
                   <IonProgressBar style={{ position: 'absolute', bottom: '12px', left: 0, padding: 0 }} value={project.volumeinvested / project.volumetotal}></IonProgressBar>

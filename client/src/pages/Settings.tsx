@@ -49,7 +49,9 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
         try {
             e.preventDefault();
 
-            await axios.put('/api/auth', avatarField)
+            await update(avatarField);
+
+            setOpenAvatarInput(false);
 
         } catch (err: any) {
             console.log(err.message)
@@ -68,8 +70,6 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
             e.preventDefault()
 
             await update(formData)
-            
-            await loadUser()
 
         } catch (err: any) {
             console.log(err.message)
@@ -81,10 +81,25 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
 
         if (auth?.user) {
             setFormData({ ...formData, ...auth.user })
-            setMainWallet({ ...mainWallet, main_wallet: auth.user.main_wallet })
+            setMainWallet({ ...mainWallet, main_wallet: auth?.user?.main_wallet })
         }
         
-
+        return () => {
+            
+            if (auth?.user) {
+                setFormData({
+                    first_name: '',
+                    last_name: '',
+                    gender_title: 'None',
+                    date_of_birth: moment().format('YYYY-MM-DD'),
+                    country: '',
+                    email: ''
+                })
+                setMainWallet({
+                    main_wallet: ''
+                })
+            }
+        }
 
     }, [auth?.user, auth?.loading])
 

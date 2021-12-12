@@ -28,9 +28,9 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
     const [ step, setStep ] = useState<any>(0);
 
     const [ showMore, setShowMore ] = useState({
-        underConsideration: true,
+        underConsideration: false,
         open: true,
-        closed: true
+        closed: false
     })
     useEffect(() => {
 
@@ -48,6 +48,13 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
 
         setShowMore({ ...showMore, ...value })
 
+        return () => {
+            setShowMore({
+                underConsideration: false,
+                open: true,
+                closed: false
+            })
+        }
     }, [])
 
   return (
