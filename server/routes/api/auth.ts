@@ -271,6 +271,7 @@ class AuthController {
 
 const authController: any = new AuthController;
 
+
 //route get    api/auth
 //description  get users
 //access       private

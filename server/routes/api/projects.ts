@@ -220,7 +220,8 @@ class ProjectController {
     })
     
 }
-const projectController: any = new ProjectController
+const projectController: any = new ProjectController;
+
 
 //route get    api/projects
 //description  get all projects

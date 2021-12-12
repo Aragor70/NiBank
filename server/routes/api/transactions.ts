@@ -16,27 +16,7 @@ const router: Router = express.Router();
 class TsxController {
 
 
-    getTsxs = async () => {
-
-        
-    }
-    
-    createTransfer = async () => {
-
-        
-    }
-    
-    getTsxById = async () => {
-
-        
-    }
-    
-}
-
-//route get    api/tsxs
-//description  get all transactions
-//access       public
-router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
+    getTsxs = asyncHandler( async (req: any, res: any, next: any) => {
         
         //const transactions = await pool.query('SELECT * FROM transactions join accounts ON transactions.to_user_id = accounts.user_id join projects ON transactions.to_project_id = projects.project_id');
         const transactions = await pool.query('SELECT * FROM transactions join accounts ON transactions.to_user_id = accounts.user_id WHERE transactions.to_user_id IS NOT NULL ORDER BY created_on DESC');
@@ -45,12 +25,9 @@ router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
         
         res.json(output);
 
-}));
-
-//route post   api/tsxs
-//description  post new transaction
-//access       private
-router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
+    })
+    
+    createTransfer = asyncHandler( async (req: any, res: any, next: any) => {
 
         if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -99,13 +76,9 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
         
         res.json({ tsx: tsx.rows[0], message: 'success'});
 
-}));
-
-
-//route get    api/tsxs
-//description  get tsx
-//access       public
-router.get('/:tsx_id', asyncHandler( async (req: any, res: any, next: any) => {
+    })
+    
+    getTsxById = asyncHandler( async (req: any, res: any, next: any) => {
 
         if (!req.params.tsx_id) {
             return next(new ErrorResponse('Transactions not found.', 404))
@@ -118,7 +91,26 @@ router.get('/:tsx_id', asyncHandler( async (req: any, res: any, next: any) => {
 
         res.json({ tsxs: output });
 
-}));
+    })
+    
+}
+
+const tsxController = new TsxController;
+
+//route get    api/tsxs
+//description  get all transactions
+//access       public
+router.get('/', tsxController.getTsxs);
+
+//route post   api/tsxs
+//description  post new transaction
+//access       private
+router.post('/', tsxController.createTransfer);
+
+//route get    api/tsxs
+//description  get tsx
+//access       public
+router.get('/:tsx_id', tsxController.getTsxById);
 
 
 
