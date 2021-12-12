@@ -11,7 +11,44 @@ import SHA256 from 'crypto-js/sha256';
 
 const router: Router = express.Router();
 
-//route get    api/auth
+
+class ProjectController {
+
+
+    getProjects = async () => {
+
+        
+    }
+
+    getProjectById = async () => {
+
+        
+    }
+    
+    createProject = async () => {
+
+        
+    }
+    
+    invest = async () => {
+
+        
+    }
+    
+    update = async () => {
+
+        
+    }
+    
+    deleteProjectById = async () => {
+
+        
+    }
+    
+}
+
+
+//route get    api/projects
 //description  get all projects
 //access       public
 router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
@@ -22,8 +59,8 @@ router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
 
 }));
 
-//route get    api/auth
-//description  get all projects
+//route get    api/projects
+//description  get project by id
 //access       public
 router.get('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {
 
@@ -79,7 +116,7 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
 }));
 
-//route post   api/auth
+//route post   api/projects
 //description  invest on project by project_id
 //access       private
 router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {
@@ -133,7 +170,7 @@ router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) 
 }));
 
 
-//route post   api/auth
+//route post   api/projects
 //description  update project
 //access       private
 router.put('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {
@@ -197,7 +234,7 @@ router.put('/:project_id', asyncHandler( async (req: any, res: any, next: any) =
 }));
 
 
-//route post   api/auth
+//route post   api/projects
 //description  delete project
 //access       private
 router.delete('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {

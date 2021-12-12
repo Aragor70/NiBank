@@ -15,42 +15,64 @@ const ecGenerate = new ec('secp256k1');
 
 const router: Router = express.Router();
 
-//route get    api/auth
-//description  test route
+
+
+class UsersController {
+
+
+    getUsers = async () => {
+
+        
+    }
+    
+    register = async () => {
+
+        
+    }
+    
+}
+
+
+//route get    api/users
+//description  get users
 //access       private
 router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
         
 
-        if(req?.headers?.authorization && req?.headers?.authorization?.includes('Bearer')) {
-            const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+    if(req?.headers?.authorization && req?.headers?.authorization?.includes('Bearer')) {
+        const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
 
-            const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
 
-            const user = rows[0] || false;
+        const user = rows[0] || false;
 
-            if(user){
-    
-                const users = await pool.query('SELECT * FROM accounts');
-    
-                res.json(users.rows);
+        if(user){
 
-            } else {
+            const users = await pool.query('SELECT * FROM accounts');
 
-                const users = await pool.query('SELECT user_id FROM accounts');
-            
-                res.json(users.rows);
-            }
-            
+            res.json(users.rows);
+
         } else {
 
             const users = await pool.query('SELECT user_id FROM accounts');
-            
+        
             res.json(users.rows);
-
         }
+        
+    } else {
+
+        const users = await pool.query('SELECT user_id FROM accounts');
+        
+        res.json(users.rows);
+
+    }
 
 }));
 
+
+//route get    api/users
+//description  register
+//access       private
 router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFunction) => {
     
     const { name, email, password, accountType } = req.body;

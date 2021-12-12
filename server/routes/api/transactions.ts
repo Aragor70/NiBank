@@ -12,7 +12,28 @@ import SHA256 from 'crypto-js/sha256';
 const router: Router = express.Router();
 
 
-//route get    api/auth
+
+class TsxController {
+
+
+    getTsxs = async () => {
+
+        
+    }
+    
+    createTransfer = async () => {
+
+        
+    }
+    
+    getTsxById = async () => {
+
+        
+    }
+    
+}
+
+//route get    api/tsxs
 //description  get all transactions
 //access       public
 router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
@@ -26,7 +47,7 @@ router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
 
 }));
 
-//route post   api/auth
+//route post   api/tsxs
 //description  post new transaction
 //access       private
 router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
@@ -81,7 +102,7 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 }));
 
 
-//route get    api/auth
+//route get    api/tsxs
 //description  get tsx
 //access       public
 router.get('/:tsx_id', asyncHandler( async (req: any, res: any, next: any) => {

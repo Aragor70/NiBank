@@ -11,6 +11,58 @@ import SendingEmail from '../../utils/SendingEmail';
 
 const router: Router = express.Router();
 
+
+
+class AuthController {
+
+
+    getUsers = async () => {
+
+        
+    }
+
+    login = async () => {
+
+        
+    }
+    
+    preLogin = async () => {
+
+        
+    }
+    
+    preRegister = async () => {
+
+        
+    }
+    
+    update = async () => {
+
+        
+    }
+    
+    setMainWallet = async () => {
+
+        
+    }
+    
+    createWallet = async () => {
+
+        
+    }
+    
+    approve = async () => {
+
+        
+    }
+    
+    reSendApproval = async () => {
+
+        
+    }
+    
+}
+
 //route get    api/auth
 //description  test route
 //access       private
@@ -265,7 +317,6 @@ router.put('/approve', asyncHandler(async (req: Request, res: Response, next: Ne
     res.json({ success: true, user: users?.rows[0] });
        
 }));
-
 
 
 
