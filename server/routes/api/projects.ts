@@ -14,55 +14,19 @@ const router: Router = express.Router();
 
 class ProjectController {
 
-
-    getProjects = async () => {
-
-        
+    constructor() {    
+        this.getProjects = this.getProjects.bind(this);
     }
 
-    getProjectById = async () => {
-
-        
-    }
-    
-    createProject = async () => {
-
-        
-    }
-    
-    invest = async () => {
-
-        
-    }
-    
-    update = async () => {
-
-        
-    }
-    
-    deleteProjectById = async () => {
-
-        
-    }
-    
-}
-
-
-//route get    api/projects
-//description  get all projects
-//access       public
-router.get('/', asyncHandler( async (req: any, res: any, next: any) => {
+    getProjects = asyncHandler (async (req: any, res: any, next: any) => {
         
         const projects = await pool.query('SELECT * FROM projects');
         
         res.json({ projects: projects.rows, message: 'Success' });
 
-}));
+    })
 
-//route get    api/projects
-//description  get project by id
-//access       public
-router.get('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {
+    getProjectById = asyncHandler( async (req: any, res: any, next: any) => {
 
         if (!req.params.project_id) {
             return next(new ErrorResponse('Project not found.', 404))
@@ -71,12 +35,9 @@ router.get('/:project_id', asyncHandler( async (req: any, res: any, next: any) =
         
         res.json({ projects: projects.rows, message: 'Success', success: true });
 
-}));
-
-//route post   api/auth
-//description  post new project
-//access       private
-router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
+    })
+    
+    createProject = asyncHandler( async (req: any, res: any, next: any) => {
 
         if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -114,12 +75,9 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
         res.json({ project: projects.rows[0], message: 'Success', success: true }); */
 
-}));
-
-//route post   api/projects
-//description  invest on project by project_id
-//access       private
-router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {
+    })
+    
+    invest = asyncHandler( async (req: any, res: any, next: any) => {
 
         if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -167,106 +125,134 @@ router.post('/:project_id', asyncHandler( async (req: any, res: any, next: any) 
 
         res.json({ tsx: tsx.rows[0], message: 'success', success: true });
 
-}));
+    })
+    
+    update = asyncHandler( async (req: any, res: any, next: any) => {
+
+        if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
+            return next(new ErrorResponse('Go to log on.', 422))
+        }
+        const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+        const user = rows[0] || false;
+                
+        if (!user) {
+            return next(new ErrorResponse('User not found.', 404))
+        }    
+             
+        
+        const { startdate, closedate, projectname, country, status, yieldpa, volumetotal, minimuminvestment, description, currency, typeofproperty, typeofinvestment, project, images, long_description } = req.body;
+        
+        
+        const { project_id } = req.params;
+    
+        const projectObject = await pool.query(`SELECT * FROM projects WHERE project_id = $1`, [project_id]);
+        const currentProject = projectObject.rows[0] || false;
+        
+        const today = moment().format('YYYY-MM-DD');
+    
+        if (currentProject.status !== "UNDER_CONSIDERATION") {
+            console.log('status')
+            return next(new ErrorResponse('Project is not under consideration.', 422))
+        }
+        if (currentProject.status === "OPEN" && !closedate) {
+            
+            return next(new ErrorResponse('Choose a proper close date.', 422))
+        }
+        if (currentProject?.owner_id !== user?.user_id) {
+            return next(new ErrorResponse('You cannot modify the project opportunity that you do not own.', 422))
+        }
+        if (currentProject.minimuminvestment < 0) {
+    
+            return next(new ErrorResponse('The minimum amount needs to be greater then 0.', 422))
+        }
+        if (moment(today) >= moment(currentProject.closedate)) {
+            
+            return next(new ErrorResponse('Choose a proper close date.', 422))
+        }
+    
+        
+    
+        const a = moment(closedate);
+        const b = moment(startdate || today);
+        
+        
+        const term = a.diff(b, 'days') || undefined;
+    
+    
+    
+        const projects = await pool.query(`UPDATE projects SET owner_id = $1, startdate = $2, closedate = $3, projectname = $4, country = $5, yieldpa = $6, volumetotal = $7, minimuminvestment = $8, description = $9, currency = $10, status = $11, typeofproperty = $12, typeofinvestment = $13, project = $14, term = $15, volumeinvested = $16, images = $17, listofinvestors = $18, long_description = $19 WHERE project_id = $20 RETURNING *`, [ user.user_id, startdate || today, closedate || null, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, term, 0, images, [], long_description, project_id ]);
+    
+        res.json({ project: projects.rows[0], message: 'Success', success: true });
+    
+    })
+    
+    deleteProjectById = asyncHandler( async (req: any, res: any, next: any) => {
+    
+        if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
+            return next(new ErrorResponse('Go to log on.', 422))
+        }
+        const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+        const user = rows[0] || false;
+                
+        if (!user) {
+            return next(new ErrorResponse('User not found.', 404))
+        }    
+    
+        const { project_id } = req.params;
+    
+        const projectObject = await pool.query(`SELECT * FROM projects WHERE project_id = $1`, [project_id]);
+        const currentProject = projectObject.rows[0] || false;
+        
+        if (currentProject?.owner_id !== user?.user_id) {
+            return next(new ErrorResponse('You cannot delete the project opportunity that you do not own.', 401))
+        }
+        if (currentProject?.status !== "UNDER_CONSIDERATION") {
+            return next(new ErrorResponse('You cannot delete the project opportunity that was already started.', 422))
+        }
+    
+    
+        const projects = await pool.query(`DELETE FROM projects WHERE project_id = $1 RETURNING *`, [project_id]);
+    
+        res.json({ project: projects.rows[0], message: 'Success', success: true });
+    
+    })
+    
+}
+const projectController: any = new ProjectController
+
+//route get    api/projects
+//description  get all projects
+//access       public
+router.get('/', projectController.getProjects);
+
+
+//route get    api/projects
+//description  get project by id
+//access       public
+router.get('/:project_id', projectController.getProjectById);
+
+//route post   api/auth
+//description  post new project
+//access       private
+router.post('/', projectController.createProject);
+
+//route post   api/projects
+//description  invest on project by project_id
+//access       private
+router.post('/:project_id', projectController.invest);
 
 
 //route post   api/projects
 //description  update project
 //access       private
-router.put('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {
-
-    if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
-        return next(new ErrorResponse('Go to log on.', 422))
-    }
-    const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
-    const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
-    const user = rows[0] || false;
-            
-    if (!user) {
-        return next(new ErrorResponse('User not found.', 404))
-    }    
-         
-    
-    const { startdate, closedate, projectname, country, status, yieldpa, volumetotal, minimuminvestment, description, currency, typeofproperty, typeofinvestment, project, images, long_description } = req.body;
-    
-    
-    const { project_id } = req.params;
-
-    const projectObject = await pool.query(`SELECT * FROM projects WHERE project_id = $1`, [project_id]);
-    const currentProject = projectObject.rows[0] || false;
-    
-    const today = moment().format('YYYY-MM-DD');
-
-    if (currentProject.status !== "UNDER_CONSIDERATION") {
-        console.log('status')
-        return next(new ErrorResponse('Project is not under consideration.', 422))
-    }
-    if (currentProject.status === "OPEN" && !closedate) {
-        
-        return next(new ErrorResponse('Choose a proper close date.', 422))
-    }
-    if (currentProject?.owner_id !== user?.user_id) {
-        return next(new ErrorResponse('You cannot modify the project opportunity that you do not own.', 422))
-    }
-    if (currentProject.minimuminvestment < 0) {
-
-        return next(new ErrorResponse('The minimum amount needs to be greater then 0.', 422))
-    }
-    if (moment(today) >= moment(currentProject.closedate)) {
-        
-        return next(new ErrorResponse('Choose a proper close date.', 422))
-    }
-
-    
-
-    const a = moment(closedate);
-    const b = moment(startdate || today);
-    
-    
-    const term = a.diff(b, 'days') || undefined;
-
-
-
-    const projects = await pool.query(`UPDATE projects SET owner_id = $1, startdate = $2, closedate = $3, projectname = $4, country = $5, yieldpa = $6, volumetotal = $7, minimuminvestment = $8, description = $9, currency = $10, status = $11, typeofproperty = $12, typeofinvestment = $13, project = $14, term = $15, volumeinvested = $16, images = $17, listofinvestors = $18, long_description = $19 WHERE project_id = $20 RETURNING *`, [ user.user_id, startdate || today, closedate || null, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, term, 0, images, [], long_description, project_id ]);
-
-    res.json({ project: projects.rows[0], message: 'Success', success: true });
-
-}));
+router.put('/:project_id', projectController.update);
 
 
 //route post   api/projects
 //description  delete project
 //access       private
-router.delete('/:project_id', asyncHandler( async (req: any, res: any, next: any) => {
-    
-    if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
-        return next(new ErrorResponse('Go to log on.', 422))
-    }
-    const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
-    const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
-    const user = rows[0] || false;
-            
-    if (!user) {
-        return next(new ErrorResponse('User not found.', 404))
-    }    
-
-    const { project_id } = req.params;
-
-    const projectObject = await pool.query(`SELECT * FROM projects WHERE project_id = $1`, [project_id]);
-    const currentProject = projectObject.rows[0] || false;
-    
-    if (currentProject?.owner_id !== user?.user_id) {
-        return next(new ErrorResponse('You cannot delete the project opportunity that you do not own.', 401))
-    }
-    if (currentProject?.status !== "UNDER_CONSIDERATION") {
-        return next(new ErrorResponse('You cannot delete the project opportunity that was already started.', 422))
-    }
-
-
-    const projects = await pool.query(`DELETE FROM projects WHERE project_id = $1 RETURNING *`, [project_id]);
-
-    res.json({ project: projects.rows[0], message: 'Success', success: true });
-
-}));
+router.delete('/:project_id', projectController.deleteProjectById);
 
 export default router;
