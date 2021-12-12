@@ -11,7 +11,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
 
   
   const getCountryCode = (str: string) => {
-
+    console.log(str)
     return Object.keys(ISO_COUNTRY_CODES).filter(function(key) {return ISO_COUNTRY_CODES[key]?.toLowerCase()?.includes(str?.toLowerCase())})[0];
     
   }
@@ -31,8 +31,8 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
           
           <IonItem>
             
-            <IonBadge className="no-padding" color="light" slot="end" /* style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }} */>
-              <Flag code={getCountryCode(project.country) || ""} height="30" />
+            <IonBadge className="no-padding" color="light" slot="end" style={{ minWidth: '45px' }}>
+              <Flag code={getCountryCode(project?.country) || ""} height="30" />
             </IonBadge>
             <IonAvatar slot="start">
               {/* <IonIcon size="large" color="secondary" icon={project.status === "OPEN" ? lockOpen : lockClosed}></IonIcon> */}
@@ -67,7 +67,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
 
           <IonItem>
             <IonText>
-              Yield
+              Yield per month
             </IonText>
             <IonText slot="end">
               {project.yieldpa}%

@@ -135,7 +135,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
             header: 'Confirmation',
             message: 'Are you sure to delete this project?',
             buttons: [
-              { text: 'Confirm', handler: async() => deleteProject(formData?.project_id, present) },
+              { text: 'Confirm', handler: async() => deleteProject(formData?.project_id, present, history) },
             ],
             onDidDismiss: () => console.log('did dismiss')
         });
@@ -208,7 +208,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
                                         <IonItem>
                                         <IonLabel>Image</IonLabel>
-                                        <IonInput type="text" autocomplete={"off"} slot="end" name="images" value={formData?.images[0] || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+                                        <IonInput type="text" autocomplete={"off"} slot="end" name="images" value={formData?.images ? formData?.images[0] : ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
                                         
                                         </IonItem>
 
@@ -241,7 +241,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                         </IonItem>
                
                                         <IonItem>
-                                            <IonLabel>Yield</IonLabel>
+                                            <IonLabel>Yield per month</IonLabel>
                                             <IonInput slot="end" autocomplete={"off"} name="yieldpa" value={formData.yieldpa || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
                                         </IonItem>
@@ -361,7 +361,9 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                             </form>
                                         </IonItem>
                                         <IonItem>
+                                            <div className="ion-items-center">
                                             <IonButton type='submit' color="danger" size="default" slot="end" onClick={()=> displayDelete()}>DELETE</IonButton>
+                                            </div>
                                         </IonItem>
                                     </IonList>
                                 </IonCardContent>
@@ -382,7 +384,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                 <IonItem>
                                     
                                 <IonBadge className="no-padding" color="light" slot="end" /* style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }} */>
-                                <Flag code={getCountryCode(projectData.country) || ""} height="30" />
+                                    <Flag code={getCountryCode(projectData.country) || ""} height="30" />
                                 </IonBadge>
                                 <IonAvatar slot="start">
                                     {/* <IonIcon size="large" color="secondary" icon={project.status === "OPEN" ? lockOpen : lockClosed}></IonIcon> */}
@@ -486,7 +488,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
 
                             {
-                                projectData.images && <IonImg src={projectData.images[0] } onIonError={(e) => handleDefaultSrc(e)} alt="property" />
+                                projectData.images && <IonImg src={projectData.images ? projectData.images[0] : "" } onIonError={(e) => handleDefaultSrc(e)} alt="property" />
                             }
 
                             

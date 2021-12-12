@@ -291,7 +291,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
                       <IonCardContent>
 
                       <IonItem>
-                        <IonLabel>Yield</IonLabel>
+                        <IonLabel>Yield per month</IonLabel>
                         <IonInput slot="end" autocomplete={"off"} name="yieldpa" value={formData.yieldpa || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
 
                       </IonItem>
@@ -376,7 +376,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
                         </IonCardTitle>
                       </IonCardHeader>
                       <IonCardContent>
-
+                        
                         <GlobalProjectListElement project={formData} isSample={true} />
 
                       </IonCardContent>

@@ -100,14 +100,13 @@ router.post('/', asyncHandler( async (req: Request, res: Response, next: NextFun
 
 
     const JWTSecretKey: any = process.env["jwtSecret"];
-    
+
     return jwt.sign(payload, JWTSecretKey, { expiresIn: 360000 },
         async (err, token) => {
             if(err) {
                 return next(new ErrorResponse(err.message, 422))
             }
 
-            
             const code = (Math.floor(100000 + Math.random() * 900000)).toString()
 
             user.code = code || '';

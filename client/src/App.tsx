@@ -73,7 +73,7 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
       getBalance()
     }
     
-  }, [auth?.user?.user_id, auth?.user?.currency])
+  }, [auth?.user?.user_id, auth?.user?.wallets])
 
   useEffect(() => {
     if (auth?.user?.user_id) {

@@ -1,3 +1,4 @@
+import { Create_Wallet_Fail, Create_Wallet_Success } from '../actions/auth/types';
 import { Get_Balance_Fail, Get_Balance_Success, Get_My_Investments_Success, Tsx_Create_Success, Get_My_Tsxs_Success, Get_My_Tsxs_Fail, Get_My_Investments_Fail, Get_Total_Funds_Success, Get_Total_Funds_Fail, Get_YieldPA_Success, Get_YieldPA_Fail, Account_Loading, Get_Wallets_Success, Get_Wallets_Fail, Update_Main_Wallet_Success, Update_Main_Wallet_Fail } from '../actions/tsx/types'
 
 
@@ -28,6 +29,12 @@ const account = (state: any = initialState, action: any) => {
 
         case Get_My_Investments_Success:
             return {...state, investments: payload, loading: false }
+
+        case Create_Wallet_Success:
+            return {...state, wallets: payload.wallets, loading: false }
+
+        case Create_Wallet_Fail:
+            return {...state, loading: false }
 
 
         case Get_Total_Funds_Success:

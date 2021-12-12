@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert";
-import { Tsx_Create_Success, Invest_Create_Success, Tsx_Create_Fail, Invest_Create_Fail, Get_Balance_Success, Get_Balance_Fail, Get_Tsxs_Success, Get_Tsxs_Fail, Get_My_Tsxs_Success, Get_Total_Funds_Success, Get_YieldPA_Success, Get_Total_Funds_Fail, Get_YieldPA_Fail, Get_My_Tsxs_Fail, Tsx_Loading, Get_My_Investments_Fail, Get_Tsx_Success, Get_Tsx_Fail, Get_Wallets_Fail, Get_Wallets_Success, Update_Main_Wallet_Success, Update_Main_Wallet_Fail } from './types';
+import { Tsx_Create_Success, Invest_Create_Success, Tsx_Create_Fail, Invest_Create_Fail, Get_Balance_Success, Get_Balance_Fail, Get_Tsxs_Success, Get_Tsxs_Fail, Get_My_Tsxs_Success, Get_Total_Funds_Success, Get_YieldPA_Success, Get_Total_Funds_Fail, Get_YieldPA_Fail, Get_My_Tsxs_Fail, Tsx_Loading, Get_My_Investments_Fail, Get_Tsx_Success, Get_Tsx_Fail, Get_Wallets_Fail, Get_Wallets_Success, Update_Main_Wallet_Success, Update_Main_Wallet_Fail, Account_Loading } from './types';
 import { Loading_Auth, User_Update, User_Update_Fail } from '../auth/types';
 
 
@@ -106,6 +106,7 @@ export const updateMainWallet = (e: any) => async (dispatch: Dispatch<any>) => {
 export const getBalance = (user: any = null) => async(dispatch: Dispatch<any>) => {
     try {
         dispatch({ type: Tsx_Loading });
+        dispatch({ type: Account_Loading });
         
         
         const res: any = await axios.get('/api/tsx');
@@ -114,11 +115,11 @@ export const getBalance = (user: any = null) => async(dispatch: Dispatch<any>) =
 
         let wallets: any[] = user?.wallets?.length ? user?.wallets?.map((element: any) => ({ balance: 0, currency: element, out: 0, in: 0 })) : []
 
-        const isMatch = await wallets?.filter((element: any) => element.currency === user.main_wallet)[0]
+        const isMatch = wallets.length ? await wallets?.filter((element: any) => element.currency === user.main_wallet)[0] : null;
 
         if (!isMatch && user?.main_wallet) {
             
-            wallets.unshift({ balance: 0, currency: user.main_wallet, out: 0, in: 0 })
+            wallets.unshift({ balance: 0, currency: user?.main_wallet, out: 0, in: 0 })
 
         } else if (isMatch && user?.main_wallet) {
             wallets = wallets.reduce((acc: any, element: any) => {

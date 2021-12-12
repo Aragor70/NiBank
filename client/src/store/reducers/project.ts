@@ -35,7 +35,7 @@ const project = (state: any = initialState, action: any) => {
             return {...state, project: payload, loading: false }
 
         case Project_Delete_Success:
-            return {...state, project: null, loading: false }
+            return {...state, project: null, projects: state.projects.filter((element: any) => element?.project_id?.toString() !== payload?.toString()), underConsiderationProjects: state.underConsiderationProjects.filter((element: any) => element?.project_id?.toString() !== payload?.toString()) , loading: false }
 
         case Project_Delete_Fail:
             return {...state, loading: false }

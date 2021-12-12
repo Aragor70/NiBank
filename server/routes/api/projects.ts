@@ -59,7 +59,8 @@ router.post('/', asyncHandler( async (req: any, res: any, next: any) => {
 
         
         if (status === 'UNDER_CONSIDERATION') {
-            return await pool.query(`INSERT INTO projects (owner_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, volumeinvested, images, listofinvestors) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`, [ user.user_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, 0, images, [] ]);
+            const projects = await pool.query(`INSERT INTO projects (owner_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, volumeinvested, images, listofinvestors, long_description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`, [ user.user_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, 0, images, [], long_description ]);
+            return res.json({ project: projects.rows[0], message: 'Success', success: true });
         }
 
         const today = moment().format('YYYY-MM-DD');

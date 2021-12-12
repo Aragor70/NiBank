@@ -59,19 +59,21 @@ export const updateProject = (formData: any, present: any) => async(dispatch: Di
     }
 }
 
-export const deleteProject = (id: any, present: any) => async(dispatch: Dispatch<any>) => {
+export const deleteProject = (id: any, present: any, history: any) => async(dispatch: Dispatch<any>) => {
     try {
         dispatch({ type: Project_Loading });
 
         const res: any = await axios.delete(`/api/projects/${id}`);
         
-        dispatch({ type: Project_Delete_Success })
+        dispatch({ type: Project_Delete_Success, payload: id })
+
+        history.push('/projects');
         
         dispatch(setAlert(res.data.message, 'success'))
         
     } catch (err: any) {
         dispatch({ type: Project_Delete_Fail });
-        dispatch(setAlert(err.response.data.message, 'danger'))
+        dispatch(setAlert(err?.response?.data?.message, 'danger'))
 
         present({
             cssClass: 'error-message',

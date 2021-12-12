@@ -1,4 +1,4 @@
-import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, Pre_Login_Success, Register_Fail, Register_Success, User_Update, Pre_Login_Fail, RegisterUserType, Pre_Register_Success, Pre_Register_Fail, Loading_Auth, User_Update_Fail } from "./types";
+import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Load_Users_Success, Load_Users_Fail, Login_Success, Logout_User, Pre_Login_Success, Register_Fail, Register_Success, User_Update, Pre_Login_Fail, RegisterUserType, Pre_Register_Success, Pre_Register_Fail, Loading_Auth, User_Update_Fail, Create_Wallet_Success, Create_Wallet_Fail } from "./types";
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert/";

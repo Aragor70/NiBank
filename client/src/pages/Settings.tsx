@@ -1,7 +1,7 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonGrid, IonRow, IonCol, IonInput, IonSelect, IonSelectOption, IonButtons, IonImg } from '@ionic/react';
 import axios from 'axios';
-import { checkmark, lockClosed, lockOpen } from 'ionicons/icons';
+import { checkmark, closeCircleOutline, lockClosed, lockOpen } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -117,6 +117,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                 return console.log('Value is the same.')
             }
             await createWallet({ wallet: e.target.value })
+
 
         } catch (err: any) {
             console.log(err.message)
@@ -305,12 +306,14 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                             <IonText>
                                                 Create a new wallet
                                             </IonText>
-                                            <IonSelect slot="end" name="wallet" onIonChange={(e: any) => handleWallet(e)}>
-                                                <IonSelectOption value="EUR">EUR</IonSelectOption>
-                                                <IonSelectOption value="GBP">GBP</IonSelectOption>
-                                                <IonSelectOption value="PLN">PLN</IonSelectOption>
-                                                <IonSelectOption value="CZK">CZK</IonSelectOption>
-                                            </IonSelect>
+                                            {
+                                                
+                                                <IonSelect slot="end" name="wallet" onIonChange={(e: any) => handleWallet(e)}>
+                                                    {
+                                                        ['EUR', 'GBP', 'PLN', 'CZK'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                                                    }
+                                                </IonSelect>
+                                            }
                                         </IonItem>
                                     </Fragment> : false
                                 }
