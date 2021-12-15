@@ -146,7 +146,7 @@ export const getProject = (id: number) => async(dispatch: Dispatch<any>) => {
         
         const volumeinvested: number = investedValues.length ? investedValues?.reduce((a: number, b: number) => a + b) : 0
         
-        const projectData = {...res?.data?.projects[0], volumeinvested }
+        const projectData = {...res?.data?.project, volumeinvested }
         
         //console.log(projectData)
         await dispatch({ type: Get_Project_Success, payload: projectData })

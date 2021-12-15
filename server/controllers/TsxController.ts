@@ -171,9 +171,9 @@ class TsxController {
 
     isTsxCorrect = async (user: any, tsx: any) => {
 
-        const { to, amount, accounting_date, currency, description } = tsx;
+        const { amount, currency, description } = tsx;
 
-        if ( !tsx || !to || !amount || !accounting_date || !currency || !description ) return false;
+        if ( !tsx || !amount || !currency || !description ) return false;
 
         const tsxsQuery: any = await pool.query('SELECT * FROM transactions');
         
@@ -197,7 +197,7 @@ class TsxController {
 
         if (!wallet) return false;
         
-        if (wallet?.balance < tsx?.amount) return false;
+        if (wallet?.balance < parseFloat(tsx?.amount)) return false;
 
 
         return true;

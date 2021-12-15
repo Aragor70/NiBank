@@ -7,8 +7,10 @@ import { pool } from '../config/db';
 
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
+import TsxController from './TsxController';
 
 
+const tsxController = new TsxController
 
 class ProjectController {
 
@@ -31,7 +33,7 @@ class ProjectController {
         }
         const projects = await pool.query(`SELECT * FROM projects where project_id = $1`, [ req.params.project_id ]);
         
-        res.json({ projects: projects.rows, message: 'Success', success: true });
+        res.json({ project: projects.rows[0], message: 'Success', success: true });
 
     })
     
@@ -86,6 +88,13 @@ class ProjectController {
                 
         if (!user) {
             return next(new ErrorResponse('User not found.', 404))
+        }
+
+        if (!await tsxController.isTsxCorrect(user, req?.body || null)) {
+            return next(new ErrorResponse('Transaction is not correct.', 422)) 
+        }
+        if (!await this.isInvestmentCorrect(req.body || null)) {
+            return next(new ErrorResponse('Transaction is not correct.', 422)) 
         }
 
         const { project_id } = req.params;
@@ -216,6 +225,49 @@ class ProjectController {
         res.json({ project: projects.rows[0], message: 'Success', success: true });
     
     })
+
+    getProjectTsxs = async (project: any, tsxs: any[]) => {
+        if (!tsxs?.length || !project) return []
+        return tsxs?.filter((element: any) => element?.to_project_id?.toString() === project?.project_id?.toString())
+        
+    };
+
+    getProjectBalance = async (project: any, tsxs: any[]) => {
+        if (!tsxs?.length || !project?.volumetotal ) return 0
+
+        return tsxs?.map((element: any)=> element?.amount || 0).reduce((a: number, b: number) => a + b)
+        
+    };
+    
+    isInvestmentCorrect = async (tsx: any) => {
+
+        const { amount, currency, description, project_id } = tsx;
+        
+        if ( !tsx || !amount || !currency || !description || !project_id  ) return false;
+
+        const tsxsQuery: any = await pool.query('SELECT * FROM transactions');
+        
+        const tsxs: any[] = tsxsQuery?.rows?.length ? tsxsQuery?.rows : []
+
+        if (!tsxs?.length) return false;
+
+        const validTsxs: any[] = await tsxController.getValidTsxs(tsxs);
+
+        if (!validTsxs?.length) return false;
+
+        const projectQuery = await pool.query(`SELECT * FROM projects where project_id = $1`, [ tsx.project_id ]);
+
+        const project: any = projectQuery?.rows[0]
+
+        const projectTsxs: any[] = await this.getProjectTsxs(project, validTsxs);
+        
+        const volumeInvested: number = await this.getProjectBalance(project, projectTsxs);
+        
+        if ((volumeInvested + parseFloat(tsx?.amount)) > project?.volumetotal) return false;
+
+        return true;
+    }
+
     
 }
 

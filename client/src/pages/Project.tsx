@@ -142,6 +142,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
       }
 
+      console.log(isOpen)
   return (
     <IonPage>
 
@@ -538,11 +539,11 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                 }
 
                 {
-                    (isOpen && auth?.user?.approved) ? ((project?.project?.status === "OPEN") && (project?.project?.owner_id !== auth?.user?.user_id)) ? <Fragment>
+                    (isOpen && auth?.user?.approved) && ((project?.project?.status === "OPEN") && (project?.project?.owner_id !== auth?.user?.user_id)) ? <Fragment>
                         
                         <CreateInvestment prevTsx={projectData} />
                         
-                    </Fragment> : false : false
+                    </Fragment> : false
                 }
                 
 
