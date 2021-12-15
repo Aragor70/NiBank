@@ -37,10 +37,13 @@ class TsxController {
             return next(new ErrorResponse('User not found.', 404))
         }
 
+        if (!await this.isTsxCorrect(user, req?.body || null)) {
+            return next(new ErrorResponse('Transaction is not correct.', 422)) 
+        }
 
         const { to, amount, accounting_date, currency, description } = req.body;
 
-   
+    
         const today = moment().format('YYYY-MM-DD');
 
         if (!amount) {
@@ -52,6 +55,7 @@ class TsxController {
         } else if (accounting_date && new Date(accounting_date).getTime() < new Date(today).getTime()) {
             return next(new ErrorResponse('Enter a date of today or later.', 422)) 
         }
+
         const matchRecipient = await pool.query(`SELECT * FROM accounts WHERE public_key = $1`, [to]);
 
         const recipient = matchRecipient.rows[0] || false;
@@ -89,6 +93,115 @@ class TsxController {
         res.json({ tsxs: output });
 
     })
+
+    getInitialWallets = async (user: any) => {
+
+        let wallets: any[] = user?.wallets?.length ? user?.wallets?.map((element: any) => ({ balance: 0, currency: element, out: 0, in: 0 })) : []
+
+        const isMatch = wallets.length ? await wallets?.filter((element: any) => element.currency === user.main_wallet)[0] : null;
+
+        if (!isMatch && user?.main_wallet) {
+            
+            wallets.unshift({ balance: 0, currency: user?.main_wallet, out: 0, in: 0 })
+
+        } else if (isMatch && user?.main_wallet) {
+            wallets = wallets.reduce((acc: any, element: any) => {
+                if (element.currency === user.main_wallet) {
+                  return [element, ...acc];
+                }
+                return [...acc, element];
+              }, []);
+        }
+
+        return wallets;
+
+    };
+
+    getValidTsxs = async (tsxs: any[]) => {
+
+        const dataset: any[] = await tsxs.length ? tsxs?.slice()?.sort((a: any, b: any) => a?.tsx_id - b?.tsx_id) : [];
+
+        if (dataset?.length) {
+
+            return dataset?.filter((element: any, index: number) => (element.to_project_id !== undefined) && (element.previous_hash !== element.current_hash) && ( index ? element?.previous_hash?.toString() === dataset?.[index - 1]?.current_hash?.toString() : true ))
+
+        } else {
+
+            return [];
+
+        }
+
+        
+    };
+
+    getMyTsxs = async (user: any, tsxs: any[]) => {
+
+        return user ? await tsxs.filter((element: any) => (element?.from_id?.toString() === user?.user_id?.toString()) || (element?.to_user_id?.toString() === user?.user_id?.toString())) : []
+        
+    };
+
+    getMyWallets = async (user: any, tsxs: any[]) => {
+
+        let wallets = await this.getInitialWallets(user);
+
+        for (const transaction of tsxs) {
+            
+            if (user && transaction?.from_id?.toString() === user?.user_id?.toString()) {
+                
+                wallets = (!!wallets.length ? wallets.map((element: any) => element?.currency?.toString() === transaction?.currency?.toString() ? {...element, balance: element?.balance - transaction.amount, currency: transaction.currency, out: element.out + transaction.amount, in: (element.in || 0) } : element ) : [...wallets, { balance: 0 - transaction.amount, currency: transaction.currency, out: transaction.amount, in: 0}])
+
+            }
+            if (user && transaction?.to_user_id && transaction?.to_user_id?.toString() === user?.user_id?.toString()) {
+                
+                wallets = !!wallets.length ? wallets.map((element: any) => element?.currency?.toString() === transaction?.currency?.toString() ? {...element, balance: element?.balance + transaction.amount, in: element.in + transaction.amount, currency: transaction.currency, out: (element.out || 0) } : element ) : [...wallets, { balance: transaction.amount, currency: transaction.currency, out: 0, in: transaction.amount}]
+
+            }
+            
+        }
+
+        return wallets;
+        
+    };
+
+    getWallet = async (wallets: any, tsx: any) => {
+
+        return wallets?.filter((element: any) => element?.currency?.toString() === tsx?.currency?.toString())[0]
+        
+    };
+
+    isTsxCorrect = async (user: any, tsx: any) => {
+
+        const { to, amount, accounting_date, currency, description } = tsx;
+
+        if ( !tsx || !to || !amount || !accounting_date || !currency || !description ) return false;
+
+        const tsxsQuery: any = await pool.query('SELECT * FROM transactions');
+        
+        const tsxs: any[] = tsxsQuery?.rows?.length ? tsxsQuery?.rows : []
+
+        if (!tsxs?.length) return false;
+
+        const validTsxs: any[] = await this.getValidTsxs(tsxs);
+
+        if (!validTsxs?.length) return false;
+
+        const myTsxs: any[] = await this.getMyTsxs(user, validTsxs);
+        
+        /* if (!myTsxs?.length) return false; */
+
+        const wallets: any[] = await this.getMyWallets(user, myTsxs);
+        
+        if (!wallets?.length) return false;
+
+        const wallet: any = await this.getWallet(wallets, tsx);
+
+        if (!wallet) return false;
+        
+        if (wallet?.balance < tsx?.amount) return false;
+
+
+        return true;
+    }
     
 }
 

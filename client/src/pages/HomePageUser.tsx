@@ -84,6 +84,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
     centeredSlides: true,
   }
 
+
   return (
     <IonPage>
 
@@ -120,7 +121,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
           {
             auth?.user?.approved ? account?.wallets?.length ? 
 
-              <IonSlides pager={false} options={walletOptions} ref={slides} onIonSlideDidChange={() => handleWalletSwipe()}>
+              <IonSlides data-interception="off" pager={false} options={walletOptions} ref={slides} onIonSlideDidChange={() => handleWalletSwipe()}>
                 
                 
                 {account?.wallets?.map((element: any, index: number) => <Fragment key={index}>
