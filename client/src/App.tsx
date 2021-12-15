@@ -73,7 +73,7 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
       getBalance()
     }
     
-  }, [auth?.user?.user_id, auth?.user?.wallets])
+  }, [auth?.user?.user_id, auth?.user?.wallets, tsx?.tsxs?.length])
 
   useEffect(() => {
     if (auth?.user?.user_id) {
@@ -88,7 +88,7 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
       clearProjects()
     } */
     
-  }, [auth?.user])
+  }, [auth?.user, tsx?.tsxs?.length])
   
   useEffect(() => {
     

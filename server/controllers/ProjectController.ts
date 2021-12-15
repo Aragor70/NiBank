@@ -121,6 +121,16 @@ class ProjectController {
             return next(new ErrorResponse('Project is not open.', 422))
         }
         
+        const tsxsQuery: any = await pool.query('SELECT * FROM transactions');
+
+        const tsxs: any[] = await tsxController.getValidTsxs(tsxsQuery.rows);
+
+        const projectBalance: number = await this.getProjectBalance(project, tsxs);
+
+        if (projectBalance >= project?.volumetotal) {
+            await pool.query(`UPDATE projects SET status = $1 WHERE project_id = $2 RETURNING *`, [ 'FUNDED', project_id ]);
+        }
+        
         const previousTransaction = await pool.query(`SELECT * FROM transactions ORDER BY tsx_id DESC LIMIT 1`);
 
         const previousHash = previousTransaction?.rows[0]?.current_hash;

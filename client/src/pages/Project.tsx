@@ -15,7 +15,7 @@ import PageSubTitle from '../components/PageSubTitle';
 import { clearProject, deleteProject, getProject, updateProject } from '../store/actions/project';
 import { ISO_COUNTRY_CODES } from '../utils/constants';
 
-const Project: React.FC<any> = ({ project, match, getProject, auth, updateProject, history, deleteProject }) => {
+const Project: React.FC<any> = ({ project, match, getProject, auth, updateProject, history, deleteProject, tsx }) => {
     
         
     const [formData, setFormData] = useState<any>({
@@ -80,7 +80,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
             console.log('clear project')
             clearProject()
         } */
-    }, [match?.params?.project_id, projectData?.project_id])
+    }, [match?.params?.project_id, projectData?.project_id, tsx?.tsxs?.length])
     
 
     const [selectView, setSelectView] = useState<any>({
@@ -476,8 +476,8 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                 {
                                 projectData.status !== "UNDER_CONSIDERATION" && <Fragment>
                                     <IonItem style={{ position: 'relative'}}>
-                                        <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1', backgroundColor: '#fff' }} color="light">Invested: {projectData.volumeinvested} {projectData.currency} ({ (projectData.volumeinvested / projectData.volumetotal).toFixed(3)} %)</IonBadge>
-                                        <IonProgressBar style={{ position: 'absolute', bottom: '12px', left: 0, padding: 0 }} value={projectData.volumeinvested / projectData.volumetotal}></IonProgressBar>
+                                        <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1', backgroundColor: '#fff' }} color="light">Invested: {projectData.volumeinvested} {projectData.currency} ({ (projectData.volumeinvested / projectData.volumetotal * 100).toFixed(3)} %)</IonBadge>
+                                        <IonProgressBar style={{ position: 'absolute', bottom: '12px', left: 0, padding: 0 }} value={projectData.volumeinvested / projectData.volumetotal * 100}></IonProgressBar>
                                         
                                     </IonItem>
                                 </Fragment>
@@ -569,6 +569,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 };
 const mapStateToProps = (state: any) => ({
     project: state.project,
-    auth: state.auth
+    auth: state.auth,
+    tsx: state.tsx
 })
 export default connect(mapStateToProps, { getProject, updateProject, deleteProject })(withRouter(Project));

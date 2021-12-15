@@ -128,8 +128,8 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
           {
             ((project.status !== "UNDER_CONSIDERATION") && !isSample) && <Fragment>
                 <IonItem style={{ position: 'relative'}}>
-                  <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1' }} color="light">Invested: {project.volumeinvested} {project.currency} ({ (project.volumeinvested / project.volumetotal).toFixed(3)} %)</IonBadge>
-                  <IonProgressBar style={{ position: 'absolute', bottom: '12px', left: 0, padding: 0 }} value={project.volumeinvested / project.volumetotal}></IonProgressBar>
+                  <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1' }} color="light">Invested: {project.volumeinvested} {project.currency} ({ (project.volumeinvested / project.volumetotal * 100).toFixed(3)} %)</IonBadge>
+                  <IonProgressBar style={{ position: 'absolute', bottom: '12px', left: 0, padding: 0 }} value={project.volumeinvested / project.volumetotal * 100}></IonProgressBar>
                     
                 </IonItem>
             </Fragment>
