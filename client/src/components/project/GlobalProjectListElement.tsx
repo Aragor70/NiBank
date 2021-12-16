@@ -32,7 +32,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
           <IonItem>
             
             <IonBadge className="no-padding" color="light" slot="end" style={{ minWidth: '45px' }}>
-              <Flag code={getCountryCode(project?.country) || ""} height="30" />
+              <Flag code={getCountryCode(project?.country || '') || ""} height="30" />
             </IonBadge>
             <IonAvatar slot="start">
               {/* <IonIcon size="large" color="secondary" icon={project.status === "OPEN" ? lockOpen : lockClosed}></IonIcon> */}

@@ -32,8 +32,18 @@ class ProjectController {
             return next(new ErrorResponse('Project not found.', 404))
         }
         const projects = await pool.query(`SELECT * FROM projects where project_id = $1`, [ req.params.project_id ]);
+
+        const tsxs: any[] = await tsxController.getAllTsxs('from');
+
+        const validTsxs: any[] = await tsxController.getValidTsxs(tsxs);
+
+        if (!validTsxs?.length) return false;
+
+        const investors: any[] = await this.getProjectInvestors(projects.rows[0], validTsxs);
         
-        res.json({ project: projects.rows[0], message: 'Success', success: true });
+        const project = { ...projects.rows[0], investors }
+        
+        res.json({ project, message: 'Success', success: true });
 
     })
     
@@ -121,22 +131,26 @@ class ProjectController {
             return next(new ErrorResponse('Project is not open.', 422))
         }
         
-        const tsxsQuery: any = await pool.query('SELECT * FROM transactions');
+        const tsxs: any[] = await tsxController.getAllTsxs();
+        
+        const validTsxs: any[] = await tsxController.getValidTsxs(tsxs);
 
-        const tsxs: any[] = await tsxController.getValidTsxs(tsxsQuery.rows);
+        if (!validTsxs?.length) return false;
+        
+        const projectTsxs: any[] = await this.getProjectTsxs(project, validTsxs);
 
-        const projectBalance: number = await this.getProjectBalance(project, tsxs);
+        const projectBalance: number = await this.getProjectBalance(project, projectTsxs);
 
         if (projectBalance >= project?.volumetotal) {
             await pool.query(`UPDATE projects SET status = $1 WHERE project_id = $2 RETURNING *`, [ 'FUNDED', project_id ]);
         }
         
-        const previousTransaction = await pool.query(`SELECT * FROM transactions ORDER BY tsx_id DESC LIMIT 1`);
+        const previousTransaction = await validTsxs[0];
 
-        const previousHash = previousTransaction?.rows[0]?.current_hash;
-        const nonce = previousTransaction?.rows[0]?.nonce + 1;
+        const previousHash = previousTransaction?.current_hash;
+        const nonce = previousTransaction?.nonce + 1;
 
-        const hash = await SHA256(((previousTransaction?.rows[0]?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user?.user_id + project_id + amount + nonce).toString()).toString();
+        const hash = await SHA256(((previousTransaction?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user?.user_id + project_id + amount + nonce).toString()).toString();
         
         const tsx = await pool.query(`INSERT INTO transactions (from_id, to_project_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`, [ user.user_id, project.project_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
 
@@ -245,7 +259,42 @@ class ProjectController {
     getProjectBalance = async (project: any, tsxs: any[]) => {
         if (!tsxs?.length || !project?.volumetotal ) return 0
 
-        return tsxs?.map((element: any)=> element?.amount || 0).reduce((a: number, b: number) => a + b)
+        return tsxs?.map((element: any)=> element?.amount || 0)?.reduce((a: number, b: number) => a + b);
+        
+    };
+    
+    getProjectInvestors = async (project: any, tsxs: any[]) => {
+        if (!tsxs?.length ) return [];
+        
+        const usersTsxs: any[] = await tsxs?.filter((element: any) => element?.to_project_id?.toString() === project?.project_id?.toString() )?.map((element: any) => ({ user_id: element.user_id, name: element.name, email: element.email, amount: element.amount }));
+        
+        let users: any[] = [];
+
+        /* Promise.all(
+            for (let i = 0; i < usersTsxs.length; i++) {
+
+                const found = await users.filter((element: any) => element.user_id === usersTsxs[i].user_id)
+                if (found[0]) {
+                    users = await users.map((element: any) => element.user_id === usersTsxs[i].user_id ? {...element, amount: element.amount + usersTsxs[i].amount} : element)
+                } else {
+                    users = [...users, usersTsxs[i]];
+                }
+            }
+        ) */
+            
+        await (async function() {
+            for await (let i of usersTsxs) {
+                const found = await users.filter((element: any) => element.user_id === i.user_id)
+                if (found[0]) {
+                    users = await users.map((element: any) => element.user_id === i.user_id ? {...element, amount: element.amount + i.amount} : element)
+                } else {
+                    users = [...users, i];
+                }
+            }
+         })();
+
+
+        return users;
         
     };
     
@@ -255,9 +304,8 @@ class ProjectController {
         
         if ( !tsx || !amount || !currency || !description || !project_id  ) return false;
 
-        const tsxsQuery: any = await pool.query('SELECT * FROM transactions');
         
-        const tsxs: any[] = tsxsQuery?.rows?.length ? tsxsQuery?.rows : []
+        const tsxs: any[] = await tsxController.getAllTsxs() || [];
 
         if (!tsxs?.length) return false;
 
@@ -267,7 +315,7 @@ class ProjectController {
 
         const projectQuery = await pool.query(`SELECT * FROM projects where project_id = $1`, [ tsx.project_id ]);
 
-        const project: any = projectQuery?.rows[0]
+        const project: any = projectQuery?.rows[0];
 
         const projectTsxs: any[] = await this.getProjectTsxs(project, validTsxs);
         
@@ -278,6 +326,28 @@ class ProjectController {
         return true;
     }
 
+
+    /* projectTransfer = async ( project: any ) => {
+
+        // status if funded
+        
+        // from_project_id, owner_id
+
+        // get project investors
+
+        
+        const tsxs: any[] = await tsxController.getAllTsxs();
+
+        if (!tsxs?.length) return false;
+
+        const validTsxs: any[] = await tsxController.getValidTsxs(tsxs);
+
+        if (!validTsxs?.length) return false;
+
+
+
+        
+    }; */
     
 }
 

@@ -69,10 +69,10 @@ export const getTsx = (id: number) => async(dispatch: Dispatch<any>) => {
         const res: any = await axios.get(`/api/tsx/${id}`);
         
 
-        await dispatch({ type: Get_Tsx_Success, payload: res?.data?.tsxs[0] })
+        await dispatch({ type: Get_Tsx_Success, payload: res?.data?.tsx })
         
         //dispatch(setAlert(res.data.message, 'success'))
-        return res?.data?.tsxs[0];
+        return res?.data?.tsx;
         
     } catch (err: any) {
         dispatch({ type: Get_Tsx_Fail });

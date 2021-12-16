@@ -385,7 +385,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                 <IonItem>
                                     
                                 <IonBadge className="no-padding" color="light" slot="end" /* style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }} */>
-                                    <Flag code={getCountryCode(projectData.country) || ""} height="30" />
+                                    <Flag code={getCountryCode(projectData?.country) || ""} height="30" />
                                 </IonBadge>
                                 <IonAvatar slot="start">
                                     {/* <IonIcon size="large" color="secondary" icon={project.status === "OPEN" ? lockOpen : lockClosed}></IonIcon> */}
@@ -476,7 +476,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                 {
                                 projectData.status !== "UNDER_CONSIDERATION" && <Fragment>
                                     <IonItem style={{ position: 'relative'}}>
-                                        <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1', backgroundColor: '#fff' }} color="light">Invested: {projectData.volumeinvested} {projectData.currency} ({ (projectData.volumeinvested / projectData.volumetotal * 100).toFixed(3)} %)</IonBadge>
+                                        <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1' }} color="light">Invested: {projectData.volumeinvested} {projectData.currency} ({ (projectData.volumeinvested / projectData.volumetotal * 100).toFixed(3)} %)</IonBadge>
                                         <IonProgressBar style={{ position: 'absolute', bottom: '12px', left: 0, padding: 0 }} value={projectData.volumeinvested / projectData.volumetotal * 100}></IonProgressBar>
                                         
                                     </IonItem>
@@ -528,7 +528,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                 }
                 
                 {
-                    ((auth?.user?.approved) && (project?.project?.owner_id?.toString() !== auth?.user?.user_id?.toString())) ? <Fragment>
+                    ((auth?.user?.approved) && (project?.project?.status === "OPEN") && (project?.project?.owner_id?.toString() !== auth?.user?.user_id?.toString())) ? <Fragment>
                         <IonItem onClick={() => setIsOpen(!isOpen)}>
                         <IonIcon slot="start" icon={cardOutline}></IonIcon>
                         <IonRouterLink>

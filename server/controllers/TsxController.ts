@@ -65,13 +65,19 @@ class TsxController {
         if (!recipient || !isMatch || !isMatch[0]) {
             return next(new ErrorResponse('Recipient does not allow this currency.', 422))
         }
+
+        const tsxs: any[] = await this.getAllTsxs();
         
-        const previousTransaction = await pool.query(`SELECT * FROM transactions ORDER BY tsx_id DESC LIMIT 1`);
+        const validTsxs: any[] = await this.getValidTsxs(tsxs);
 
-        const previousHash = previousTransaction?.rows[0]?.current_hash;
-        const nonce = previousTransaction?.rows[0]?.nonce + 1;
+        if (!validTsxs?.length) return false;
+        
+        const previousTransaction = await validTsxs[0];
 
-        const hash = await SHA256(((previousTransaction?.rows[0]?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user.user_id + to + amount + nonce).toString()).toString();
+        const previousHash = previousTransaction?.current_hash;
+        const nonce = previousTransaction?.nonce + 1;
+
+        const hash = await SHA256(((previousTransaction?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user.user_id + to + amount + nonce).toString()).toString();
         
         const tsx = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`, [ user.user_id, recipient.user_id, amount, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, currency, description || '' ]);
         
@@ -84,13 +90,12 @@ class TsxController {
         if (!req.params.tsx_id) {
             return next(new ErrorResponse('Transactions not found.', 404))
         }
-        const investments = await pool.query(`SELECT * FROM transactions join projects ON transactions.to_project_id = projects.project_id WHERE tsx_id = $1 AND transactions.to_project_id IS NOT NULL`, [ req.params.tsx_id ]);
-        const transfers = await pool.query(`SELECT * FROM transactions join accounts ON transactions.to_user_id = accounts.user_id WHERE tsx_id = $1 AND transactions.to_user_id IS NOT NULL`, [ req.params.tsx_id ]);
         
-        const output = (transfers?.rows.length ? transfers?.rows : investments?.rows.length ? investments?.rows : [])
+        const tsxs: any[] = await this.getAllTsxs() || [];
 
+        const tsx: any = await tsxs?.filter((element: any) => element?.tsx_id?.toString() === req?.params?.tsx_id?.toString())
 
-        res.json({ tsxs: output });
+        res.json({ tsx: tsx[0] || null });
 
     })
 
@@ -117,6 +122,7 @@ class TsxController {
 
     };
 
+
     getValidTsxs = async (tsxs: any[]) => {
 
         const dataset: any[] = await tsxs.length ? tsxs?.slice()?.sort((a: any, b: any) => a?.tsx_id - b?.tsx_id) : [];
@@ -131,6 +137,22 @@ class TsxController {
 
         }
 
+        
+    };
+
+    getAllTsxs = async (ext: string = 'to') => {
+
+        if (ext === 'from') {
+            const transactions = await pool.query('SELECT * FROM transactions join accounts ON transactions.from_id = accounts.user_id WHERE transactions.from_id IS NOT NULL ORDER BY created_on DESC');
+            const returns = await pool.query('SELECT * FROM transactions WHERE transactions.from_id IS NULL ORDER BY created_on DESC');
+            const tsxs = (transactions.rows || []).concat(returns?.rows || [])?.sort((a: any, b: any) => b?.created_on - a?.created_on ) || [];
+            return tsxs;
+        } else {
+            const transactions = await pool.query('SELECT * FROM transactions join accounts ON transactions.to_user_id = accounts.user_id WHERE transactions.to_user_id IS NOT NULL ORDER BY created_on DESC');
+            const investments = await pool.query('SELECT * FROM transactions join projects ON transactions.to_project_id = projects.project_id WHERE transactions.to_project_id IS NOT NULL ORDER BY created_on DESC');
+            const tsxs = (transactions.rows || []).concat(investments?.rows || [])?.sort((a: any, b: any) => b?.created_on - a?.created_on ) || [];
+            return tsxs;
+        }
         
     };
 
@@ -174,10 +196,8 @@ class TsxController {
         const { amount, currency, description } = tsx;
 
         if ( !tsx || !amount || !currency || !description ) return false;
-
-        const tsxsQuery: any = await pool.query('SELECT * FROM transactions');
         
-        const tsxs: any[] = tsxsQuery?.rows?.length ? tsxsQuery?.rows : []
+        const tsxs: any[] = await this.getAllTsxs() || [];
 
         if (!tsxs?.length) return false;
 
