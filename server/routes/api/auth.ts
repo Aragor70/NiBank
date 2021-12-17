@@ -57,6 +57,11 @@ router.post('/approve', authController.approve);
 //access       private
 router.put('/approve', authController.reSendApproval);
 
+//route get    api/auth
+//description  set income amount
+//access       private
+router.put('/income', authController.setIncome);
+
 
 
 export default router;

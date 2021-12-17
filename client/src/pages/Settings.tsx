@@ -12,12 +12,11 @@ import Loader from '../components/Loader';
 import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import { createWallet, loadUser, update } from '../store/actions/auth';
+import { createWallet, loadUser, update, updateIncome } from '../store/actions/auth';
 import { getBalance, updateMainWallet } from '../store/actions/tsx';
-import users from '../store/reducers/users';
 
 
-const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account, updateMainWallet, update, createWallet }) => {
+const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account, updateMainWallet, update, createWallet, updateIncome }) => {
 
 
     const [ selected, setSelected ] = useState(0)
@@ -42,6 +41,9 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
 
     const [ mainWallet, setMainWallet ] = useState({
         main_wallet: ''
+    })
+    const [ incomeValue, setIncomeValue ] = useState({
+        income: ''
     })
 
     const updateAvatar = async (e: any) => {
@@ -82,6 +84,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
         if (auth?.user) {
             setFormData({ ...formData, ...auth.user })
             setMainWallet({ ...mainWallet, main_wallet: auth?.user?.main_wallet })
+            setIncomeValue({ ...incomeValue, income: auth?.user?.income })
         }
         
         return () => {
@@ -97,6 +100,9 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                 })
                 setMainWallet({
                     main_wallet: ''
+                })
+                setIncomeValue({
+                    income: ''
                 })
             }
         }
@@ -132,6 +138,20 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                 return console.log('Value is the same.')
             }
             await createWallet({ wallet: e.target.value })
+
+
+        } catch (err: any) {
+            console.log(err.message)
+        }
+    }
+    const handleIncome = async (e: any) => {
+
+        try {
+            e.preventDefault();
+            if (auth?.user?.income?.toString() === e?.target?.value?.toString()) {
+                return console.log('Value is the same.')
+            }
+            await updateIncome({ income: e.target.value })
 
 
         } catch (err: any) {
@@ -327,6 +347,19 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                                 </IonSelect>
                                             }
                                         </IonItem>
+                                        <IonItem>
+                                            <IonLabel>
+                                                Daily income
+                                            </IonLabel>
+                                            {
+                                                
+                                                <IonSelect slot="end" name="wallet" value={ incomeValue?.income || ''} onIonChange={(e: any) => handleIncome(e)}>
+                                                    {
+                                                        [1000, 5000, 10000, 15000].map((element: number, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                                                    }
+                                                </IonSelect>
+                                            }
+                                        </IonItem>
                                     </Fragment> : false
                                 }
 
@@ -382,4 +415,4 @@ const mapStateToProps = (state: any) => ({
     account: state.account
 })
 
-export default connect(mapStateToProps, { updateMainWallet, update, createWallet })(withRouter(Settings));
+export default connect(mapStateToProps, { updateMainWallet, update, createWallet, updateIncome })(withRouter(Settings));

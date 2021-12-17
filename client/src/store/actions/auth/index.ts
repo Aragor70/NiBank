@@ -212,3 +212,18 @@ export const createWallet = (formData: any) => async(dispatch: Dispatch<AuthDisp
         
     }
 }
+
+export const updateIncome = (formData: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        dispatch({type: Loading_Auth })
+        const res: any = await axios.put('/api/auth/income', formData);
+        
+        dispatch({type: User_Update, payload: res.data})
+        
+        
+    } catch (err: any) {
+        dispatch({ type: User_Update_Fail })
+        //dispatch(setAlert(err.response.data.message, 'danger'))
+        
+    }
+}
