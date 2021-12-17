@@ -203,15 +203,32 @@ class AuthController {
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
         }
-    
-        if (email) {
-            const users = await pool.query(`UPDATE accounts SET first_name = $1, last_name = $2, gender_title = $3, date_of_birth = $4, country = $5, email = $6 WHERE email = $7 RETURNING *`, [ first_name, last_name, gender_title, date_of_birth, country, email, user.email ]);
+        
+        if (email && (email === user?.email)) {
+
+            const users = await pool.query(`UPDATE accounts SET first_name = $1, last_name = $2, gender_title = $3, date_of_birth = $4, country = $5 WHERE email = $6 RETURNING *`, [ first_name, last_name, gender_title, date_of_birth, country, user?.email ]);
+            
             return res.json({ success: true, user: users?.rows[0] });
+
+        } else if (email && (email !== user?.email)) {
+            
+            const code = (Math.floor(100000 + Math.random() * 900000)).toString()
+
+            user.code = code || '';
+
+            await SendingEmail(user)
+            
+            const users = await pool.query(`UPDATE accounts SET first_name = $1, last_name = $2, gender_title = $3, date_of_birth = $4, country = $5, email = $6, code = $7, approved = $8 WHERE email = $9 RETURNING *`, [ first_name, last_name, gender_title, date_of_birth, country, email, code, false, user?.email ]);
+
+            return res.json({ success: true, user: users?.rows[0] });
+
         } else {
-            const users = await pool.query(`UPDATE accounts SET avatar = $1 WHERE email = $2  RETURNING *`, [ avatar, user.email ]);
+            
+            const users = await pool.query(`UPDATE accounts SET avatar = $1 WHERE email = $2  RETURNING *`, [ avatar, user?.email ]);
+            
             return res.json({ success: true, user: users?.rows[0] });
+            
         }
-    
            
     })
     
