@@ -97,46 +97,45 @@ const CreateProject: React.FC<any> = ({ newProject, history, user }) => {
             <IonItem>
               <IonLabel>Status</IonLabel>
               <IonSelect slot="end" name="status" onIonChange={(e: any) => handleChange(e)}>
-                <IonSelectOption value="UNDER_CONSIDERATION">UNDER CONSIDERATION</IonSelectOption>
-                <IonSelectOption value="OPEN">OPEN</IonSelectOption>
+                {
+                  ['UNDER_CONSIDERATION', 'OPEN'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                }
               </IonSelect>
             
             </IonItem>
             <IonItem>
               <IonLabel>Type of investment</IonLabel>
               <IonSelect slot="end" name="typeofinvestment" onIonChange={(e: any) => handleChange(e)}>
-                <IonSelectOption value="DEBT">DEBT</IonSelectOption>
-                <IonSelectOption value="EQUITY">EQUITY</IonSelectOption>
+                {
+                  ['DEBT', 'EQUITY'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                }
               </IonSelect>
             
             </IonItem>   
             <IonItem>
               <IonLabel>Type of property</IonLabel>
               <IonSelect slot="end" name="typeofproperty" onIonChange={(e: any) => handleChange(e)}>
-                <IonSelectOption value="RESIDENTIAL">RESIDENTIAL</IonSelectOption>
-                <IonSelectOption value="RETAIL">RETAIL</IonSelectOption>
-                <IonSelectOption value="OFFICE">OFFICE</IonSelectOption>
-                <IonSelectOption value="LAND">LAND</IonSelectOption>
-                <IonSelectOption value="LOGISTICS">LOGISTICS</IonSelectOption>
-                <IonSelectOption value="INDUSTRIAL">INDUSTRIAL</IonSelectOption>
+                {
+                  ['RESIDENTIAL', 'RETAIL', 'OFFICE', 'LAND', 'LOGISTICS', 'INDUSTRIAL'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                }
               </IonSelect>
          
             </IonItem>    
             <IonItem>
               <IonLabel>Type of project</IonLabel>
               <IonSelect slot="end" name="project" onIonChange={(e: any) => handleChange(e)}>
-                <IonSelectOption value="EXISTING">EXISTING</IonSelectOption>
-                <IonSelectOption value="DEVELOPMENT">DEVELOPMENT</IonSelectOption>
+                {
+                  ['EXISTING', 'DEVELOPMENT'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                }
               </IonSelect>
             
             </IonItem>   
             <IonItem>
               <IonLabel>Currency</IonLabel>
               <IonSelect slot="end" name="currency" onIonChange={(e: any) => handleChange(e)}>
-                <IonSelectOption value="EUR">EUR</IonSelectOption>
-                <IonSelectOption value="GBP">GBP</IonSelectOption>
-                <IonSelectOption value="PLN">PLN</IonSelectOption>
-                <IonSelectOption value="CZK">CZK</IonSelectOption>
+                {
+                  ['EUR', 'GBP', 'PLN', 'CZK'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                }
               </IonSelect>
             
             </IonItem>            

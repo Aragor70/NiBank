@@ -251,12 +251,9 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                     <IonItem>
                                     <IonLabel>Title</IonLabel>
                                         <IonSelect slot="end" name="gender_title" value={formData.gender_title || ''} onIonChange={(e: any) => handleChange(e)}>
-                                            <IonSelectOption value="none">None</IonSelectOption>
-                                            <IonSelectOption value="Ms">Ms</IonSelectOption>
-                                            <IonSelectOption value="Mr">Mr</IonSelectOption>
-                                            <IonSelectOption value="Mx">Mx</IonSelectOption>
-                                            <IonSelectOption value="Mrs">Mrs</IonSelectOption>
-                                            <IonSelectOption value="Miss">Miss</IonSelectOption>
+                                            {
+                                                ['None', 'Ms', 'Mr', 'Mx', 'Mrs', 'Miss'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                                            }
                                         </IonSelect>
                                     
                                     </IonItem>  
@@ -308,9 +305,9 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                     auth?.user?.approved ? <Fragment>
                                         
                                         <IonItem>
-                                            <IonText >
+                                            <IonLabel >
                                                 Primary
-                                            </IonText>
+                                            </IonLabel>
                                             <IonSelect slot="end" name="main_wallet" value={mainWallet?.main_wallet || ""} onIonChange={(e: any) => handleMainWallet(e)}>
                                                 {
                                                     auth?.user?.wallets?.length ? auth?.user?.wallets?.map((element: any, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>) : <IonSelectOption value={''}>{''}</IonSelectOption>
@@ -318,9 +315,9 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                             </IonSelect>
                                         </IonItem>
                                         <IonItem>
-                                            <IonText>
+                                            <IonLabel>
                                                 Create a new wallet
-                                            </IonText>
+                                            </IonLabel>
                                             {
                                                 
                                                 <IonSelect slot="end" name="wallet" onIonChange={(e: any) => handleWallet(e)}>

@@ -33,6 +33,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
         typeofinvestment: '',
         project: '',
         image: '',
+        investors: []
     });
 
 
@@ -62,7 +63,23 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
     
     const [ loadingData, setLoadingData ] = useState(false)
 
-    const [ projectData, setProjectData ] = useState<any>(null)
+    const [ projectData, setProjectData ] = useState<any>({
+        startdate: '',
+        closedate: '',
+        projectname: '',
+        country: '',
+        yieldpa: '',
+        volumetotal: '',
+        minimuminvestment: '',
+        description: '',
+        currency: '',
+        status: '',
+        typeofproperty: '',
+        typeofinvestment: '',
+        project: '',
+        image: '',
+        investors: []
+    })
     
     const [ isOpen, setIsOpen ] = useState(false)
 
@@ -120,12 +137,13 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
             public_key: '',
             description: '',
             currency: '',
-            projectname: ''
+            projectname: '',
+            investors: []
           })
     
         }
     
-      }, [project?.project, project.loading, formData?.project_id])
+      }, [project?.project, project?.loading, formData?.project_id])
 
 
       const displayDelete = () => {
@@ -142,7 +160,6 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
       }
 
-      console.log(isOpen)
   return (
     <IonPage>
 
@@ -170,14 +187,14 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
                     </IonCol>
                     {
-                        project?.loading ? <Loader /> : (auth?.user?.approved && (projectData?.status !== 'UNDER_CONSIDERATION')) ? 
+                        project?.loading ? false : (auth?.user?.approved && (projectData?.status !== 'UNDER_CONSIDERATION')) ? 
                         <IonCol color="gray" style={ selectView?.investments ? { textAlign: 'center', fontWeight: 'bold' } : { textAlign: 'center' }} onClick={() => setSelectView({ investments: true })}>
                             Investments
     
                         </IonCol> : false
                     }
                     {
-                        project?.loading ? <Loader /> : (auth?.user?.approved && (projectData?.owner_id === auth?.user?.user_id) && (projectData?.status === 'UNDER_CONSIDERATION')) ?
+                        project?.loading ? false : (auth?.user?.approved && (projectData?.owner_id === auth?.user?.user_id) && (projectData?.status === 'UNDER_CONSIDERATION')) ?
                         <IonCol color="gray" style={ selectView?.update ? { textAlign: 'center', fontWeight: 'bold' } : { textAlign: 'center' }} onClick={() => setSelectView({ update: true })}>
                             Update
 
@@ -216,27 +233,28 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                         <IonItem>
                                         <IonLabel>Type of investment</IonLabel>
                                         <IonSelect slot="end" value={formData.typeofinvestment || ''} name="typeofinvestment" onIonChange={(e: any) => handleChange(e)}>
-                                            <IonSelectOption value="EQUITY">EQUITY</IonSelectOption>
+                                            {
+                                                ['EQUITY'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                                            }
                                         </IonSelect>
                                         
                                         </IonItem>   
                                         <IonItem>
                                         <IonLabel>Type of property</IonLabel>
                                         <IonSelect slot="end" value={formData.typeofproperty || ''} name="typeofproperty" onIonChange={(e: any) => handleChange(e)}>
-                                            <IonSelectOption value="RESIDENTIAL">RESIDENTIAL</IonSelectOption>
-                                            <IonSelectOption value="RETAIL">RETAIL</IonSelectOption>
-                                            <IonSelectOption value="OFFICE">OFFICE</IonSelectOption>
-                                            <IonSelectOption value="LAND">LAND</IonSelectOption>
-                                            <IonSelectOption value="LOGISTICS">LOGISTICS</IonSelectOption>
-                                            <IonSelectOption value="INDUSTRIAL">INDUSTRIAL</IonSelectOption>
+                                            {
+                                                ['RESIDENTIAL', 'RETAIL', 'OFFICE', 'LAND', 'LOGISTICS', 'INDUSTRIAL'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                                            }
+                                            
                                         </IonSelect>
                                     
                                         </IonItem>    
                                         <IonItem>
                                         <IonLabel>Type of project</IonLabel>
                                         <IonSelect slot="end" value={formData.project || ''} name="project" onIonChange={(e: any) => handleChange(e)}>
-                                            <IonSelectOption value="EXISTING">EXISTING</IonSelectOption>
-                                            <IonSelectOption value="DEVELOPMENT">DEVELOPMENT</IonSelectOption>
+                                            {
+                                                ['EXISTING', 'DEVELOPMENT'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                                            }
                                         </IonSelect>
                                         
                                         </IonItem>
@@ -261,10 +279,9 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                         <IonItem>
                                             <IonLabel>Currency</IonLabel>
                                             <IonSelect slot="end" value={formData.currency || ''} name="currency" onIonChange={(e: any) => handleChange(e)}>
-                                                <IonSelectOption value="EUR">EUR</IonSelectOption>
-                                                <IonSelectOption value="GBP">GBP</IonSelectOption>
-                                                <IonSelectOption value="PLN">PLN</IonSelectOption>
-                                                <IonSelectOption value="CZK">CZK</IonSelectOption>
+                                                {
+                                                    ['EUR', 'GBP', 'PLN', 'CZK'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                                                }
                                             </IonSelect>
                                         
                                         </IonItem>
@@ -341,8 +358,9 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                     <IonItem>
                                         <IonLabel>Status</IonLabel>
                                         <IonSelect slot="end" name="status" value={formData.status || ""} onIonChange={(e: any) => handleChange(e)}>
-                                            <IonSelectOption value="UNDER_CONSIDERATION">UNDER_CONSIDERATION</IonSelectOption>
-                                            <IonSelectOption value="OPEN">OPEN</IonSelectOption>
+                                            {
+                                                ['UNDER_CONSIDERATION', 'OPEN'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                                            }
                                         </IonSelect>
                                         
                                         </IonItem>
@@ -472,11 +490,20 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                 </IonText>
                                     
                                 </IonItem>
+                                <IonItem>
+                                <IonText>
+                                    Number of investors
+                                </IonText>
+                                <IonText slot="end">
+                                    {project?.project?.investors?.length || 0}
+                                </IonText>
+                                    
+                                </IonItem>
                                 
                                 {
                                 projectData.status !== "UNDER_CONSIDERATION" && <Fragment>
                                     <IonItem style={{ position: 'relative'}}>
-                                        <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1' }} color="light">Invested: {projectData.volumeinvested} {projectData.currency} ({ (projectData.volumeinvested / projectData.volumetotal * 100).toFixed(3)} %)</IonBadge>
+                                        <IonBadge style={{ position: 'absolute', top: '10px', left: 0, padding: 0, fontSize: '16px', fontWeight: 'normal', opacity: '1' }} color="none"><IonText color="dark">Invested: {projectData.volumeinvested} {projectData.currency} ({ (projectData.volumeinvested / projectData.volumetotal * 100).toFixed(3)} %)</IonText></IonBadge>
                                         <IonProgressBar style={{ position: 'absolute', bottom: '12px', left: 0, padding: 0 }} value={projectData.volumeinvested / projectData.volumetotal * 100}></IonProgressBar>
                                         
                                     </IonItem>

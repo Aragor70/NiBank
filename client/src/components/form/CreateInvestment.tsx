@@ -106,10 +106,9 @@ const CreateInvestment: React.FC<any> = React.memo(({ newInvest, history, user, 
             <IonItem>
               <IonLabel>Currency</IonLabel>
               <IonSelect slot="end" name="currency" value={formData.currency || ""} onIonChange={(e: any) => handleChange(e)}>
-                <IonSelectOption value="EUR">EUR</IonSelectOption>
-                <IonSelectOption value="GBP">GBP</IonSelectOption>
-                <IonSelectOption value="PLN">PLN</IonSelectOption>
-                <IonSelectOption value="CZK">CZK</IonSelectOption>
+                {
+                  ['EUR', 'GBP', 'PLN', 'CZK'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                }
               </IonSelect>
             
             </IonItem>            
