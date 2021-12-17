@@ -6,8 +6,11 @@ import ErrorResponse from "../utils/ErrorResponse";
 import asyncHandler from "../middlewares/async";
 import { pool } from '../config/db';
 import SendingEmail from '../utils/SendingEmail';
+import moment from 'moment';
+import TsxController from './TsxController';
+import { SHA256 } from 'crypto-js';
 
-
+const tsxController = new TsxController;
 
 class AuthController {
 
@@ -52,6 +55,14 @@ class AuthController {
                 id: user.user_id
             }
         }
+
+        const today = moment().format('DD-MM-YYYY');
+
+        const last_login = user?.last_login ? moment(user?.last_login).format('DD-MM-YYYY') : null;
+
+        if (today !== last_login && user?.main_wallet && user?.income) {
+            await this.sendIncome(user, next);
+        }
         
         await pool.query(`UPDATE accounts SET last_login = now() WHERE email = $1`, [email]);
     
@@ -68,7 +79,72 @@ class AuthController {
                 
         });
     
+    })
+
+    sendIncome = async (user: any, next: NextFunction, income: number = 0, accounting_date: any = null) => {
+        
+        if (!user) {
+            return next(new ErrorResponse('Recipient not found.', 404))
+        }
     
+        const today = moment().format('YYYY-MM-DD');
+
+        if (!user.income && !income) {
+            return next(new ErrorResponse('Enter the amount.', 422)) 
+        }
+
+        if (!user?.main_wallet) {
+            return next(new ErrorResponse('Recipient does not allow this currency.', 422))
+        }
+
+        const description = "NiVest transfer";
+
+        const tsxs: any[] = await tsxController.getAllTsxs();
+        
+        const validTsxs: any[] = await tsxController.getValidTsxs(tsxs);
+
+        if (!validTsxs?.length) return false;
+        
+        const previousTransaction = await validTsxs[0];
+
+        const previousHash = previousTransaction?.current_hash;
+        const nonce = previousTransaction?.nonce + 1;
+
+        const hash = await SHA256(((previousTransaction?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user.user_id + user?.user_id + (income || user?.income) + nonce).toString()).toString();
+        
+        const tsx = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`, [ 0, user.user_id, income || user?.income, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, user.main_wallet, description || '' ]);
+        
+        return tsx?.rows[0];
+    };
+
+    setIncome = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+        if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
+            return next(new ErrorResponse('Go to log on.', 422))
+        }
+    
+        const { income } = req.body;
+    
+        const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+    
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+    
+        const user = rows[0] || false;
+        
+        if (!user) {
+            return next(new ErrorResponse('Go to log on.', 422))
+        }
+
+        if (!user?.main_wallet) {
+            return next(new ErrorResponse('You need to choose the main wallet.', 422))
+        }
+    
+        if (typeof income === 'number') {
+            const users = await pool.query(`UPDATE accounts SET income = $1 WHERE email = $2 RETURNING *`, [ income, user?.email ]);
+            return res.json({ success: true, user: users?.rows[0] });
+        } else {
+            return next(new ErrorResponse('Amount is not a number.', 422))
+        }
     
     })
     
