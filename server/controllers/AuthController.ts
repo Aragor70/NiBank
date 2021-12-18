@@ -9,6 +9,7 @@ import SendingEmail from '../utils/SendingEmail';
 import moment from 'moment';
 import TsxController from './TsxController';
 import { SHA256 } from 'crypto-js';
+import CodeGenerate from '../utils/CodeGenerate';
 
 const tsxController = new TsxController;
 
@@ -212,13 +213,15 @@ class AuthController {
 
         } else if (email && (email !== user?.email)) {
             
-            const code = (Math.floor(100000 + Math.random() * 900000)).toString()
+            const code: string = await CodeGenerate() || '';
 
             user.code = code || '';
-
-            await SendingEmail(user)
             
             const users = await pool.query(`UPDATE accounts SET first_name = $1, last_name = $2, gender_title = $3, date_of_birth = $4, country = $5, email = $6, code = $7, approved = $8 WHERE email = $9 RETURNING *`, [ first_name, last_name, gender_title, date_of_birth, country, email, code, false, user?.email ]);
+
+            user.email = email;
+
+            await SendingEmail(user)
 
             return res.json({ success: true, user: users?.rows[0] });
 
@@ -341,7 +344,7 @@ class AuthController {
             return next(new ErrorResponse('Go to log on.', 422))
         }
     
-        const code: string = (Math.floor(100000 + Math.random() * 900000)).toString();
+        const code: string = await CodeGenerate() || '';
     
         if (!code || !user.email) {
             return next(new ErrorResponse('Code generator issue.', 500))
