@@ -57,7 +57,7 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
 
               <IonLabel>Remember my E-mail</IonLabel>
 
-              <IonCheckbox color="primary" slot="start"></IonCheckbox>
+              <IonCheckbox checked={ formData?.emailSave } onIonChange={(e: any) => setFormData({ ...formData, emailSave: e.detail.checked }) } color="primary" slot="start"></IonCheckbox>
               
             </IonItem>
           <IonToolbar>

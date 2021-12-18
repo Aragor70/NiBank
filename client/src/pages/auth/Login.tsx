@@ -1,5 +1,5 @@
 import { IonContent, IonPage, IonTitle, IonHeader, IonToolbar, IonLabel, IonInput, IonItemDivider, IonButton, IonCard, IonCardContent, IonCardHeader, IonList, IonItem, IonListHeader, IonCheckbox, IonNav, IonIcon, IonRouterLink, IonCardTitle, IonAlert } from '@ionic/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PageHeader from '../../components/PageHeader';
 import PageSubTitle from '../../components/PageSubTitle';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -8,7 +8,8 @@ import PasswordField from '../../components/login/PasswordField';
 
 type LoginForm = {
   email: string | null,
-  password: string | null
+  password: string | null,
+  emailSave?: boolean | null
 }
 
 
@@ -16,8 +17,16 @@ const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
   const [formData, setFormData] = useState<LoginForm>({
     email: '',
-    password: ''
+    password: '',
+    emailSave: false
   })
+
+useEffect(() => {
+
+  if (localStorage.getItem('email')) {
+    setFormData({ ...formData, email: localStorage.getItem('email') || '', emailSave: true })
+  }
+}, [localStorage?.email])
 
 const [step, setStep] = useState(1)
 

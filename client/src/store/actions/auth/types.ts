@@ -27,7 +27,8 @@ export type UserType = {
 }
 export type LoginUserType = {
     email: string | null,
-    password: string | null
+    password: string | null,
+    emailSave?: boolean | null
 }
 export type RegisterUserType = {
     name: string | null,

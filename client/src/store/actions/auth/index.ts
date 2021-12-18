@@ -44,6 +44,10 @@ export const login = (formData: LoginUserType, history: any, present: any) => as
 
         dispatch(setAlert(res.data.message, 'success'))
 
+        if (formData?.emailSave) {
+            await localStorage.setItem('email', formData?.email || '')
+        }
+
         history.push('/')
         
     } catch (err: any) {

@@ -10,7 +10,7 @@ import { preLogin } from '../../store/actions/auth';
 const EmailField: React.FC<RouteComponentProps | any> = ({ formData, setFormData, history, step, setStep, preLogin }) => {
 
     
-    const { email, password } = formData;
+    const { email, password, emailSave } = formData;
 
     
     const [present] = useIonAlert();
@@ -51,7 +51,7 @@ const EmailField: React.FC<RouteComponentProps | any> = ({ formData, setFormData
 
               <IonLabel>Remember my E-mail</IonLabel>
 
-              <IonCheckbox color="primary" slot="start"></IonCheckbox>
+              <IonCheckbox checked={ formData?.emailSave } onIonChange={(e: any) => setFormData({ ...formData, emailSave: e.detail.checked }) } color="primary" slot="start"></IonCheckbox>
               
             </IonItem>
           <IonToolbar>
