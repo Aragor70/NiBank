@@ -45,7 +45,9 @@ export const login = (formData: LoginUserType, history: any, present: any) => as
         dispatch(setAlert(res.data.message, 'success'))
 
         if (formData?.emailSave) {
-            await localStorage.setItem('email', formData?.email || '')
+            localStorage.setItem('email', formData?.email || '')
+        } else if (!formData?.emailSave && localStorage?.email) {
+            localStorage.removeItem('email');
         }
 
         history.push('/')
