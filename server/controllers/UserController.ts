@@ -11,8 +11,10 @@ import { pool } from '../config/db';
 
 import { ec } from 'elliptic';
 import SendingEmail from '../utils/SendingEmail';
+import CodeGenerate from '../utils/CodeGenerate';
 
 const ecGenerate = new ec('secp256k1');
+const sendingEmail = new SendingEmail;
 
 class UserController {
 
@@ -106,11 +108,11 @@ class UserController {
                     return next(new ErrorResponse(err.message, 422))
                 }
     
-                const code = (Math.floor(100000 + Math.random() * 900000)).toString()
-    
+                const code: string = await CodeGenerate() || '';
+
                 user.code = code || '';
     
-                await SendingEmail(user)
+                await sendingEmail.sendApproval(user)
                 
                 await pool.query(`UPDATE accounts SET token = $1, code = $2 WHERE email = $3`, [token, code, email]);
     

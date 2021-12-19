@@ -12,6 +12,7 @@ import { SHA256 } from 'crypto-js';
 import CodeGenerate from '../utils/CodeGenerate';
 
 const tsxController = new TsxController;
+const sendingEmail = new SendingEmail;
 
 class AuthController {
 
@@ -221,7 +222,7 @@ class AuthController {
 
             user.email = email;
 
-            await SendingEmail(user)
+            await sendingEmail.sendApproval(user)
 
             return res.json({ success: true, user: users?.rows[0] });
 
@@ -351,13 +352,71 @@ class AuthController {
         }
         user.code = code
     
-        await SendingEmail(user)
+        await sendingEmail.sendApproval(user)
     
         const users: any = await pool.query(`UPDATE accounts SET code = $1 WHERE email = $2 RETURNING *`, [code, user.email]);
     
         res.json({ success: true, user: users?.rows[0] });
            
     })
+
+    setForgotCredentials = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+        
+        const { email } = req.body;
+    
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1`, [email]);
+    
+        const user = rows[0] || false;
+        
+        if (!user) {
+            return next(new ErrorResponse('User not found.', 404))
+        }
+
+        const code: string = await CodeGenerate() || '';
+    
+        if (!code || !user.email) {
+            return next(new ErrorResponse('Code generator issue.', 500))
+        }
+        user.recovery = code;
+    
+        await sendingEmail.sendPasswordRecovery(user);
+    
+        await pool.query(`UPDATE accounts SET recovery = $1 WHERE email = $2 RETURNING *`, [code, user.email]);
+    
+        res.json({ success: true });
+           
+    })
+
+    confirmRecovery = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+        
+        const { email, recovery } = req.body;
+    
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1 AND recovery = $2`, [email, recovery]);
+    
+        const user = rows[0] || false;
+        
+        if (!user) {
+            return next(new ErrorResponse('User not found.', 404))
+        }
+
+        const code: string = await CodeGenerate() || '';
+    
+        if (!code || !user.email) {
+            return next(new ErrorResponse('Code generator issue.', 500))
+        }
+        user.recovery = code;
+    
+        await sendingEmail.sendPasswordRecovery(user);
+    
+        await pool.query(`UPDATE accounts SET recovery = $1 WHERE email = $2 RETURNING *`, [code, user.email]);
+    
+        res.json({ success: true });
+           
+    })
+
+
     
 }
 
