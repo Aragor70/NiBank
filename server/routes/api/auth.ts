@@ -15,7 +15,7 @@ const authController: any = new AuthController;
 //route get    api/auth
 //description  get users
 //access       private
-router.get('/', authController.getUsers);
+router.get('/', authController.getUser);
 
 //route get    api/auth
 //description  login
@@ -71,6 +71,16 @@ router.put('/recovery', authController.updateCredentials);
 //description  confirm recovery email
 //access       private
 router.post('/pre_recovery', authController.preRecovery);
+
+//route get    api/auth
+//description  verify email recovery
+//access       private
+router.post('/verify_secret', authController.verifySecret);
+
+//route get    api/auth
+//description  update email recovery
+//access       private
+router.put('/email_recovery', authController.updateEmail);
 
 //route get    api/auth
 //description  set income amount

@@ -124,9 +124,39 @@ export const preRecovery = (formData: any, setStep: any) => async(dispatch: Disp
     }
 }
 
+export const verifySecret = (formData: any, setStep: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        const res: any = await axios.post('/api/auth/verify_secret', formData);
+        
+        await setStep(1)
+        
+    } catch (err: any) {
+
+        console.log(err.message)
+        //dispatch(setAlert(err.response.data.message, 'danger'))
+        
+    }
+}
+
 export const updateCredentials = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         const res: any = await axios.put('/api/auth/recovery', formData);
+        
+        await history.push('/')
+
+        dispatch({ type: User_Update, payload: res?.data })
+        
+    } catch (err: any) {
+        dispatch({ type: User_Update_Fail })
+        console.log(err.message)
+        //dispatch(setAlert(err.response.data.message, 'danger'))
+        
+    }
+}
+
+export const updateEmail = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        const res: any = await axios.put('/api/auth/email_recovery', formData);
         
         await history.push('/')
 

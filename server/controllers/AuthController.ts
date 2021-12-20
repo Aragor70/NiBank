@@ -17,7 +17,7 @@ const sendingEmail = new SendingEmail;
 class AuthController {
 
 
-    getUsers = asyncHandler( async (req: any, res: any, next: any) => {
+    getUser = asyncHandler( async (req: any, res: any, next: any) => {
         
         if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -377,16 +377,16 @@ class AuthController {
     verifySecret = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     
         
-        const { private_key, password } = req.body;
+        const { secret, password } = req.body;
         
-        const { rows } = await pool.query(`SELECT * FROM accounts WHERE private_key = $1 `, [private_key]);
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE private_key = $1 `, [secret]);
     
         const user = rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('Invalid Credentials.', 422))
         }
-
+        
         const isMatch = await bcrypt.compare(password, user.password);
     
         if (!isMatch){
@@ -456,9 +456,14 @@ class AuthController {
 
     updateEmail = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     
-        const { private_key, password, email } = req.body;
+        const { secret, password, email, emailConfirmation } = req.body;
         
-        const { rows } = await pool.query(`SELECT * FROM accounts WHERE private_key = $1 `, [private_key]);
+                
+        if (email !== emailConfirmation) {
+            return next(new ErrorResponse('These emails are not equal.', 422))
+        }
+
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE private_key = $1 `, [secret]);
     
         const user = rows[0] || false;
         
