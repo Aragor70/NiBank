@@ -60,7 +60,6 @@ class UserController {
     
         let user = rows[0] || false;
     
-        console.log(user)
         if (user) {
             return next(new ErrorResponse('User already exists.', 422))
         } else if (!email || !email.includes('@')) {

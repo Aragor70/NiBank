@@ -192,7 +192,6 @@ class AuthController {
         const { first_name, last_name, gender_title, date_of_birth, country, email, avatar } = req.body;
     
         if ( !avatar && !email ) {
-            console.log('error')
             return next(new ErrorResponse('Email address is required.', 422))
         }
     
@@ -244,7 +243,7 @@ class AuthController {
     
     
         const { main_wallet } = req.body;
-        console.log(main_wallet)
+        
         if ( !main_wallet ) {
             return next(new ErrorResponse('Currency is required.', 422))
         }
@@ -254,7 +253,7 @@ class AuthController {
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
         const user = rows[0] || false;
-        console.log(user)
+        
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
         }
@@ -273,7 +272,7 @@ class AuthController {
     
     
         const { wallet } = req.body;
-        console.log(wallet)
+        
         if ( !wallet ) {
             return next(new ErrorResponse('Currency is required.', 422))
         }
@@ -283,7 +282,7 @@ class AuthController {
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
         const user = rows[0] || false;
-        console.log(user)
+        
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
         }
@@ -303,18 +302,16 @@ class AuthController {
     
         const { code } = req.body;
     
-        console.log(code)
         if (!code) {
             return next(new ErrorResponse('Invalid Credentials.', 422))
         }
-        console.log(code)
     
         const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
         const user = rows[0] || false;
-        console.log(user)
+        
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
         }
@@ -364,7 +361,7 @@ class AuthController {
     
         
         const { email, code } = req.body;
-        console.log(email, code)
+        
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1 AND recovery = $2`, [email, code]);
     
         const user = rows[0] || false;

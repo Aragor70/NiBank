@@ -183,7 +183,6 @@ class ProjectController {
         const today = moment().format('YYYY-MM-DD');
     
         if (currentProject.status !== "UNDER_CONSIDERATION") {
-            console.log('status')
             return next(new ErrorResponse('Project is not under consideration.', 422))
         }
         if (currentProject.status === "OPEN" && !closedate) {
