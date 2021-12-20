@@ -373,6 +373,30 @@ class AuthController {
         res.json({ success: true });
            
     })
+
+    verifySecret = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+        
+        const { private_key, password } = req.body;
+        
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE private_key = $1 `, [private_key]);
+    
+        const user = rows[0] || false;
+        
+        if (!user) {
+            return next(new ErrorResponse('Invalid Credentials.', 422))
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+    
+        if (!isMatch){
+            return next(new ErrorResponse('Invalid Credentials.', 422))
+        }
+
+    
+        res.json({ success: true });
+           
+    })
     
     setForgotCredentials = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     
@@ -428,6 +452,38 @@ class AuthController {
      
         res.json({ success: true, user: users?.rows[0] || {} });
            
+    })    
+
+    updateEmail = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+        const { private_key, password, email } = req.body;
+        
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE private_key = $1 `, [private_key]);
+    
+        const user = rows[0] || false;
+        
+        if (!user) {
+            return next(new ErrorResponse('Invalid Credentials.', 422))
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+    
+        if (!isMatch){
+            return next(new ErrorResponse('Invalid Credentials.', 422))
+        }
+
+        const code: string = await CodeGenerate() || '';
+
+        user.code = code || '';
+        
+        const users: any = await pool.query(`UPDATE accounts SET email = $1, approved = $2 WHERE email = $3 RETURNING *`, [ email, false, user.email ]);
+
+        user.email = email;
+
+        await sendingEmail.sendApproval(user)
+
+        res.json({ success: true, user: users?.rows[0] });
+
     })
 
 
