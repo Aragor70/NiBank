@@ -162,7 +162,7 @@ class AuthController {
             return next(new ErrorResponse('Invalid Credentials.', 422))
         }
     
-        res.json({ success: true }); 
+        res.json({ success: true, email }); 
            
     })
     
@@ -360,6 +360,23 @@ class AuthController {
            
     })
 
+    preRecovery = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+        
+        const { email, code } = req.body;
+        console.log(email, code)
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1 AND recovery = $2`, [email, code]);
+    
+        const user = rows[0] || false;
+        
+        if (!user) {
+            return next(new ErrorResponse('User not found.', 404))
+        }
+    
+        res.json({ success: true });
+           
+    })
+    
     setForgotCredentials = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     
         
@@ -388,12 +405,16 @@ class AuthController {
            
     })
 
-    confirmRecovery = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     
+    updateCredentials = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    
+        const { email, code, password, passwordConfirmation } = req.body;
         
-        const { email, recovery } = req.body;
+        if (password !== passwordConfirmation) {
+            return next(new ErrorResponse('These passwords are not equal.', 422))
+        }
     
-        const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1 AND recovery = $2`, [email, recovery]);
+        const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1 AND recovery = $2`, [email, code]);
     
         const user = rows[0] || false;
         
@@ -401,18 +422,14 @@ class AuthController {
             return next(new ErrorResponse('User not found.', 404))
         }
 
-        const code: string = await CodeGenerate() || '';
+        // encrypt password using bcrypt
+        const salt = await bcrypt.genSalt(10);
     
-        if (!code || !user.email) {
-            return next(new ErrorResponse('Code generator issue.', 500))
-        }
-        user.recovery = code;
+        const safePassword = await bcrypt.hash(password, salt);
     
-        await sendingEmail.sendPasswordRecovery(user);
-    
-        await pool.query(`UPDATE accounts SET recovery = $1 WHERE email = $2 RETURNING *`, [code, user.email]);
-    
-        res.json({ success: true });
+        const users: any = await pool.query(`UPDATE accounts SET password = $1, recovery = $2 WHERE email = $3 RETURNING *`, [ safePassword, null, user.email ]);
+     
+        res.json({ success: true, user: users?.rows[0] || {} });
            
     })
 

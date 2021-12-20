@@ -52,7 +52,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
               <IonLabel style={{ fontSize: '15px', marginBottom: '2px' }}>
                 {moment(tsx.created_on).format('DD-MM-YYYY')}
               </IonLabel>
-              <IonText style={{ fontWeight: 'normal', fontSize: '16px' }}>
+              <IonText style={{ fontWeight: 'normal', fontSize: '16px', textAlign: 'left' }}>
                 {tsx.projectname}
               </IonText>
               </div>
@@ -74,7 +74,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
               <IonLabel style={{ fontSize: '15px', marginBottom: '2px' }}>
                 {moment(tsx.created_on).format('DD-MM-YYYY')}
               </IonLabel>
-              <IonText style={{ fontWeight: 'normal', fontSize: '16px'}}>
+              <IonText style={{ fontWeight: 'normal', fontSize: '16px', textAlign: 'left'}}>
                 {isUp ? from?.name || "N/A" : tsx.name }
               </IonText>
               </div>
@@ -91,7 +91,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
               <IonLabel style={{ fontSize: '15px', marginBottom: '2px' }}>
                 {moment(tsx.created_on).format('DD-MM-YYYY')}
               </IonLabel>
-              <IonText style={{ fontWeight: 'normal', fontSize: '16px'}}>
+              <IonText style={{ fontWeight: 'normal', fontSize: '16px', textAlign: 'left'}}>
                 {isUp ? from?.name || "N/A" : tsx.name }
               </IonText>
               </div>
@@ -112,7 +112,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
               <IonLabel style={{ fontSize: '15px', marginBottom: '2px' }}>
                 {moment(tsx.created_on).format('DD-MM-YYYY')}
               </IonLabel>
-              <IonText style={{ fontWeight: 'normal', fontSize: '16px'}}>
+              <IonText style={{ fontWeight: 'normal', fontSize: '16px', textAlign: 'left'}}>
                 {isUp ? from?.name || "N/A" : tsx.name }
               </IonText>
               </div>

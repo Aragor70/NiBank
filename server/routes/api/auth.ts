@@ -58,6 +58,21 @@ router.post('/approve', authController.approve);
 router.put('/approve', authController.reSendApproval);
 
 //route get    api/auth
+//description  sending recovery email
+//access       private
+router.post('/recovery', authController.setForgotCredentials);
+
+//route get    api/auth
+//description  update user credentials
+//access       private
+router.put('/recovery', authController.updateCredentials);
+
+//route get    api/auth
+//description  confirm recovery email
+//access       private
+router.post('/pre_recovery', authController.preRecovery);
+
+//route get    api/auth
 //description  set income amount
 //access       private
 router.put('/income', authController.setIncome);

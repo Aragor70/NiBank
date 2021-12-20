@@ -1,4 +1,4 @@
-import { AuthType, Loading_Auth, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, UserType, User_Update, User_Update_Fail } from '../actions/auth/types'
+import { AuthType, Loading_Auth, Load_User, Login_Fail, Login_Success, Logout_User, Pre_Login_Fail, Pre_Login_Success, Register_Fail, Register_Success, UserType, User_Update, User_Update_Fail } from '../actions/auth/types'
 
 
 export const initialState = {
@@ -11,6 +11,9 @@ export const initialState = {
         role: null,
         two_factor: null,
         currency: null
+    },
+    preLogin: {
+        email: null
     },
     loading: false,
     token: localStorage.getItem('token'),
@@ -43,6 +46,12 @@ const auth = (state: AuthType = initialState, action: any) => {
                 
         case User_Update_Fail:
             return { ...state, loading: false }
+        
+        case Pre_Login_Success:
+            return { ...state, preLogin: { email: payload.email }, loading: false }
+
+        case Pre_Login_Fail:
+            return { ...state, preLogin: null, loading: false }
         
 
         default:

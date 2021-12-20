@@ -33,7 +33,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, history }) => {
             <IonAvatar slot="start" style={{ position: 'relative' }}>
             <IonIcon icon={tsx.to_project_id !== null ? businessOutline : people} size="large" color="secondary"></IonIcon>
             </IonAvatar>
-            <IonText>
+            <IonText style={{ textAlign: 'left' }}>
               {tsx.projectname}
             </IonText>
             <IonBadge slot="end" >{tsx.amount}</IonBadge>
@@ -47,7 +47,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, history }) => {
             <IonAvatar slot="start" style={{ position: 'relative' }}>
             <IonIcon icon={tsx.to_project_id !== null ? businessOutline : people} size="large" color="secondary"></IonIcon>
             </IonAvatar>
-            <IonText>
+            <IonText style={{ textAlign: 'left' }}>
               {tsx.name} 
               
               

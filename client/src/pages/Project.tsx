@@ -402,24 +402,31 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                 
                                 <IonItem>
                                     
-                                <IonBadge className="no-padding" color="light" slot="end" /* style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }} */>
-                                    <Flag code={getCountryCode(projectData?.country) || ""} height="30" />
-                                </IonBadge>
-                                <IonAvatar slot="start">
-                                    {/* <IonIcon size="large" color="secondary" icon={project.status === "OPEN" ? lockOpen : lockClosed}></IonIcon> */}
-                                    {
-                                    projectData.status === "UNDER_CONSIDERATION" ? 
-                                    <IonIcon size="large" color="secondary" icon={stopwatchOutline}></IonIcon>
-                                    : projectData.status !== "OPEN" ? <IonIcon size="large" color="secondary" icon={lockClosedOutline}></IonIcon>
-                                    : <IonIcon size="large" color="secondary" icon={cardOutline}></IonIcon>
+                                    <IonBadge className="no-padding" color="light" slot="end" /* style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }} */>
+                                        <Flag code={getCountryCode(projectData?.country) || ""} height="30" />
+                                    </IonBadge>
+                                    <IonAvatar slot="start">
+                                        {/* <IonIcon size="large" color="secondary" icon={project.status === "OPEN" ? lockOpen : lockClosed}></IonIcon> */}
+                                        {
+                                        projectData.status === "UNDER_CONSIDERATION" ? 
+                                        <IonIcon size="large" color="secondary" icon={stopwatchOutline}></IonIcon>
+                                        : projectData.status !== "OPEN" ? <IonIcon size="large" color="secondary" icon={lockClosedOutline}></IonIcon>
+                                        : <IonIcon size="large" color="secondary" icon={cardOutline}></IonIcon>
+                                        
+                                        }
+                                    </IonAvatar>
+                                
+                                    <IonItem>
+                                    <IonText>{project.status}</IonText>
+                                    </IonItem>
+                                </IonItem>
+                                <IonItem>
                                     
-                                    }
-                                </IonAvatar>
-                                <IonTitle>
-                                    <div className="ion-text-wrap" style={{ textAlign: 'left' }}>
-                                        {projectData.projectname}
-                                    </div>
-                                </IonTitle>
+                                    <IonTitle>
+                                        <div className="ion-text-wrap" style={{ textAlign: 'left' }}>
+                                            {projectData.projectname}
+                                        </div>
+                                    </IonTitle>
                                 </IonItem>
                                 <IonItem>
                                 <IonText style={{ padding: '7.5px 0' }}>

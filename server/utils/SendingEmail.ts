@@ -38,15 +38,6 @@ class SendingEmail {
       html: `<p>Dear ${user?.first_name || user?.name || ''} </p><p>You have applied for a password reset to your NiVest account.</p><p>Your recovery code is <strong>${user.recovery}</strong></p>`,
     }
 
-/*     	
-  Dear mikey.prus@gmail.com ,
-
-  You have applied for a password reset to your Max Crowdfund account. Click on the following link ( one-time access ) which will lead you to the page where you can set a new password. This link can only be used once and will expire after one day.
-
-  If you don't want to change your password, you can ignore this email and everything will stay the same.
-
-  Sincerely,
-  Max Crowdfund */
     await sgMail
       .send(msg)
       .then(() => {

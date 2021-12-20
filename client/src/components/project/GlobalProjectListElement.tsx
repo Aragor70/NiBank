@@ -44,7 +44,13 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
                 
               }
             </IonAvatar>
-            <IonTitle >
+            <IonItem>
+              <IonText>{project.status}</IonText>
+            </IonItem>
+          </IonItem>
+            
+          <IonItem>
+            <IonTitle>
               <div className="ion-text-wrap" style={{ textAlign: 'left' }}>
                 {project.projectname}
               </div>

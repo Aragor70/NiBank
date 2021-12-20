@@ -70,11 +70,11 @@ export const login = (formData: LoginUserType, history: any, present: any) => as
 }
 export const preLogin = (formData: LoginUserType, present: any, setStep: any) => async(dispatch: Dispatch<any>) => {
     try {
+
         const res: any = await axios.post('/api/auth/pre-login', formData);
         
         await setStep(2)
         dispatch({ type: Pre_Login_Success, payload: res.data })
-        
         
     } catch (err: any) {
         dispatch({ type: Pre_Login_Fail });
@@ -92,6 +92,54 @@ export const preLogin = (formData: LoginUserType, present: any, setStep: any) =>
         
     }
 }
+
+export const setForgotCredentials = (formData: any, setStep: any) => async(dispatch: Dispatch<any>) => {
+    try {
+        
+        const res: any = await axios.post('/api/auth/recovery', formData);
+        
+        setStep(1)
+        
+        
+        
+    } catch (err: any) {
+
+        console.log(err.message)
+
+    }
+}
+
+export const preRecovery = (formData: any, setStep: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        const res: any = await axios.post('/api/auth/pre_recovery', formData);
+        
+        await setStep(1)
+        
+        
+    } catch (err: any) {
+
+        console.log(err.message)
+        //dispatch(setAlert(err.response.data.message, 'danger'))
+        
+    }
+}
+
+export const updateCredentials = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        const res: any = await axios.put('/api/auth/recovery', formData);
+        
+        await history.push('/')
+
+        dispatch({ type: User_Update, payload: res?.data })
+        
+    } catch (err: any) {
+        dispatch({ type: User_Update_Fail })
+        console.log(err.message)
+        //dispatch(setAlert(err.response.data.message, 'danger'))
+        
+    }
+}
+
 export const preRegister = (formData: RegisterUserType, present: any, setStep: any) => async(dispatch: Dispatch<any>) => {
     try {
         const res: any = await axios.post('/api/auth/pre-register', formData);
@@ -173,6 +221,7 @@ export const confirm = (formData: any, history: any) => async(dispatch: Dispatch
         
     }
 }
+
 export const codeUpdate = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({ type: Loading_Auth })
