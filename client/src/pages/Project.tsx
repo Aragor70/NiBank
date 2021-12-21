@@ -416,8 +416,8 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                         }
                                     </IonAvatar>
                                 
-                                    <IonItem>
-                                    <IonText>{project.status}</IonText>
+                                    <IonItem lines="none">
+                                    <IonText>{projectData.status === "UNDER_CONSIDERATION" ? "COMING SOON" : projectData.status}</IonText>
                                     </IonItem>
                                 </IonItem>
                                 <IonItem>

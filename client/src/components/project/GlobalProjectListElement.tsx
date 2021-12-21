@@ -44,8 +44,8 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
                 
               }
             </IonAvatar>
-            <IonItem>
-              <IonText>{project.status}</IonText>
+            <IonItem lines="none">
+              <IonText>{project.status === "UNDER_CONSIDERATION" ? "COMING SOON" : project.status}</IonText>
             </IonItem>
           </IonItem>
             

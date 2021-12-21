@@ -255,10 +255,10 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
           }
 
           {
-            selectWalletView > 0 && <IonIcon onClick={() => prevSlide()} icon={returnDownBack} size="large" color="dark" style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 10 }}></IonIcon>
+            selectWalletView > 0 && auth?.user?.approved && <IonIcon onClick={() => prevSlide()} icon={returnDownBack} size="large" color="dark" style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 10 }}></IonIcon>
           }
           {
-            selectWalletView < account?.wallets?.length && <IonIcon onClick={() => nextSlide()} icon={returnDownForward} size="large" color="dark" style={{ position: 'absolute', bottom: 0, right: 0, zIndex: 10 }}></IonIcon>
+            (selectWalletView < account?.wallets?.length) && auth?.user?.approved && <IonIcon onClick={() => nextSlide()} icon={returnDownForward} size="large" color="dark" style={{ position: 'absolute', bottom: 0, right: 0, zIndex: 10 }}></IonIcon>
           }
           </section>
               {
@@ -425,9 +425,9 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
               
               <IonRow>
                 <IonItem>
-                <IonCol style={{ fontWeight: 'bold', display: 'flex', alignItems: 'left', justifyContent: 'center', flexDirection: 'column', lineHeight: '2' }}>
-                  <IonText>{element.projectname}</IonText>
-                  <IonRouterLink onClick={() => history.push(`/projects/${element.project_id}`)}>Get more</IonRouterLink>
+                <IonCol style={{ display: 'flex', alignItems: 'left', justifyContent: 'center', flexDirection: 'column', lineHeight: '2' }}>
+                  <IonText style={{ textAlign: 'left' }}>{element.projectname}</IonText>
+                  <IonRouterLink style={{ fontWeight: 'bold' }} onClick={() => history.push(`/projects/${element.project_id}`)}>Get more</IonRouterLink>
                 </IonCol>
                 <IonCol style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                   {
