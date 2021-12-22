@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonInput, IonCardSubtitle } from '@ionic/react';
-import { checkmark, informationCircleOutline, star } from 'ionicons/icons';
+import { checkmark, home, informationCircleOutline, star } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
@@ -44,7 +44,10 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history, codeUpdate }) => {
         
     }
 
-
+    const subTitles: any[] = [
+        {text: "Home", path: '/', icon: home}, 
+        {text: "Approvement page", path: '/account_approvement', icon: ''}
+    ]
 
   return (
     <IonPage>
@@ -54,7 +57,7 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history, codeUpdate }) => {
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > Approvement page"} />
+      <PageSubTitle subTitles={subTitles} />
         
         <IonCard>
         <IonCardHeader>

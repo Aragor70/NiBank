@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonText, IonGrid, IonRow, IonCol, IonBadge, IonRouterLink, IonAvatar, IonSlides, IonSlide, IonLabel, IonButtons, IonImg } from '@ionic/react';
-import { add, addCircle, addCircleOutline, alert, businessOutline, card, cardOutline, informationCircleOutline, person, pinOutline, returnDownBack, returnDownForward, returnUpForward } from 'ionicons/icons';
+import { add, addCircle, addCircleOutline, alert, businessOutline, card, cardOutline, home, informationCircleOutline, person, pinOutline, returnDownBack, returnDownForward, returnUpForward } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
@@ -84,6 +84,12 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
     centeredSlides: true,
   }
 
+    
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }
+  ]
 
   return (
     <IonPage>
@@ -92,7 +98,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
 
       <IonContent fullscreen>
 
-      <PageSubTitle subTitle={"Home"} />
+      <PageSubTitle subTitles={subTitles} />
         
 
       

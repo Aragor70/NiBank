@@ -1,7 +1,7 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonGrid, IonCol, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonRow } from '@ionic/react';
 import { connect } from 'react-redux';
-import { alert, arrowForward, businessOutline, checkmark, people } from 'ionicons/icons';
+import { alert, arrowForward, businessOutline, checkmark, home, people } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
@@ -39,6 +39,62 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
   }, [location.pathname])
 
 
+  const investTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Choose transaction", path: '/new_transaction', icon: '', 
+    
+      action: () => setSelectView({
+        investment: 0,
+        transfer: 0
+      })
+    },
+    {
+      text: "Investments", path: '/new_transaction', icon: '', 
+    
+      action: () => setSelectView({
+        investment: 1,
+        transfer: 0
+      })
+    }
+  ]
+
+  const transferTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Choose transaction", path: '/new_transaction', icon: '', 
+    
+      action: () => setSelectView({
+        investment: 0,
+        transfer: 0
+      })
+    },
+    {
+      text: "New transfer", path: '/new_transaction', icon: '', 
+    
+      action: () => setSelectView({
+        investment: 0,
+        transfer: 1
+      })
+    }
+  ]
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Choose transaction", path: '/new_transaction', icon: '', 
+    
+      action: () => setSelectView({
+        investment: 0,
+        transfer: 0
+      })
+    }
+  ]
   
   
   return (
@@ -60,7 +116,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
               <Fragment>
                 {
                   investment === 1 && <Fragment>
-                    <PageSubTitle subTitle={"Home > Choose transaction > Investments"} />
+                    <PageSubTitle subTitles={investTitles} />
 
                     <IonList>
                       <IonListHeader>
@@ -87,7 +143,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
             }
             {
               !!transfer && <Fragment>
-                <PageSubTitle subTitle={"Home > Choose transaction > New transfer"} />
+                <PageSubTitle subTitles={transferTitles} />
                 <IonList>
                   <IonListHeader>
                     <IonTitle style={{ textAlign: 'center' }}>
@@ -106,7 +162,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
             
           </Fragment> : <Fragment>
 
-            <PageSubTitle subTitle={"Home > Choose transaction"} />
+            <PageSubTitle subTitles={subTitles} />
             <IonList>
               <IonListHeader>
                 <IonTitle style={{ textAlign: 'center' }}>

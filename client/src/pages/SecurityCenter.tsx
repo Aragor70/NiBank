@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonItemDivider, IonCardSubtitle, IonGrid, IonRow, IonCol } from '@ionic/react';
-import { card, checkmark, close, informationCircleOutline } from 'ionicons/icons';
+import { card, checkmark, close, home, informationCircleOutline } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -20,6 +20,18 @@ const SecurityCenter: React.FC<any> = ({ tsx, history }) => {
     setArry(tsx.tsxs?.slice()?.sort((a: any, b: any) => a?.tsx_id - b?.tsx_id))
   }, [])
 
+  
+
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Security center", path: '/security_center', icon: '', 
+    
+    }
+  ]
+
   return (
     <IonPage>
 
@@ -28,7 +40,7 @@ const SecurityCenter: React.FC<any> = ({ tsx, history }) => {
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > Help > Security Center"} />
+      <PageSubTitle subTitles={subTitles} />
         
       <IonList>
           

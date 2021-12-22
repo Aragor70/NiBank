@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonText } from '@ionic/react';
-import { alert, alertCircleOutline, informationCircleOutline } from 'ionicons/icons';
+import { alert, alertCircleOutline, home, informationCircleOutline } from 'ionicons/icons';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Balance from '../components/Balance';
@@ -11,6 +11,18 @@ import PageSubTitle from '../components/PageSubTitle';
 import { logout } from '../store/actions/auth';
 
 const PageNotFound: React.FC<RouteComponentProps | any> = ({ history, logout, isAuthenticated }) => {
+
+
+    
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "404 page not found", path: '/', icon: '', 
+    }
+  ]
+
   return (
         <IonPage>
             <PageHeader />
@@ -18,7 +30,7 @@ const PageNotFound: React.FC<RouteComponentProps | any> = ({ history, logout, is
 
             <IonContent fullscreen>
 
-            <PageSubTitle subTitle={"Home > 404 page not found"} />
+            <PageSubTitle subTitles={subTitles} />
 
 
             <IonItem>

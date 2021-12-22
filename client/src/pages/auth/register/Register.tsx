@@ -4,7 +4,7 @@ import PageHeader from '../../../components/PageHeader';
 import PageSubTitle from '../../../components/PageSubTitle';
 
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { checkmark } from 'ionicons/icons';
+import { checkmark, home } from 'ionicons/icons';
 
 type RegisterForm = {
   email: string | null,
@@ -30,6 +30,17 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     
 }
 
+
+    const subTitles: any[] = [
+      {
+        text: "Home", path: '/', icon: home
+      }, 
+      {
+        text: "Register", path: '/register', icon: '', 
+      
+      }
+    ]
+
   return (
     <IonPage>
 
@@ -37,7 +48,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
       
       <IonContent fullscreen>
 
-      <PageSubTitle subTitle={"NiVest > Register"} />
+      <PageSubTitle subTitles={subTitles} />
 
       <IonList>
 

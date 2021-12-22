@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonCardSubtitle, IonGrid, IonCol, IonRow, IonBadge, IonProgressBar, IonImg, IonInput, IonSelect, IonSelectOption, IonSlides, IonSlide, useIonAlert, IonTextarea } from '@ionic/react';
-import { cardOutline, checkmark, informationCircleOutline, lockClosedOutline, stopwatchOutline } from 'ionicons/icons';
+import { cardOutline, checkmark, home, informationCircleOutline, lockClosedOutline, stopwatchOutline } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -160,6 +160,17 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
       }
 
+
+      const subTitles: any[] = [
+        {
+          text: "Home", path: '/', icon: home
+        }, 
+        {
+          text: "Project page", path: '/profile/projects/:project_id', icon: '', 
+        
+        }
+      ]
+
   return (
     <IonPage>
 
@@ -168,7 +179,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > Project page"} />
+      <PageSubTitle subTitles={subTitles} />
         
       <IonList>
 

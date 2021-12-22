@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
-import { checkmark, informationCircleOutline } from 'ionicons/icons';
+import { checkmark, home, informationCircleOutline } from 'ionicons/icons';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
@@ -57,6 +57,34 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
         }
     }, [])
 
+    
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "All project", path: '/projects', icon: '', 
+    
+      action: () => setStep(0)
+    }
+  ]
+    
+  const newOneTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "All project", path: '/projects', icon: '', 
+    
+      action: () => setStep(0)
+    }, 
+    {
+      text: "New project", path: '/projects', icon: '', 
+    
+      action: () => setStep(1)
+    }
+  ]
+
   return (
     <IonPage>
 
@@ -68,7 +96,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
         step === 0 && <Fragment>
 
       
-            <PageSubTitle subTitle={"Home > All project"} />
+            <PageSubTitle subTitles={subTitles} />
         
             <IonList>
                 <IonListHeader>
@@ -148,7 +176,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
         }
         {
             step === 1 ? auth?.user?.approved ? <Fragment>
-            <PageSubTitle subTitle={"Home > All project > New project"} />
+            <PageSubTitle subTitles={newOneTitles} />
             <IonList>
                 <IonListHeader>
                 <IonTitle style={{ textAlign: 'center' }}>

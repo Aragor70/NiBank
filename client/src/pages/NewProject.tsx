@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonCardSubtitle, IonGrid, IonCol, IonRow, IonSlides, IonSlide, IonInput, useIonAlert, IonSelect, IonSelectOption, IonButtons, IonTextarea } from '@ionic/react';
-import { alert, checkmark } from 'ionicons/icons';
+import { alert, checkmark, home } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
@@ -110,6 +110,16 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
   }
 
 
+  
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "New project", path: '/new_project', icon: '', 
+    }
+  ]
+
   return (
     <IonPage>
 
@@ -118,7 +128,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > New project"} />
+      <PageSubTitle subTitles={subTitles} />
         
       <IonList>
 

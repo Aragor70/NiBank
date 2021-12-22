@@ -1,5 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonItemDivider, IonInput } from '@ionic/react';
+import { home } from 'ionicons/icons';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -62,6 +63,16 @@ const RecoverEmail: React.FC <any> = ({ verifySecret, history, updateEmail }) =>
 
   }
 
+  
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Recover e-mail", path: '/recover_email', icon: '', 
+    
+    }
+  ]
 
   return (
     <IonPage>
@@ -71,7 +82,7 @@ const RecoverEmail: React.FC <any> = ({ verifySecret, history, updateEmail }) =>
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > Recover e-mail"} />
+      <PageSubTitle subTitles={subTitles} />
         
       <IonList>
           

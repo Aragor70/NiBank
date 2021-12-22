@@ -10,8 +10,8 @@
     "@capacitor/ios": "^3.2.5",
     "@capacitor/keyboard": "1.1.2",
     "@capacitor/status-bar": "1.0.5",
-    "@ionic/react": "^5.5.0",
-    "@ionic/react-router": "^5.5.0",
+    "@ionic/react": "^6.0.1",
+    "@ionic/react-router": "^6.0.1",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
@@ -19,7 +19,7 @@
     "@types/jest": "^26.0.20",
     "@types/moment": "^2.13.0",
     "@types/node": "^12.19.15",
-    "@types/react": "^16.14.3",
+    "@types/react": "^16.14.21",
     "@types/react-chartjs-2": "^2.5.7",
     "@types/react-dom": "^16.9.10",
     "@types/react-redux": "^7.1.19",
@@ -32,7 +32,7 @@
     "axios": "^0.23.0",
     "chart.js": "^3.6.0",
     "chartjs-plugin-datalabels": "^2.0.0",
-    "ionicons": "^5.4.0",
+    "ionicons": "^6.0.0",
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-chartjs-2": "^4.0.0",
@@ -88,6 +88,7 @@
   "description": "Register to Online Platform",
   "proxy": "http://localhost:5000",
   "devDependencies": {
-    "@capacitor/cli": "3.2.5"
+    "@capacitor/cli": "3.2.5",
+    "@types/babel__core": "^7.1.17"
   }
 }

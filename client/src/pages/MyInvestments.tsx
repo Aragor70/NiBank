@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonBadge } from '@ionic/react';
-import { checkmark, informationCircleOutline } from 'ionicons/icons';
+import { checkmark, home, informationCircleOutline } from 'ionicons/icons';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
@@ -32,6 +32,18 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth, account
         closed: true
     })
 
+
+    const subTitles: any[] = [
+        {
+          text: "Home", path: '/', icon: home
+        }, 
+        {
+          text: "My investments", path: '/my_investments', icon: '', 
+        
+          action: () => setStep(0)
+        }
+    ]
+
   return (
     <IonPage>
 
@@ -43,7 +55,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth, account
         step === 0 && <Fragment>
 
       
-            <PageSubTitle subTitle={"Home > My investments"} />
+            <PageSubTitle subTitles={subTitles} />
         
 
         

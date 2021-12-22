@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
-import { checkmark, information, informationCircleOutline } from 'ionicons/icons';
+import { checkmark, home, information, informationCircleOutline } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -16,6 +16,16 @@ import getMonthlyArry from '../utils/getMonthlyArry';
 const Transactions: React.FC<any> = ({ tsx }) => {
 
 
+  
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Global transactions", path: '/transactions', icon: '', 
+    
+    }
+  ]
 
   return (
     <IonPage>
@@ -25,7 +35,7 @@ const Transactions: React.FC<any> = ({ tsx }) => {
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > Global transactions"} />
+      <PageSubTitle subTitles={subTitles} />
         
       <IonList>
 

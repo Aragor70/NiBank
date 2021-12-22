@@ -1,5 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonItemDivider, IonInput, IonButtons } from '@ionic/react';
+import { home } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -107,6 +108,17 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
     return setFormDataTwo({...formDataTwo, [e.target.name]: e.target.value})
   }
 
+    
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Recover password", path: '/recover_password', icon: '', 
+    
+    }
+  ]
+
   return (
     <IonPage>
 
@@ -115,7 +127,7 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > Recover password"} />
+      <PageSubTitle subTitle={subTitles} />
         
       <IonList>
           

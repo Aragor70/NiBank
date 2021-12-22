@@ -1,7 +1,7 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonGrid, IonRow, IonCol, IonInput, IonSelect, IonSelectOption, IonButtons, IonImg } from '@ionic/react';
 import axios from 'axios';
-import { checkmark, closeCircleOutline, lockClosed, lockOpen } from 'ionicons/icons';
+import { checkmark, closeCircleOutline, home, lockClosed, lockOpen } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -159,6 +159,17 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
         }
     }
 
+    
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Settings", path: '/settings', icon: '', 
+    
+    }
+  ]
+
   return (
     <IonPage>
 
@@ -167,7 +178,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > Settings"} />
+      <PageSubTitle subTitles={subTitles} />
         
 
       <IonList>

@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
-import { checkmark, informationCircleOutline } from 'ionicons/icons';
+import { checkmark, home, informationCircleOutline } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -69,6 +69,18 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
         
     }, [match?.params?.tsx_id, tsxData?.tsx_id])
 
+    
+  
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Transaction page", path: '/transactions/:tsx_id', icon: '', 
+    
+    }
+  ]
+
   return (
     <IonPage>
 
@@ -77,7 +89,7 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home > Transaction page"} />
+      <PageSubTitle subTitles={subTitles} />
         
       <IonList>
 

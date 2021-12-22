@@ -5,6 +5,7 @@ import PageSubTitle from '../../components/PageSubTitle';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import EmailField from '../../components/login/EmailField';
 import PasswordField from '../../components/login/PasswordField';
+import { home } from 'ionicons/icons';
 
 type LoginForm = {
   email: string | null,
@@ -37,6 +38,18 @@ const { email, password } = formData;
 
 } */
 
+
+  
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Log on", path: '/logon', icon: '', 
+    
+    }
+  ]
+
   return (
     <IonPage>
 
@@ -44,7 +57,7 @@ const { email, password } = formData;
       
       <IonContent fullscreen>
 
-      <PageSubTitle subTitle={"NiVest > Log on"} />
+      <PageSubTitle subTitles={subTitles} />
 
       <IonList>
 

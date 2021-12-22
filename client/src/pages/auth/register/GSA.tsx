@@ -10,6 +10,7 @@ import Confirmation from '../../../components/register/Confirmation';
 import AccountSelection from '../../../components/register/AccountSelection';
 import Alert from '../../../components/Alert';
 import { connect } from 'react-redux';
+import { home } from 'ionicons/icons';
 
 
 
@@ -30,6 +31,20 @@ const GSA: React.FC <RouteComponentProps> = () => {
       return s === step ? true : false;
     }
 
+    
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }, 
+    {
+      text: "Register", path: '/register', icon: '', 
+    
+    }, 
+    {
+      text: "General Services Administration", path: '/register/gsa', icon: '', 
+    
+    }
+  ]
 
   return (
     <IonPage>
@@ -38,7 +53,7 @@ const GSA: React.FC <RouteComponentProps> = () => {
       
       <IonContent fullscreen>
 
-      <PageSubTitle subTitle={"NiVest > Register > General Services Administration"} />
+      <PageSubTitle subTitles={subTitles} />
 
       <Alert />
 

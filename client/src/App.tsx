@@ -54,7 +54,7 @@ import ApprovePage from './pages/ApprovePage';
 import Settings from './pages/Settings';
 import Wallets from './pages/Wallets';
 import Wallet from './pages/Wallet';
-
+import { setupIonicReact } from '@ionic/react';
 
 const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx, loadUsers, users }) => {
 
@@ -102,7 +102,9 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
     
   }, [auth?.user])
 
-
+  setupIonicReact({
+    mode: 'md'
+  });
 
   return (
   <IonApp>

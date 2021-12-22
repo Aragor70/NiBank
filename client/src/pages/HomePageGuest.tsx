@@ -12,7 +12,7 @@ import { ChartConfiguration, LineController, LineElement, PointElement, LinearSc
 
 
 import { Fragment, useEffect } from 'react';
-import { analytics, bookmarksOutline, bookOutline, businessOutline, card, extensionPuzzleOutline, open, people } from 'ionicons/icons';
+import { analytics, bookmarksOutline, bookOutline, businessOutline, card, extensionPuzzleOutline, home, open, people } from 'ionicons/icons';
 import Loader from '../components/Loader';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 
@@ -159,6 +159,13 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
     }, [project.openProjects, project.underConsiderationProjects, project.closedProjects, project.projects, project.loading])
 
 
+    
+  const subTitles: any[] = [
+    {
+      text: "Home", path: '/', icon: home
+    }
+  ]
+
   return (
     <IonPage>
 
@@ -167,7 +174,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={"Home"} />
+      <PageSubTitle subTitles={subTitles} />
 
 
 
