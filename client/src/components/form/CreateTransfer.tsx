@@ -141,7 +141,7 @@ const CreateTransfer: React.FC<any> = React.memo(({ newTsx, history, user, users
             
             <IonCard className="ion-alert-searchbar">
               <IonCardHeader>
-                <IonToolbar>
+                <IonToolbar mode="md">
                   <IonSearchbar></IonSearchbar>
                 </IonToolbar>
               </IonCardHeader>

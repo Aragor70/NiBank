@@ -29,7 +29,7 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
                     <IonList className="no-padding">
                       <IonItem className="no-padding">
                           <IonLabel slot="start">FROM</IonLabel>
-                            <IonText className="ion-wrap-text">{from?.name || "N/A"} </IonText>
+                            <IonText className="ion-wrap-text text-to-left">{from?.name || "N/A"} </IonText>
                           </IonItem>
                           <IonItem className="no-padding">
                             <IonText style={{ wordBreak: 'break-all' }}>{from?.public_key || "N/A"}</IonText>
@@ -38,7 +38,7 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
 
                           <IonItem className="no-padding">
                             <IonLabel slot="start">TO</IonLabel>
-                            <IonText className="ion-wrap-text">{tsx?.name || tsx?.projectname || "N/A"}</IonText>
+                            <IonText className="ion-wrap-text text-to-left">{tsx?.name || tsx?.projectname || "N/A"}</IonText>
                           </IonItem>
                           {
                             tsx?.to_user_id && <Fragment>
@@ -99,23 +99,25 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
                   </IonItem>
               </IonCardContent>
             </IonCard>
-            <IonCard>
-              <IonCardContent>
             {
-              tsx?.from_id === auth?.user?.user_id ? auth?.user?.approved ? <Fragment>
-                <IonItem onClick={() => setIsOpen(!isOpen)}>
-                  <IonIcon slot="start" icon={cardOutline}></IonIcon>
-                  <IonRouterLink>
-                    New transaction
-                  </IonRouterLink>
-                </IonItem>
-              </Fragment> : false : false
+              ((tsx?.from_id === auth?.user?.user_id) && (auth?.user?.approved)) ? <Fragment>
+                
+                <IonCard>
+                  <IonCardContent>
+                    <IonItem onClick={() => setIsOpen(!isOpen)}>
+                      <IonIcon slot="start" icon={cardOutline}></IonIcon>
+                      <IonRouterLink>
+                        New transaction
+                      </IonRouterLink>
+                    </IonItem>
+                    
+                  </IonCardContent>
+                </IonCard>
+              </Fragment> : false
             }
-            </IonCardContent>
-            </IonCard>
             
             {
-              (isOpen && auth?.user?.approved) ? tsx?.from_id === auth?.user?.user_id ? tsx?.to_project_id ? <IonCard><IonCardContent><CreateInvestment prevTsx={tsx} /></IonCardContent></IonCard> : <IonCard><IonCardContent><CreateTransfer prevTsx={tsx} /></IonCardContent></IonCard> : false : false
+              (isOpen && auth?.user?.approved) && (tsx?.from_id === auth?.user?.user_id) ? tsx?.to_project_id ? <IonCard><IonCardContent><CreateInvestment prevTsx={tsx} /></IonCardContent></IonCard> : <IonCard><IonCardContent><CreateTransfer prevTsx={tsx} /></IonCardContent></IonCard> : false
             }
         </Fragment> : <Fragment>
             <IonCard>

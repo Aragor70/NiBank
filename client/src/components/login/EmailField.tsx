@@ -39,7 +39,7 @@ const EmailField: React.FC<RouteComponentProps | any> = ({ formData, setFormData
       <Fragment>
             
         <form onSubmit={(e: any) => checkEmail(e)}>
-          <IonToolbar>
+          <IonToolbar mode="md">
             <IonItem>
               <IonLabel>E-mail</IonLabel>
               <IonInput value={email || ''} max="50" name="email" onIonChange={ (e: any) => handleChange(e)}></IonInput>
@@ -54,10 +54,10 @@ const EmailField: React.FC<RouteComponentProps | any> = ({ formData, setFormData
               <IonCheckbox checked={ formData?.emailSave } onIonChange={(e: any) => setFormData({ ...formData, emailSave: e.detail.checked }) } color="primary" slot="start"></IonCheckbox>
               
             </IonItem>
-          <IonToolbar>
+          <IonToolbar mode="md">
             <IonButton disabled={!(email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)))} type="submit" size="small" color="secondary" slot="end">Continue {">"}</IonButton>
           </IonToolbar>
-          <IonToolbar>
+          <IonToolbar mode="md">
             <IonItem>
               <IonRouterLink onClick={() => history.push("/recover_email")} class="spacing">Forgot your E-mail?</IonRouterLink>
             </IonItem>

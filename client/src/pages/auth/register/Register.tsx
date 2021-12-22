@@ -60,10 +60,10 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
           <IonCard>
             <IonCardHeader>
 
-              <IonCardTitle>
+              <IonCardTitle mode="md">
                 How to register to Mobile {"&"} Online Platform
               </IonCardTitle>
-              <IonCardSubtitle>
+              <IonCardSubtitle mode={"md"}>
                 Before you begin, you'll need:
               </IonCardSubtitle>
 
@@ -116,11 +116,11 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
           
           <IonCardHeader>
             
-            <IonCardTitle>
+            <IonCardTitle mode="md">
               Continue registration
 
             </IonCardTitle>
-            <IonCardSubtitle>
+            <IonCardSubtitle mode={"md"}>
               To continue the registration process online, click the button below.
 
             </IonCardSubtitle>
@@ -129,7 +129,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
 
           <IonCardContent>
             
-            <IonToolbar>
+            <IonToolbar mode="md">
               <IonButton  onClick={() => history.push('/register/gsa')} type="button" size="default" color="primary" slot="end">
                 Register to Online Platform
               </IonButton>
@@ -142,14 +142,14 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
           <IonCard>
             
             <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
               More information
 
             </IonCardTitle>
             </IonCardHeader>
 
             <IonCardContent>
-            <IonToolbar>
+            <IonToolbar mode="md">
             <IonItem>
               
                 <IonRouterLink href="#" class="spacing">Setting up a Secure Key </IonRouterLink>

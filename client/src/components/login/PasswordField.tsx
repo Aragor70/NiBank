@@ -40,7 +40,7 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
       <Fragment>
             
         <form onSubmit={(e: any) => loginHandler(e)}>
-          <IonToolbar>
+          <IonToolbar mode="md">
             <IonItem>
               <IonLabel>E-mail</IonLabel>
               <IonInput value={email || ''} max="250" name="email" disabled></IonInput>
@@ -60,12 +60,12 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
               <IonCheckbox checked={ formData?.emailSave } onIonChange={(e: any) => setFormData({ ...formData, emailSave: e.detail.checked }) } color="primary" slot="start"></IonCheckbox>
               
             </IonItem>
-          <IonToolbar>
+          <IonToolbar mode="md">
             <IonButton disabled={!(password && email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} type="submit" size="small" color="secondary" slot="end">Log on</IonButton>
             <button style={{ display: 'none' }} disabled={!(password && email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} type="submit" color="secondary" slot="end">Log on</button>
             
           </IonToolbar>
-          <IonToolbar>
+          <IonToolbar mode="md">
             <IonItem>
               <IonRouterLink onClick={() => history.push("/recover_password")} class="spacing">Forgot your password?</IonRouterLink>
             </IonItem>

@@ -95,7 +95,7 @@ const RecoverEmail: React.FC <any> = ({ verifySecret, history, updateEmail }) =>
           
           <IonCard>
             <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
                 Recover e-mail
 
             </IonCardTitle>

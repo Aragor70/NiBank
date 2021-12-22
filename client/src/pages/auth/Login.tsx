@@ -97,7 +97,7 @@ const { email, password } = formData;
 
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>Register to Online Platform</IonCardTitle>
+            <IonCardTitle mode="md">Register to Online Platform</IonCardTitle>
 
           </IonCardHeader>
           <IonCardContent>
@@ -107,7 +107,7 @@ const { email, password } = formData;
 
             </IonItem>
                 
-            <IonToolbar>
+            <IonToolbar mode="md">
               <IonButton onClick={() => history.push('/register')} type="button" size="small" color="secondary" slot="end">Register now {">"}</IonButton>
             </IonToolbar>
 

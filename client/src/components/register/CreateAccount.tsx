@@ -38,7 +38,7 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
             
             <IonCard>
                 <IonCardHeader>
-                    <IonCardTitle className="ion-items-center">
+                    <IonCardTitle className="ion-items-center" mode="md">
                         Create account
                     </IonCardTitle>
                 </IonCardHeader>

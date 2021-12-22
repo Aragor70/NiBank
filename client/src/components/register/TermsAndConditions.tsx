@@ -24,7 +24,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         
         <IonCardHeader>
         
-            <IonCardTitle className="ion-items-center">
+            <IonCardTitle className="ion-items-center" mode="md">
                 Terms {"&"} Conditions
 
             </IonCardTitle>
@@ -61,7 +61,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
 
         <IonCard>
         <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
                 Cookies
             </IonCardTitle>
         </IonCardHeader>
@@ -255,7 +255,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         
         <IonCard>
         <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
                 Hyperlinking to our Content
 
             </IonCardTitle>
@@ -544,7 +544,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         </IonCard>
         <IonCard>
         <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
                 iFrames
             </IonCardTitle>
         </IonCardHeader>
@@ -560,7 +560,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         </IonCard>
         <IonCard>
         <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
                 Content Liability
 
             </IonCardTitle>
@@ -578,7 +578,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         </IonCard>
         <IonCard>
         <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
                 Reservation of Rights
 
 
@@ -597,7 +597,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         </IonCard>
         <IonCard>
         <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
                 Removal of links from our Application
 
 
@@ -626,7 +626,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
         </IonCard>
         <IonCard>
         <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
                 Disclaimer
 
 

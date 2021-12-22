@@ -146,7 +146,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
               <IonList>
                 <IonCard>
                     <IonCardHeader>
-                      <IonCardTitle className="ion-items-center">
+                      <IonCardTitle className="ion-items-center" mode="md">
                         Submit your project
                       </IonCardTitle>
                     </IonCardHeader>
@@ -402,7 +402,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
                   <IonList style={{ width: '100%'}}>
                     <IonCard>
                       <IonCardHeader>
-                        <IonCardTitle className="ion-items-center">
+                        <IonCardTitle className="ion-items-center" mode="md">
                           Confirm
                         </IonCardTitle>
                       </IonCardHeader>

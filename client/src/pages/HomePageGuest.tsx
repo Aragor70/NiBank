@@ -226,7 +226,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
           </IonListHeader>
           <IonCard>
             <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
               If you’re not yet an Mobile Investor:
 
             </IonCardTitle>
@@ -236,7 +236,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
                 Follow the instructions to register and activate your Digital Secure Key.
               </IonItem>
               
-              <IonToolbar>
+              <IonToolbar mode="md">
                 <IonButton onClick={() => history.push('/register')} type="button" size="small" color="secondary" slot="end">Register {">"}</IonButton>
               </IonToolbar>
               
@@ -244,7 +244,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
           </IonCard>
           <IonCard>
             <IonCardHeader>
-            <IonCardTitle>
+            <IonCardTitle mode="md">
               If you’re already registered for online investing:
 
             </IonCardTitle>
@@ -255,7 +255,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
 
               </IonItem>
               
-              <IonToolbar>
+              <IonToolbar mode="md">
                 <IonButton onClick={() => history.push('/logon')} type="button" size="small" color="primary" slot="end">Log on {">"}</IonButton>
               </IonToolbar>
             </IonCardContent>
@@ -269,7 +269,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
               <IonCardTitle className="ion-text-center">
                 NiVest
               </IonCardTitle>
-              <IonCardSubtitle className="ion-text-center" style={{ fontSize: '16px' }}>
+              <IonCardSubtitle className="ion-text-center" style={{ fontSize: '16px' }} mode={"md"}>
               Cross-platform app. Powered by the Web.
               </IonCardSubtitle>
             </IonCardHeader>
@@ -329,7 +329,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
           </IonCard>
           <IonCard>
             <IonCardHeader>
-              <IonCardTitle className="ion-items-center">
+              <IonCardTitle className="ion-items-center" style={{ textAlign: 'center'}}>
                 Investment opportunities
               </IonCardTitle>
             </IonCardHeader>
@@ -388,7 +388,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
                       <IonItem>
                       <IonIcon size="large" icon={bookOutline} slot="start" color="primary"></IonIcon>
                     
-                      <IonText className="ion-items-center" style={{ fontSize: '16px', fontWeight: 'bold' }} color="primary" onClick={() => history.push('/projects')}>Show more opportunities</IonText>
+                      <IonText className="ion-items-center no-padding" style={{ fontSize: '16px', fontWeight: 'bold' }} color="primary" onClick={() => history.push('/projects')}>Show more opportunities</IonText>
                       </IonItem>
                     </IonCardContent>
                   </IonCard>

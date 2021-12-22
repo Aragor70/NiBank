@@ -1,5 +1,5 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonText, IonGrid, IonRow, IonCol, IonBadge, IonRouterLink, IonAvatar, IonSlides, IonSlide, IonLabel, IonButtons, IonImg } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonText, IonGrid, IonRow, IonCol, IonBadge, IonRouterLink, IonAvatar, IonSlides, IonSlide, IonLabel, IonButtons, IonImg, IonCardSubtitle } from '@ionic/react';
 import { add, addCircle, addCircleOutline, alert, businessOutline, card, cardOutline, home, informationCircleOutline, person, pinOutline, returnDownBack, returnDownForward, returnUpForward } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useRef, useState } from 'react';
@@ -104,15 +104,15 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
       
       <IonList>
         <IonCard style={{ boxShadow: 'none' }} className="no-borders">
-        <IonCardHeader color="primary" style={{ borderRadius: '7.5px', minHeight: '120px', lineHeight: '2' }}>
+        <IonCardHeader color="primary" className="vertical-center" style={{ borderRadius: '7.5px', minHeight: '120px', lineHeight: '2' }}>
           
-          <IonTitle style={{ fontSize: '22px' }}>
+          <IonCardTitle style={{ fontSize: '22px' }}>
             Welcome { (auth?.user?.first_name && auth?.user?.last_name) ? (auth?.user?.first_name + ' ' + auth?.user?.last_name) : auth?.user?.name || "N/A"}
             
-          </IonTitle>
-          <IonTitle style={{ fontSize: '16px' }}>
-            <IonText>Here is a quick look at your accounts.</IonText>
-          </IonTitle>
+          </IonCardTitle>
+          <IonCardSubtitle style={{ fontSize: '16px' }} mode={"md"}>
+            Here is a quick look at your accounts.
+          </IonCardSubtitle>
         </IonCardHeader>
 
         </IonCard>

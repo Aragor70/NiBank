@@ -33,7 +33,7 @@ const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormDa
 
         <IonCard>
             <IonCardHeader>
-                <IonCardTitle className="ion-items-center">
+                <IonCardTitle className="ion-items-center" mode="md">
                     Confirm your details
                 </IonCardTitle>
 

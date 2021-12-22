@@ -186,6 +186,20 @@ http://ionicframework.com/docs/theming/ */
     --ion-item-background: #000000;
 
     --ion-card-background: #1c1c1d;
+
+    
+    --ion-item-background: #1e1e1e;
+
+    --ion-toolbar-background: #1f1f1f;
+
+    --ion-tab-bar-background: #1f1f1f;
+
+    --ion-card-background: #1e1e1e;
+
+  }
+  .ios * {
+    
+    text-align: left;
   }
 
   .ios ion-modal {
@@ -345,6 +359,23 @@ http://ionicframework.com/docs/theming/ */
     --ion-item-background: #000000;
 
     --ion-card-background: #1c1c1d;
+    
+    
+    --ion-background-color: #4d4d4d;
+    
+    
+    --ion-border-color: #dbdbdb;
+
+    --ion-item-background: #4d4d4d;
+
+    --ion-toolbar-background: #4d4d4d;
+
+    --ion-tab-bar-background: #4d4d4d;
+
+    --ion-card-background: #4d4d4d;
+
+    
+    --ion-color-step-550: #dbdbdb;
   }
 
   .ios ion-modal {
@@ -490,6 +521,17 @@ ion-item
   --padding-end: 0;
   --padding-start: 0;
 }
+
+ion-card ion-item
+{
+  --padding-end: 0!important;
+  --padding-start: 0!important;
+}
+
+ion-card ion-card
+{
+  width: 100%!important;
+}
 ion-text
 {
   font-size: 16px;
@@ -525,6 +567,10 @@ ion-avatar ion-icon:nth-child(2)
 .no-padding
 {
   padding: 0 !important;
+}
+.no-margin
+{
+  margin: 0 !important;
 }
 .ion-items-center
 {
@@ -592,4 +638,30 @@ img
   background: -webkit-linear-gradient(#eee, #333);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.text-to-left
+{
+  text-align: left;
+}
+
+.vertical-center
+{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.ios ion-card-title
+{
+  margin-bottom: 7.5px;
+}
+.ios ion-card-subtitle
+{
+  line-height: 1.6;
+}
+.ios ion-title
+{
+  height: auto;
+
 }

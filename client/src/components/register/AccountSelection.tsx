@@ -16,11 +16,11 @@ const AccountSelection: React.FC<RouteComponentProps | any> = ({ formData, setFo
             
             <IonCard>
                 <IonCardHeader>
-                    <IonCardTitle className="ion-items-center">
+                    <IonCardTitle className="ion-items-center" mode="md">
                         Account selection
 
                     </IonCardTitle>
-                    <IonCardSubtitle className="ion-items-center">
+                    <IonCardSubtitle className="ion-items-center" mode={"md"}>
                         Select the type of account
 
                     </IonCardSubtitle>

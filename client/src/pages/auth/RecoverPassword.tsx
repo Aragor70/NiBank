@@ -146,7 +146,7 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
 
                   <IonCard>
                     <IonCardHeader>
-                      <IonCardTitle>
+                      <IonCardTitle mode="md">
                         Recover password
 
                       </IonCardTitle>
@@ -186,7 +186,7 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
 
               <IonCard>
                 <IonCardHeader>
-                  <IonCardTitle>
+                  <IonCardTitle mode="md">
                     Verify the code
                   </IonCardTitle>
                 </IonCardHeader>

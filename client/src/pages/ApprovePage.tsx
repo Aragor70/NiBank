@@ -86,7 +86,7 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history, codeUpdate }) => {
         <IonButton slot="end" disabled={!(formData?.code?.length === 6 && !isNaN(formData?.code))} type="submit">Confirm</IonButton>
         </IonItem>
       </form>
-          <IonToolbar>
+          <IonToolbar mode="md">
             <IonItem>
               <IonRouterLink class="spacing" onClick={(e: any) => handleRequest(e)}>Send me the Digital Secure Key again</IonRouterLink>
             </IonItem>
@@ -95,7 +95,7 @@ const ApprovePage: React.FC<any> = ({ auth, confirm, history, codeUpdate }) => {
         </IonCard>
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle className="ion-items-center">
+            <IonCardTitle className="ion-items-center" mode="md">
               Don’t receive the verification email?
             </IonCardTitle>
           </IonCardHeader>
