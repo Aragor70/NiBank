@@ -14,7 +14,7 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
     <IonMenu side="start" menuId="first" contentId="output">
         <IonHeader mode="md">
         <IonToolbar color="primary" mode="md">
-            <IonTitle>NiVest Menu</IonTitle>
+            <IonTitle className="no-padding">NiVest Menu</IonTitle>
         </IonToolbar>
         </IonHeader>
         <IonContent>

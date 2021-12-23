@@ -319,7 +319,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                             </Fragment> : selected === 1 ? <Fragment>
                                 <IonList>
                                     <IonListHeader className="ion-items-center">
-                                        <IonTitle>
+                                        <IonTitle className="no-padding">
                                             Pay accounts
 
                                         </IonTitle>
@@ -378,7 +378,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                 <IonList>
                                     
                                     <IonListHeader className="ion-items-center">
-                                        <IonTitle>
+                                        <IonTitle className="no-padding">
                                             Pay accounts
 
                                         </IonTitle>

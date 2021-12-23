@@ -40,7 +40,7 @@ const Transactions: React.FC<any> = ({ tsx }) => {
       <IonList>
 
         <IonListHeader>
-            <IonTitle style={{ textAlign: 'center' }}>
+            <IonTitle style={{ textAlign: 'center' }} className="no-padding">
                 Global transactions
 
             </IonTitle>

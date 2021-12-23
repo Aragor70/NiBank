@@ -50,7 +50,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
           </IonItem>
             
           <IonItem mode="md">
-            <IonTitle>
+            <IonTitle className="no-padding">
               <div className="ion-text-wrap" style={{ textAlign: 'left' }}>
                 {project.projectname}
               </div>

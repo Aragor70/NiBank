@@ -48,8 +48,8 @@ const Transactions: React.FC<any> = ({ account }) => {
       <IonList>
 
         <IonListHeader>
-            <IonTitle style={{ textAlign: 'center' }}>
-                Recent transactions
+            <IonTitle style={{ textAlign: 'center' }} className="no-padding">
+                  Recent transactions
 
             </IonTitle>
         </IonListHeader>

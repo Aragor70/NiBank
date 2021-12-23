@@ -166,7 +166,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
             <IonList>
               <IonListHeader>
                 <IonTitle style={{ textAlign: 'center' }}>
-                    Choose transaction
+                    New transaction
 
                 </IonTitle>
               </IonListHeader>

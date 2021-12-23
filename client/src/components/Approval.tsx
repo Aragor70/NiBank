@@ -1,5 +1,5 @@
 
-import { IonCard, IonCardContent, IonIcon, IonItem, IonText } from '@ionic/react';
+import { IonAvatar, IonCard, IonCardContent, IonIcon, IonItem, IonText } from '@ionic/react';
 import { alert, star } from 'ionicons/icons';
 import { Fragment } from 'react';
 import { connect } from 'react-redux';
@@ -13,9 +13,11 @@ const Approval: React.FC<any> = ({ auth, history }) => {
     <Fragment>
       <IonCard style={{ boxShadow: 'none' }} className="no-borders">
         <IonCardContent style={{ paddingLeft: '0', paddingRight: '0', paddingBottom: '0' }}>
-        <IonItem lines="none" style={{ border: '2px solid #3880ff', fontWeight: 'bold' }} onClick={() => history.push('/account_approvement')}>
-            <IonIcon color="primary" icon={star} slot="start"></IonIcon>
-            <IonText color="primary" className="ion-items-center">Upgrade the account to Approved</IonText>
+        <IonItem lines="none" className="ion-items-center" style={{ border: '2px solid #3880ff', fontWeight: 'bold' }} onClick={() => history.push('/account_approvement')}>
+            <IonAvatar slot="start" className="no-margin vertical-center" style={{ alignItems: 'center' }}>
+              <IonIcon color="primary" size="large" icon={star}></IonIcon>
+            </IonAvatar>
+            <IonText color="primary" className="ion-items-center" >Upgrade the account to Approved</IonText>
         </IonItem>
         </IonCardContent>
       </IonCard>

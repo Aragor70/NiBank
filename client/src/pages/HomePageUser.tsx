@@ -274,7 +274,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
                           
                     <IonCardContent>
 
-                      <IonList className="ion-items-center" style={{ flexDirection: 'row' }} >
+                      <IonList className="ion-items-center" style={{ flexDirection: 'row', columnGap: '30px' }} >
                         {
                           account?.wallets?.length ? <Fragment>{account?.wallets?.map((element: any, index: number) => <IonItem key={index}><div className="ion-items-center" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem>)}<IonItem><div className="ion-items-center" onClick={() => handleWalletChange(account?.wallets?.length || 0)}><IonIcon color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''} icon={addCircle} size="small"></IonIcon><IonText color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''}>NEW</IonText></div></IonItem></Fragment> : <Fragment><IonItem><div className="ion-items-center"><IonIcon color="primary" icon={addCircle} size="small"></IonIcon><IonText color="primary">NEW</IonText></div></IonItem></Fragment>
                         }
@@ -311,20 +311,18 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
                       <IonRow>
                         <IonCol>
                           <IonItem onClick={() => history.push('/new_transaction')}>
-                            <IonAvatar style={{ postion: 'relative' }} slot="start">
-                              <IonIcon style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 10 }} icon={add}></IonIcon>
+                            <IonAvatar slot="start">
                               <IonIcon size="large" icon={cardOutline}></IonIcon>
                             </IonAvatar>
-                            <IonText>Transfer</IonText>
+                            <IonText>+ Transfer</IonText>
                           </IonItem>
                         </IonCol>
                         <IonCol>
                           <IonItem onClick={() => history.push('/new_project')}>
-                            <IonAvatar style={{ postion: 'relative' }} slot="start">
-                              <IonIcon style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 10 }} icon={add}></IonIcon>
+                            <IonAvatar slot="start">
                               <IonIcon size="large" icon={businessOutline}></IonIcon>
                             </IonAvatar>
-                            <IonText>Project</IonText>
+                            <IonText>+ Project</IonText>
                           </IonItem>
                         </IonCol>
                       </IonRow>
@@ -378,7 +376,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
         <IonCardContent className="no-padding">
         <IonGrid>
         <IonCard style={{ boxShadow: 'none' }}>
-            <IonCardContent className="no-padding">
+            <IonCardContent>
             <IonList>
               {
                 account?.loading ? <Loader /> : account?.tsxs?.length > 0 ? Object.values(getMonthlyArry(account?.tsxs.slice(0, 3), 'DD-MM-YYYY')).map((elem: any, index: number) => <Fragment key={index}><IonList className="no-padding"><IonListHeader className="no-padding ion-items-center">{moment(elem[0].created_on).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY') ? "Today" : moment(elem[0].created_on).format('DD-MM-YYYY')}</IonListHeader>{elem.map((element: any, index: any) => <MyTsxListElement key={element?.tsx_id} tsx={element} index={index} extendTsx={extendTsx} setExtendTsx={setExtendTsx} />)}</IonList></Fragment> ) : 
@@ -424,7 +422,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
         <IonCardContent className="no-padding">
         <IonGrid>
         <IonCard style={{ boxShadow: 'none' }}>
-            <IonCardContent className="no-padding">
+            <IonCardContent>
             <IonList>
           {
             /* project.projects.filter((element: any) => !!element.listofinvestors.filter((elem: any) => elem.user_id === auth?.user?.user_id)[0]) */account?.loading ? <Loader /> : account?.investments?.length > 0 ? account?.investments?.slice(0, 3).map((element: any) => <Fragment key={element.project_id}>

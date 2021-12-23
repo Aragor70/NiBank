@@ -8,6 +8,7 @@ import { loadUsers } from '../../store/actions/auth';
 import { getTsx, newTsx } from '../../store/actions/tsx';
 import AccountRow from '../lists/AccountRow';
 import Loader from '../Loader';
+import NotFound from '../NotFound';
 
 
 const CreateTransfer: React.FC<any> = React.memo(({ newTsx, history, user, users, tsx, loadUsers, prevTsx = null }) => {
@@ -88,9 +89,40 @@ const CreateTransfer: React.FC<any> = React.memo(({ newTsx, history, user, users
   }
 
   return (
-    <IonItem>    
-        <form onSubmit={(e: any) => handleSubmit(e)}>
+    <form onSubmit={(e: any) => handleSubmit(e)}>
+        
+      {
+        doSearch ? <Fragment>
+          
+          <IonCard>
+            <IonCardHeader>
+              <IonToolbar mode="md">
+                <IonSearchbar></IonSearchbar>
+              </IonToolbar>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonList>
+                <IonCard>
+                  <IonCardContent>
+                    
+                    <IonList>
+                      {
+                        users?.length ? users?.map((element: any, index: number) => <AccountRow key={index} element={element} index={index} doSearch={doSearch} setDoSearch={setDoSearch} formData={formData} setFormData={setFormData} />) : <NotFound message="User not found" />
+                      }
+                    </IonList>
+                  </IonCardContent>
+                </IonCard>
+
+                <IonItem>
+                  <IonButton type="button" slot="end" onClick={()=> setDoSearch(false)}>Cancel</IonButton>
+                </IonItem>
+              </IonList>
+            </IonCardContent>
             
+          </IonCard>
+        </Fragment> : <Fragment>
+
+
             <IonItem>
               <IonLabel>From</IonLabel>
               <IonText slot="end">{user?.accountType || "You"}</IonText>
@@ -134,33 +166,11 @@ const CreateTransfer: React.FC<any> = React.memo(({ newTsx, history, user, users
             Forgot the recipient account?
           </IonRouterLink>
         </IonItem>
-        </form>
+          
+        </Fragment>
+      }
+    </form>
         
-        {
-          doSearch && <Fragment>
-            
-            <IonCard className="ion-alert-searchbar">
-              <IonCardHeader>
-                <IonToolbar mode="md">
-                  <IonSearchbar></IonSearchbar>
-                </IonToolbar>
-              </IonCardHeader>
-              <IonCardContent>
-                
-                <IonList>
-                  {
-                    users.map((element: any, index: number) => <AccountRow key={index} element={element} index={index} doSearch={doSearch} setDoSearch={setDoSearch} formData={formData} setFormData={setFormData} />)
-                  }
-                </IonList>
-                <IonItem>
-                  <IonButton slot="end" onClick={()=> setDoSearch(false)}>Cancel</IonButton>
-                </IonItem>
-              </IonCardContent>
-              
-            </IonCard>
-          </Fragment>
-        }
-    </IonItem>
   );
 });
 const mapStateToProps = (state: any) => ({

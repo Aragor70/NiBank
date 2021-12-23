@@ -166,7 +166,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
           text: "Home", path: '/', icon: home
         }, 
         {
-          text: "Project page", path: '/profile/projects/:project_id', icon: '', 
+          text: "Project page", path: `/projects/${projectData?.project_id}`, icon: '', 
         
         }
       ]
@@ -433,7 +433,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                 </IonItem>
                                 <IonItem>
                                     
-                                    <IonTitle>
+                                    <IonTitle className="no-padding">
                                         <div className="ion-text-wrap" style={{ textAlign: 'left' }}>
                                             {projectData.projectname}
                                         </div>
@@ -549,7 +549,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                     <IonCardContent>
 
                                         <IonItem>
-                                            <IonTitle>
+                                            <IonTitle className="no-padding">
                                                 <div className="ion-items-center">
                                                     Project summary
                                                 </div>
@@ -595,12 +595,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
             </Fragment> : <Fragment>
                 <NotFound message="Project not found." />
             </Fragment>
-        }
-        <IonItem>
-
-            
-            
-        </IonItem>        
+        }     
         
       </IonList>
         

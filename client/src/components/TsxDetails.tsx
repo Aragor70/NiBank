@@ -21,7 +21,7 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
         access === 'user' ? <Fragment>
             <IonCard>
                 <IonCardHeader>
-                    <IonTitle>
+                    <IonTitle className="no-padding">
                         Transaction
                     </IonTitle>
                 </IonCardHeader>
@@ -75,7 +75,7 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
             </IonCard>
             <IonCard>
               <IonCardHeader>
-                <IonTitle>
+                <IonTitle className="no-padding">
                   Protection
                 </IonTitle>
               </IonCardHeader>
@@ -117,12 +117,12 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
             }
             
             {
-              (isOpen && auth?.user?.approved) && (tsx?.from_id === auth?.user?.user_id) ? tsx?.to_project_id ? <IonCard><IonCardContent><CreateInvestment prevTsx={tsx} /></IonCardContent></IonCard> : <IonCard><IonCardContent><CreateTransfer prevTsx={tsx} /></IonCardContent></IonCard> : false
+              (isOpen && auth?.user?.approved) && (tsx?.from_id === auth?.user?.user_id) ? tsx?.to_project_id ? <IonCard><IonCardContent><CreateInvestment prevTsx={tsx} user={auth?.user} /></IonCardContent></IonCard> : <IonCard><IonCardContent><CreateTransfer prevTsx={tsx} user={auth?.user} /></IonCardContent></IonCard> : false
             }
         </Fragment> : <Fragment>
             <IonCard>
                 <IonCardHeader>
-                    <IonTitle>
+                    <IonTitle className="no-padding">
                         Transaction
                     </IonTitle>
                 </IonCardHeader>
@@ -140,7 +140,7 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
             </IonCard>
             <IonCard>
               <IonCardHeader>
-                <IonTitle>
+                <IonTitle className="no-padding">
                   Protection
                 </IonTitle>
               </IonCardHeader>

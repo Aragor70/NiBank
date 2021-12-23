@@ -34,7 +34,7 @@ const Wallets: React.FC<any> = ({ account, history }) => {
 
         <IonList>
             <IonListHeader>
-                <IonTitle>
+                <IonTitle className="no-padding">
                     Current wallets
 
                 </IonTitle>

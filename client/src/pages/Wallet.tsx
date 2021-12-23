@@ -64,7 +64,7 @@ const Wallet: React.FC<any> = ({ account, match, tsx }) => {
                         <IonRow>
                             <IonCol className="ion-items-center">
                                 <IonText>TOTAL</IonText>
-                                <IonTitle>
+                                <IonTitle className="no-padding">
                                     {walletDetails?.balance} {walletDetails?.currency}
                                 </IonTitle>
                             </IonCol>

@@ -67,7 +67,7 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
             clearTsx()
         } */
         
-    }, [match?.params?.tsx_id, tsxData?.tsx_id])
+    }, [match?.params?.tsx_id, tsxData?.tsx_id, tsx?.loading])
 
     
   
@@ -76,7 +76,7 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Transaction page", path: '/transactions/:tsx_id', icon: '', 
+      text: "Transaction page", path: `/transactions/${tsxData?.tsx_id}`, icon: '', 
     
     }
   ]
@@ -112,12 +112,7 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
 
             </Fragment> : <NotFound message="Transaction not found." />
 
-        }
-        <IonItem>
-
-            
-            
-        </IonItem>        
+        }      
         
       </IonList>
         

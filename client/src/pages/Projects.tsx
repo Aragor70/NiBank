@@ -1,5 +1,5 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonAccordionGroup, IonAccordion } from '@ionic/react';
 import { checkmark, home, informationCircleOutline } from 'ionicons/icons';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -97,81 +97,65 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
 
       
             <PageSubTitle subTitles={subTitles} />
-        
+            
             <IonList>
-                <IonListHeader>
-                <IonTitle style={{ textAlign: 'center' }} onClick={() => setShowMore({ ...showMore, underConsideration: !showMore.underConsideration })}>
-                    Under consideration - {project.underConsiderationProjects.length} {project.underConsiderationProjects.length === 1 ? "project" : "projects"}
-
-                </IonTitle>
-                </IonListHeader>
-                {
-                    showMore.underConsideration ? <IonCard>
-                        <IonCardContent>
-                            {
-                                project.underConsiderationProjects.length > 0 ? project.underConsiderationProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
-                                <NotFound message="No available projects." />
-                            }
-                        </IonCardContent>
-                    </IonCard> : false
-                }
-                        
-                </IonList>
-
-                <IonList>
-                    <IonListHeader>
-                    <IonTitle style={{ textAlign: 'center' }} onClick={() => setShowMore({ ...showMore, open: !showMore.open })}>
-                        Open - {project.openProjects.length} {project.openProjects.length === 1 ? "project" : "projects"}
-
-                    </IonTitle>
-                    </IonListHeader>
-                    {
-                        showMore.open ? <IonCard>
-                            <IonCardContent>
-
-                                {
-                                    project.openProjects.length > 0 ? project.openProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
-                                    <NotFound message="No available projects." />
-                                }
-
-                            </IonCardContent>
-                        </IonCard> : false
-                    }
-                            
-                </IonList>
-
-                <IonList>
-                    <IonListHeader>
-                    <IonTitle style={{ textAlign: 'center' }} onClick={() => setShowMore({ ...showMore, closed: !showMore.closed })}>
-                        Closed - {project.closedProjects.length} {project.closedProjects.length === 1 ? "project" : "projects"}
-
-                    </IonTitle>
-                    </IonListHeader>
-                    {
-                        showMore.closed ? 
-                        
+                
+                <IonAccordionGroup>
+                    <IonList>
                         <IonCard>
                             <IonCardContent>
-                                {
-                                    project.closedProjects.length > 0 ? project.closedProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
-                                    <NotFound message="No available projects." />
-                                }
+                                <IonAccordion>
+                                    <IonItem slot="header">
+                                        <IonLabel>
+                                            Under consideration ({project.underConsiderationProjects.length} {project.underConsiderationProjects.length === 1 ? "project" : "projects"})
+                                        </IonLabel>
+                                    </IonItem>
+                                    <IonList slot="content">
+
+                                    {
+                                        project.underConsiderationProjects.length > 0 ? project.underConsiderationProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
+                                        <NotFound message="No available projects." />
+                                    }
+
+                                    </IonList>
+                                </IonAccordion>
+                                <IonAccordion>
+                                    <IonItem slot="header">
+                                        <IonLabel>
+                                            Open to invest ({project.openProjects.length} {project.openProjects.length === 1 ? "project" : "projects"})
+                                        </IonLabel>
+                                    </IonItem>
+                                    <IonList slot="content">
+
+                                    {
+                                        project.openProjects.length > 0 ? project.openProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
+                                        <NotFound message="No available projects." />
+                                    }
+
+                                    </IonList>
+                                </IonAccordion>
+                                <IonAccordion>
+                                    <IonItem slot="header">
+                                        <IonLabel>
+                                            Closed ({project.closedProjects.length} {project.closedProjects.length === 1 ? "project" : "projects"})
+                                        </IonLabel>
+                                    </IonItem>
+                                    <IonList slot="content">
+
+                                    {
+                                        project.closedProjects.length > 0 ? project.closedProjects.map((element: any, index: any) => <GlobalProjectListElement key={element.project_id || index} project={element} index={index} />) : 
+                                        <NotFound message="No available projects." />
+                                    }
+
+                                    </IonList>
+                                </IonAccordion>
                             </IonCardContent>
-                        </IonCard> : false
-                    }
-                </IonList>
-                {/* {
-                    auth?.user?.approved && <Fragment>
+                        </IonCard>
 
-                        <IonItem>
-                            <div className="ion-items-center">
-                                <IonButton onClick={() => setStep(1)}>New project</IonButton>
-                            </div>
-                        </IonItem>
+                    </IonList>
+                </IonAccordionGroup>
+            </IonList>
 
-                    </Fragment>
-                } */}
-                
             </Fragment>
         }
         {

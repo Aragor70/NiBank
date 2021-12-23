@@ -103,7 +103,7 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
   }, [auth?.user])
 
   setupIonicReact({
-    mode: 'ios'
+    mode: 'md'
   });
 
   return (
