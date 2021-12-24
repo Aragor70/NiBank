@@ -23,11 +23,11 @@ class AuthController {
             return next(new ErrorResponse('Go to log on.', 422))
         }
 
-        const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+        const token = await req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
 
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         console.log(user, 'Userload')
         
         res.json(user);
@@ -40,7 +40,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1`, [email]);
         
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if(!user){
             return next(new ErrorResponse('Invalid Credentials.', 422))
@@ -60,7 +60,7 @@ class AuthController {
 
         const today = moment().format('DD-MM-YYYY');
 
-        const last_login = user?.last_login ? moment(user?.last_login).format('DD-MM-YYYY') : null;
+        const last_login = await user?.last_login ? moment(user?.last_login).format('DD-MM-YYYY') : null;
 
         if (today !== last_login && user?.main_wallet && user?.income) {
             await this.sendIncome(user, next);
@@ -112,7 +112,7 @@ class AuthController {
         const previousHash = previousTransaction?.current_hash;
         const nonce = previousTransaction?.nonce + 1;
 
-        const hash = await SHA256(((previousTransaction?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user.user_id + user?.user_id + (income || user?.income) + nonce).toString()).toString();
+        const hash = SHA256(((previousTransaction?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user.user_id + user?.user_id + (income || user?.income) + nonce).toString()).toString();
         
         const tsx = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`, [ 0, user.user_id, income || user?.income, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, user.main_wallet, description || '' ]);
         
@@ -131,7 +131,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -156,7 +156,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT email FROM accounts WHERE email = $1`, [email]);
         
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if(!user) {
             return next(new ErrorResponse('Invalid Credentials.', 422))
@@ -172,7 +172,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT email FROM accounts WHERE email = $1`, [email]);
         
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if(user) {
             return next(new ErrorResponse('Account already exists.', 422))
@@ -199,7 +199,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -219,7 +219,7 @@ class AuthController {
             
             const users = await pool.query(`UPDATE accounts SET first_name = $1, last_name = $2, gender_title = $3, date_of_birth = $4, country = $5, email = $6, code = $7, approved = $8 WHERE email = $9 RETURNING *`, [ first_name, last_name, gender_title, date_of_birth, country, email, code, false, user?.email ]);
 
-            user.email = email;
+            user.email = await email;
 
             await sendingEmail.sendApproval(user)
 
@@ -252,7 +252,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -281,7 +281,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -310,7 +310,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -336,7 +336,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('Go to log on.', 422))
@@ -364,7 +364,7 @@ class AuthController {
         
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1 AND recovery = $2`, [email, code]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('User not found.', 404))
@@ -381,7 +381,7 @@ class AuthController {
         
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE private_key = $1 `, [secret]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('Invalid Credentials.', 422))
@@ -405,7 +405,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1`, [email]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('User not found.', 404))
@@ -437,7 +437,7 @@ class AuthController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1 AND recovery = $2`, [email, code]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('User not found.', 404))
@@ -465,7 +465,7 @@ class AuthController {
 
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE private_key = $1 `, [secret]);
     
-        const user = rows[0] || false;
+        const user = await rows[0] || false;
         
         if (!user) {
             return next(new ErrorResponse('Invalid Credentials.', 422))
@@ -483,7 +483,7 @@ class AuthController {
         
         const users: any = await pool.query(`UPDATE accounts SET email = $1, approved = $2 WHERE email = $3 RETURNING *`, [ email, false, user.email ]);
 
-        user.email = email;
+        user.email = await email;
 
         await sendingEmail.sendApproval(user)
 

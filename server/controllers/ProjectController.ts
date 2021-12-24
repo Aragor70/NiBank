@@ -314,7 +314,7 @@ class ProjectController {
 
         const projectQuery = await pool.query(`SELECT * FROM projects where project_id = $1`, [ tsx.project_id ]);
 
-        const project: any = projectQuery?.rows[0];
+        const project: any = await projectQuery?.rows[0];
 
         const projectTsxs: any[] = await this.getProjectTsxs(project, validTsxs);
         

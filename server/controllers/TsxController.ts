@@ -58,9 +58,9 @@ class TsxController {
 
         const matchRecipient = await pool.query(`SELECT * FROM accounts WHERE public_key = $1`, [to]);
 
-        const recipient = matchRecipient.rows[0] || false;
+        const recipient = await matchRecipient.rows[0] || false;
 
-        const isMatch = recipient?.wallets?.filter((element: any) => currency?.toString() === element?.toString())
+        const isMatch = await recipient?.wallets?.filter((element: any) => currency?.toString() === element?.toString())
 
         if (!recipient || !isMatch || !isMatch[0]) {
             return next(new ErrorResponse('Recipient does not allow this currency.', 422))
@@ -74,8 +74,8 @@ class TsxController {
         
         const previousTransaction = await validTsxs[0];
 
-        const previousHash = previousTransaction?.current_hash;
-        const nonce = previousTransaction?.nonce + 1;
+        const previousHash = await previousTransaction?.current_hash;
+        const nonce = await previousTransaction?.nonce + 1;
 
         const hash = await SHA256(((previousTransaction?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user.user_id + to + amount + nonce).toString()).toString();
         
@@ -101,7 +101,7 @@ class TsxController {
 
     getInitialWallets = async (user: any) => {
 
-        let wallets: any[] = user?.wallets?.length ? user?.wallets?.map((element: any) => ({ balance: 0, currency: element, out: 0, in: 0 })) : []
+        let wallets: any[] = await user?.wallets?.length ? user?.wallets?.map((element: any) => ({ balance: 0, currency: element, out: 0, in: 0 })) : []
 
         const isMatch = wallets.length ? await wallets?.filter((element: any) => element.currency === user.main_wallet)[0] : null;
 
@@ -110,7 +110,7 @@ class TsxController {
             wallets.unshift({ balance: 0, currency: user?.main_wallet, out: 0, in: 0 })
 
         } else if (isMatch && user?.main_wallet) {
-            wallets = wallets.reduce((acc: any, element: any) => {
+            wallets = await wallets.reduce((acc: any, element: any) => {
                 if (element.currency === user.main_wallet) {
                   return [element, ...acc];
                 }
@@ -158,7 +158,7 @@ class TsxController {
 
     getMyTsxs = async (user: any, tsxs: any[]) => {
 
-        return user ? await tsxs.filter((element: any) => (element?.from_id?.toString() === user?.user_id?.toString()) || (element?.to_user_id?.toString() === user?.user_id?.toString())) : []
+        return user ? tsxs.filter((element: any) => (element?.from_id?.toString() === user?.user_id?.toString()) || (element?.to_user_id?.toString() === user?.user_id?.toString())) : []
         
     };
 

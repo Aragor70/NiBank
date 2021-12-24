@@ -58,7 +58,7 @@ class UserController {
     
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE email = $1`, [email]);
     
-        let user = rows[0] || false;
+        let user = await rows[0] || false;
     
         if (user) {
             return next(new ErrorResponse('User already exists.', 422))
@@ -74,7 +74,7 @@ class UserController {
             avatar = 'https:' + avatar.toString()
         }
     
-        const userName = name || email.slice(0, email.indexOf('@'));
+        const userName = await name || email.slice(0, email.indexOf('@'));
     
         // encrypt password using bcrypt
         const salt = await bcrypt.genSalt(10);
@@ -89,7 +89,7 @@ class UserController {
             `INSERT INTO accounts (name, email, password, avatar, public_key, private_key, account_type, code) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`, [userName, email, safePassword, avatar || '', publicKey, privateKey, accountType, '']
         );
         
-        user = users?.rows[0];
+        user = await users?.rows[0];
     
     
         const payload = {
