@@ -17,17 +17,26 @@ type LoginForm = {
 const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
   const [formData, setFormData] = useState<LoginForm>({
-    email: '',
+    email: localStorage.email || '',
     password: '',
-    emailSave: false
+    emailSave: localStorage.email ? true : false
   })
 
 useEffect(() => {
 
-  if (localStorage.getItem('email')) {
-    setFormData({ ...formData, email: localStorage.getItem('email') || '', emailSave: true })
+  if (localStorage.email) {
+    
+    setFormData({ ...formData, email: localStorage.email, emailSave: true })
+
   }
-}, [localStorage?.email])
+  return () => {
+    setFormData({
+      email: '',
+      password: '',
+      emailSave: false
+    })
+  }
+}, [localStorage.email])
 
 const [step, setStep] = useState(1)
 

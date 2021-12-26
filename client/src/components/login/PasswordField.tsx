@@ -17,6 +17,7 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
     const handleChange = (e: any) => {
         
         setFormData({ ...formData, [e.target.name]: e.target.value })
+        
     }
 
     const loginHandler = async (e: any) => {

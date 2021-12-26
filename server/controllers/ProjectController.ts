@@ -325,8 +325,8 @@ class ProjectController {
         return true;
     }
 
-
-    /* projectTransfer = async ( project: any ) => {
+/* 
+    sendYield = async ( project: any ) => {
 
         // status if funded
         
@@ -343,9 +343,6 @@ class ProjectController {
 
         if (!validTsxs?.length) return false;
 
-
-
-        
     }; */
     
 }
