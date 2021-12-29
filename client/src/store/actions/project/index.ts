@@ -8,7 +8,7 @@ export const newProject = (formData: any, history: any, present: any) => async(d
     try {
         dispatch({ type: Project_Loading });
 
-        const res: any = await axios.post('/api/projects', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/projects', formData);
         
         dispatch({ type: Project_Create_Success, payload: res.data })
         
@@ -36,7 +36,7 @@ export const updateProject = (formData: any, present: any) => async(dispatch: Di
     try {
         dispatch({ type: Project_Loading });
 
-        const res: any = await axios.put(`/api/projects/${formData.project_id}`, formData);
+        const res: any = await axios.put(`http://139.59.150.253:5000/api/projects/${formData.project_id}`, formData);
         
         dispatch({ type: Project_Update_Success, payload: res.data.project })
         
@@ -63,7 +63,7 @@ export const deleteProject = (id: any, present: any, history: any) => async(disp
     try {
         dispatch({ type: Project_Loading });
 
-        const res: any = await axios.delete(`/api/projects/${id}`);
+        const res: any = await axios.delete(`http://139.59.150.253:5000/api/projects/${id}`);
         
         dispatch({ type: Project_Delete_Success, payload: id })
 
@@ -92,8 +92,8 @@ export const getProjects = (user: any = null) => async(dispatch: Dispatch<any>) 
     try {
         dispatch({ type: Project_Loading });
         
-        const res: any = await axios.get('/api/projects');
-        const resTsx: any = await axios.get('/api/tsx');
+        const res: any = await axios.get('http://139.59.150.253:5000/api/projects');
+        const resTsx: any = await axios.get('http://139.59.150.253:5000/api/tsx');
         
         let projects = await res.data.projects.slice().map((element: any) => ({...element, listofinvestors: []}))
         
@@ -137,8 +137,8 @@ export const getProject = (id: number) => async(dispatch: Dispatch<any>) => {
     try {
         await dispatch({ type: Project_Loading });
 
-        const res: any = await axios.get(`/api/projects/${id}`);
-        const resTsx: any = await axios.get('/api/tsx');
+        const res: any = await axios.get(`http://139.59.150.253:5000/api/projects/${id}`);
+        const resTsx: any = await axios.get('http://139.59.150.253:5000/api/tsx');
 
         let tsxs = await resTsx.data.sort((a: any, b: any) => a.tsx_id - b.tsx_id).filter((element: any, index: number) => (element.to_project_id !== undefined) && (element.previous_hash !== element.current_hash) && ( index ? element?.previous_hash?.toString() === resTsx?.data[index - 1]?.current_hash?.toString() : true ))
 

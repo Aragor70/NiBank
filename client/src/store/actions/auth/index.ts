@@ -11,7 +11,7 @@ export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     
     try {
         dispatch({ type: Loading_Auth })
-        const res: any = await axios.get('/api/auth');
+        const res: any = await axios.get('http://139.59.150.253:5000/api/auth');
 
         dispatch({ type: Load_User, payload: { user: res.data} });
 
@@ -22,7 +22,7 @@ export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
 }
 export const loadUsers = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        const res: any = await axios.get('/api/users');
+        const res: any = await axios.get('http://139.59.150.253:5000/api/users');
         console.log(res)
         dispatch({ type: Load_Users_Success, payload: { users: res.data} });
 
@@ -36,7 +36,7 @@ export const loadUsers = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
 export const login = (formData: LoginUserType, history: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({ type: Loading_Auth })
-        const res: any = await axios.post('/api/auth', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/auth', formData);
         
         dispatch({ type: Login_Success, payload: res.data })
         
@@ -71,7 +71,7 @@ export const login = (formData: LoginUserType, history: any, present: any) => as
 export const preLogin = (formData: LoginUserType, present: any, setStep: any) => async(dispatch: Dispatch<any>) => {
     try {
 
-        const res: any = await axios.post('/api/auth/pre-login', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/auth/pre-login', formData);
         
         await setStep(2)
         dispatch({ type: Pre_Login_Success, payload: res.data })
@@ -96,7 +96,7 @@ export const preLogin = (formData: LoginUserType, present: any, setStep: any) =>
 export const setForgotCredentials = (formData: any, setStep: any) => async(dispatch: Dispatch<any>) => {
     try {
         
-        const res: any = await axios.post('/api/auth/recovery', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/auth/recovery', formData);
         
         setStep(1)
         
@@ -111,7 +111,7 @@ export const setForgotCredentials = (formData: any, setStep: any) => async(dispa
 
 export const preRecovery = (formData: any, setStep: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        const res: any = await axios.post('/api/auth/pre_recovery', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/auth/pre_recovery', formData);
         
         await setStep(1)
         
@@ -126,7 +126,7 @@ export const preRecovery = (formData: any, setStep: any) => async(dispatch: Disp
 
 export const verifySecret = (formData: any, setStep: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        const res: any = await axios.post('/api/auth/verify_secret', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/auth/verify_secret', formData);
         
         await setStep(1)
         
@@ -140,7 +140,7 @@ export const verifySecret = (formData: any, setStep: any) => async(dispatch: Dis
 
 export const updateCredentials = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        const res: any = await axios.put('/api/auth/recovery', formData);
+        const res: any = await axios.put('http://139.59.150.253:5000/api/auth/recovery', formData);
         
         await history.push('/')
 
@@ -156,7 +156,7 @@ export const updateCredentials = (formData: any, history: any) => async(dispatch
 
 export const updateEmail = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        const res: any = await axios.put('/api/auth/email_recovery', formData);
+        const res: any = await axios.put('http://139.59.150.253:5000/api/auth/email_recovery', formData);
         
         await history.push('/')
 
@@ -172,7 +172,7 @@ export const updateEmail = (formData: any, history: any) => async(dispatch: Disp
 
 export const preRegister = (formData: RegisterUserType, present: any, setStep: any) => async(dispatch: Dispatch<any>) => {
     try {
-        const res: any = await axios.post('/api/auth/pre-register', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/auth/pre-register', formData);
         
         await setStep(4)
         dispatch({ type: Pre_Register_Success, payload: res.data })
@@ -198,7 +198,7 @@ export const preRegister = (formData: RegisterUserType, present: any, setStep: a
 export const register = (formData: LoginUserType, history: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({ type: Loading_Auth })
-        const res: any = await axios.post('/api/users', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/users', formData);
         
         dispatch({ type: Register_Success, payload: res.data })
 
@@ -238,7 +238,7 @@ export const logout = (history: any) => async(dispatch: Dispatch<AuthDispatchTyp
 export const confirm = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({ type: Loading_Auth })
-        const res: any = await axios.post('/api/auth/approve', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/auth/approve', formData);
         
         dispatch({ type: User_Update, payload: res?.data })
         history.push('/')
@@ -255,7 +255,7 @@ export const confirm = (formData: any, history: any) => async(dispatch: Dispatch
 export const codeUpdate = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({ type: Loading_Auth })
-        const res: any = await axios.put('/api/auth/approve');
+        const res: any = await axios.put('http://139.59.150.253:5000/api/auth/approve');
         
         dispatch({ type: User_Update, payload: res?.data })
         
@@ -272,7 +272,7 @@ export const codeUpdate = () => async(dispatch: Dispatch<AuthDispatchTypes>) => 
 export const update = (formData: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({type: Loading_Auth })
-        const res: any = await axios.put('/api/auth', formData);
+        const res: any = await axios.put('http://139.59.150.253:5000/api/auth', formData);
         
         dispatch({type: User_Update, payload: res?.data})
         
@@ -286,7 +286,7 @@ export const update = (formData: any) => async(dispatch: Dispatch<AuthDispatchTy
 export const createWallet = (formData: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({type: Loading_Auth })
-        const res: any = await axios.put('/api/auth/wallets', formData);
+        const res: any = await axios.put('http://139.59.150.253:5000/api/auth/wallets', formData);
         
         dispatch({type: User_Update, payload: res.data})
         
@@ -301,7 +301,7 @@ export const createWallet = (formData: any) => async(dispatch: Dispatch<AuthDisp
 export const updateIncome = (formData: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({type: Loading_Auth })
-        const res: any = await axios.put('/api/auth/income', formData);
+        const res: any = await axios.put('http://139.59.150.253:5000/api/auth/income', formData);
         
         dispatch({type: User_Update, payload: res.data})
         

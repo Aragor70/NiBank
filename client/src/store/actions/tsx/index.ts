@@ -9,7 +9,7 @@ export const newTsx = (formData: any, history: any, present: any) => async(dispa
     try {
         dispatch({ type: Tsx_Loading });
 
-        const res: any = await axios.post('/api/tsx', formData);
+        const res: any = await axios.post('http://139.59.150.253:5000/api/tsx', formData);
         console.log(res.data)
         dispatch({ type: Tsx_Create_Success, payload: res.data })
         
@@ -38,7 +38,7 @@ export const newInvest = (id: number, formData: any, history: any, present: any)
     try {
         dispatch({ type: Tsx_Loading });
 
-        const res: any = await axios.post(`/api/projects/${id}`, formData);
+        const res: any = await axios.post(`http://139.59.150.253:5000/api/projects/${id}`, formData);
         console.log(res.data)
         dispatch({ type: Tsx_Create_Success, payload: res.data })
         
@@ -66,7 +66,7 @@ export const getTsx = (id: number) => async(dispatch: Dispatch<any>) => {
     try {
         await dispatch({ type: Tsx_Loading });
 
-        const res: any = await axios.get(`/api/tsx/${id}`);
+        const res: any = await axios.get(`http://139.59.150.253:5000/api/tsx/${id}`);
         
 
         await dispatch({ type: Get_Tsx_Success, payload: res?.data?.tsx })
@@ -87,7 +87,7 @@ export const updateMainWallet = (e: any) => async (dispatch: Dispatch<any>) => {
     try {
         await dispatch({ type: Loading_Auth });
 
-        const res: any = await axios.put('/api/auth/main_wallet', { main_wallet: e.target.value })
+        const res: any = await axios.put('http://139.59.150.253:5000/api/auth/main_wallet', { main_wallet: e.target.value })
         
 
         await dispatch({ type: User_Update, payload: res?.data })
@@ -109,7 +109,7 @@ export const getBalance = (user: any = null) => async(dispatch: Dispatch<any>) =
         dispatch({ type: Account_Loading });
         
         
-        const res: any = await axios.get('/api/tsx');
+        const res: any = await axios.get('http://139.59.150.253:5000/api/tsx');
         
         let balance = 0;
 
