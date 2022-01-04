@@ -91,7 +91,7 @@ class AuthController {
     
         const today = moment().format('YYYY-MM-DD');
 
-        if (!user.income && !income) {
+        if (!user?.income && !income) {
             return next(new ErrorResponse('Enter the amount.', 422)) 
         }
 
@@ -105,9 +105,9 @@ class AuthController {
         
         const validTsxs: any[] = await tsxController.getValidTsxs(tsxs);
 
-        if (!validTsxs?.length) return false;
+        //if (!validTsxs?.length) return false;
         
-        const previousTransaction = await validTsxs[0];
+        const previousTransaction = await validTsxs[0] || { current_hash: 'genesis', nonce: 0, tsx_id: 0 };
 
         const previousHash = previousTransaction?.current_hash;
         const nonce = previousTransaction?.nonce + 1;

@@ -379,7 +379,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                     
                                     <IonListHeader className="ion-items-center">
                                         <IonTitle className="no-padding">
-                                            Pay accounts
+                                            Protection
 
                                         </IonTitle>
                                     </IonListHeader>

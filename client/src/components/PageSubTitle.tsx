@@ -23,7 +23,7 @@ const PageSubTitle: React.FC<PageSubTitle | any> = ({ subTitles, history }) => {
                   values.map((element: any) => <IonBreadcrumb href="#">{element}</IonBreadcrumb>)
                 } */}
                 {
-                  subTitles?.map((element: any) => <Fragment>
+                  subTitles?.map((element: any, index: number) => <Fragment key={index}>
                     <IonBreadcrumb onClick={ element.action ? () => element.action() : element.path ? () => history.push(element.path) : () => false} style={{ display: 'flex', itemsAlign: 'center' }}>
 
                       {

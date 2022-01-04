@@ -152,17 +152,17 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
             <IonToolbar mode="md">
             <IonItem>
               
-                <IonRouterLink href="#" class="spacing">Setting up a Secure Key </IonRouterLink>
+                <IonRouterLink onClick={() => history.push('/register/gsa')} class="spacing">Setting up your account</IonRouterLink>
               
             </IonItem>
             <IonItem>
               
-                <IonRouterLink href="#" class="spacing">I've forgotten or need to set up a telephone security number </IonRouterLink>
+                <IonRouterLink onClick={() => history.push('/recover_email')} class="spacing">I've forgotten my email address</IonRouterLink>
               
             </IonItem>
             <IonItem>
               
-                <IonRouterLink href="#" class="spacing">Online Platform features </IonRouterLink>
+                <IonRouterLink onClick={() => history.push('/recover_password')} class="spacing">I've forgotten my password</IonRouterLink>
               
             </IonItem>
             </IonToolbar>

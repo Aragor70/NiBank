@@ -16,6 +16,7 @@ import { analytics, bookmarksOutline, bookOutline, businessOutline, card, extens
 import Loader from '../components/Loader';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 
+import CountUp from 'react-countup';
 
 import snowman from '../theme/images/svg/snowman1.svg'
 
@@ -301,7 +302,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
                 </IonRow>
                 <IonRow>
                   <IonCol className="ion-items-center">
-                    <IonText style={{ fontSize: '22px' }}>{users?.users?.length || 0}</IonText>
+                    <IonText style={{ fontSize: '22px' }}><CountUp end={users?.users?.length || 0} duration={1} /></IonText>
                   </IonCol>
                 </IonRow>
                 <IonRow>
@@ -316,10 +317,10 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
                 </IonRow>
                 <IonRow>
                   <IonCol className="ion-items-center">
-                    <IonText style={{ fontSize: '22px' }}>{tsx?.tsxs?.length || 0}</IonText>
+                    <IonText style={{ fontSize: '22px' }}><CountUp end={tsx?.tsxs?.length || 0} duration={1} /></IonText>
                   </IonCol>
                   <IonCol className="ion-items-center">
-                    <IonText style={{ fontSize: '22px' }}>{project?.projects?.length || 0}</IonText>
+                    <IonText style={{ fontSize: '22px' }}><CountUp end={project?.projects?.length || 0} duration={1} /></IonText>
                   </IonCol>
                 </IonRow>
               </IonGrid>
