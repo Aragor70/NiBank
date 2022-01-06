@@ -687,3 +687,8 @@ img
   
   --padding-top: 7.5px!important;
 }
+
+ion-list.column-gap-30
+{
+  column-gap: 30px !important;
+}

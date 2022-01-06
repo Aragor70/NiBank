@@ -75,7 +75,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
                 {moment(tsx.created_on).format('DD-MM-YYYY')}
               </IonLabel>
               <IonText style={{ fontWeight: 'normal', fontSize: '16px', textAlign: 'left'}}>
-                {isUp ? from?.name || "N/A" : tsx.name }
+                {isUp ? from?.user_id === 1 ? from?.first_name : from?.name || "N/A" : tsx.name }
               </IonText>
               </div>
             <IonBadge slot="end" color={!isUp ? "success" : "primary"} style={{ width: '90px', textAlign: 'center', lineHeight: '1.6' }} className="ion-text-wrap" onClick={() => setDetailsOn(!detailsOn)}>{!isUp ? "+" : "-"}{tsx.amount} {tsx.currency}</IonBadge>
@@ -92,7 +92,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
                 {moment(tsx.created_on).format('DD-MM-YYYY')}
               </IonLabel>
               <IonText style={{ fontWeight: 'normal', fontSize: '16px', textAlign: 'left'}}>
-                {isUp ? from?.name || "N/A" : tsx.name }
+                {isUp ? from?.user_id === 1 ? from?.first_name : from?.name || "N/A" : tsx.name }
               </IonText>
               </div>
             <IonBadge slot="end" color={isUp ? "success" : "primary"} style={{ width: '90px', textAlign: 'center', lineHeight: '1.6' }} className="ion-text-wrap" onClick={() => setDetailsOn(!detailsOn)}>{isUp ? "+" : "-"}{tsx.amount} {tsx.currency}</IonBadge>
@@ -113,7 +113,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
                 {moment(tsx.created_on).format('DD-MM-YYYY')}
               </IonLabel>
               <IonText style={{ fontWeight: 'normal', fontSize: '16px', textAlign: 'left'}}>
-                {isUp ? from?.name || "N/A" : tsx.name }
+                {isUp ? from?.user_id === 1 ? from?.first_name : from?.name || "N/A" : tsx.name }
               </IonText>
               </div>
             <IonBadge slot="end" color={isUp ? "success" : "primary"} style={{ width: '90px', textAlign: 'center', lineHeight: '1.6' }} className="ion-text-wrap" onClick={() => setDetailsOn(!detailsOn)}>{isUp ? "+" : "-"}{tsx.amount} {tsx.currency}</IonBadge>

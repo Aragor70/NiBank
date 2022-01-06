@@ -19,6 +19,8 @@ import { getBalance, updateMainWallet } from '../store/actions/tsx';
 const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account, updateMainWallet, update, createWallet, updateIncome }) => {
 
 
+
+
     const [ selected, setSelected ] = useState(0)
 
 
@@ -30,7 +32,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
         first_name: '',
         last_name: '',
         gender_title: 'None',
-        date_of_birth: moment().format('YYYY-MM-DD'),
+        date_of_birth: '',
         country: '',
         email: ''
     });
@@ -79,35 +81,18 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
         
     }
 
+    const updateForm = async () => {
+        
+        setFormData({ ...formData, ...auth?.user })
+        setMainWallet({ ...mainWallet, main_wallet: auth?.user?.main_wallet })
+        setIncomeValue({ ...incomeValue, income: auth?.user?.income })
+    }
+
     useEffect(() => {
 
-        if (auth?.user) {
-            setFormData({ ...formData, ...auth.user })
-            setMainWallet({ ...mainWallet, main_wallet: auth?.user?.main_wallet })
-            setIncomeValue({ ...incomeValue, income: auth?.user?.income })
-        }
-        
-        return () => {
-            
-            if (auth?.user) {
-                setFormData({
-                    first_name: '',
-                    last_name: '',
-                    gender_title: 'None',
-                    date_of_birth: moment().format('YYYY-MM-DD'),
-                    country: '',
-                    email: ''
-                })
-                setMainWallet({
-                    main_wallet: ''
-                })
-                setIncomeValue({
-                    income: ''
-                })
-            }
-        }
+        updateForm()
 
-    }, [auth?.user, auth?.loading])
+    }, [auth?.user, auth?.loading, selected, formData?.user_id])
 
 
     const handleDefaultSrc = (e: any) => {
@@ -218,7 +203,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                 <IonCardContent>
                     <IonList>
                         {
-                            auth.loading ? <Loader /> : (selected === 0 || !selected) ? <Fragment>
+                            auth?.loading ? <Loader /> : (selected === 0 || !selected) ? <Fragment>
                                 
                                 
                                 {
@@ -263,58 +248,60 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                     </div>
                                 </IonItem>
 
-
-
-                                <form onSubmit={(e: any) => handlePersonalData(e)} autoComplete="off">
+                                {
+                                    auth?.loading ? <Loader /> : <form onSubmit={(e: any) => handlePersonalData(e)}>
                                     
-                                    <IonItem>
-                                        <IonLabel slot="start">
-                                            First name
-                                        </IonLabel>
-                                        <IonInput value={formData.first_name || ''} autocomplete="off" max="250" type="text" name="first_name" onIonChange={ (e: any) => handleChange(e)}></IonInput>
-                                    </IonItem>
-                                    <IonItem>
-                                        <IonLabel slot="start">
-                                            Last name
-                                        </IonLabel>
-                                        <IonInput value={formData.last_name || ''} max="250" autocomplete={"off"} type="text" name="last_name" onIonChange={ (e: any) => handleChange(e)}></IonInput>
-                                    </IonItem>   
-                                    <IonItem>
-                                    <IonLabel>Title</IonLabel>
-                                        <IonSelect slot="end" name="gender_title" value={formData.gender_title || ''} onIonChange={(e: any) => handleChange(e)}>
-                                            {
-                                                ['None', 'Ms', 'Mr', 'Mx', 'Mrs', 'Miss'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
-                                            }
-                                        </IonSelect>
-                                    
-                                    </IonItem>  
-                                    <IonItem>
-                                        <IonLabel slot="start">
-                                            E-mail address
-                                        </IonLabel>
-
-                                        <IonInput value={formData.email || ''} autocomplete={"off"} max="50" type="text" name="email" onIonChange={ (e: any) => handleChange(e)}></IonInput>
-                                    </IonItem>
-                                    <IonItem>
-                                        <IonLabel>Date of birth</IonLabel>
-                                        <IonInput type="date" slot="end" name="date_of_birth" autocomplete={"off"} value={moment(formData.date_of_birth).format('YYYY-MM-DD') || moment().format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+                                        <IonItem>
+                                            <IonLabel slot="start">
+                                                First name
+                                            </IonLabel>
+                                            <IonInput value={formData.first_name || ''} autocomplete="off" maxlength={250} type="text" name="first_name" onIonChange={ (e: any) => handleChange(e)}></IonInput>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel slot="start">
+                                                Last name
+                                            </IonLabel>
+                                            <IonInput value={formData.last_name || ''} maxlength={250} autocomplete={"off"} type="text" name="last_name" onIonChange={ (e: any) => handleChange(e)}></IonInput>
+                                        </IonItem>   
+                                        <IonItem>
+                                        <IonLabel>Title</IonLabel>
+                                            <IonSelect slot="end" name="gender_title" value={formData.gender_title || ''} onIonChange={(e: any) => handleChange(e)}>
+                                                {
+                                                    ['None', 'Ms', 'Mr', 'Mx', 'Mrs', 'Miss'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
+                                                }
+                                            </IonSelect>
                                         
-                                    </IonItem>
-                                    <IonItem>
-                                        <IonLabel slot="start">
-                                            Country
-                                        </IonLabel>
+                                        </IonItem>  
+                                        <IonItem>
+                                            <IonLabel slot="start">
+                                                E-mail address
+                                            </IonLabel>
 
-                                        <IonInput value={formData.country || ''} autocomplete={"off"} max="50" type="text" name="country" onIonChange={ (e: any) => handleChange(e)}></IonInput>
-                                    </IonItem>
-                                    <IonItem>
-                                        <div className="ion-items-center">
-                                        <IonButton disabled={!(formData.email && formData.last_name && formData.gender_title && formData.country && formData.first_name && formData.date_of_birth && formData.email.includes('@') && formData.email.includes('.') && !(new RegExp("\\\\","").test(formData.email)) && !(new RegExp("\\\\","").test(formData.first_name)) && !(new RegExp("\\\\","").test(formData.last_name)))} type="submit" size="default" color="primary">
-                                            Save changes
-                                        </IonButton>
-                                        </div>
-                                    </IonItem>
-                                </form>
+                                            <IonInput value={formData.email || ''} autocomplete={"off"} maxlength={250} type="text" name="email" onIonChange={ (e: any) => handleChange(e)}></IonInput>
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel>Date of birth</IonLabel>
+                                            <IonInput type="date" slot="end" name="date_of_birth" autocomplete={"off"} value={moment(formData.date_of_birth).format('YYYY-MM-DD') || ""} onIonChange={(e: any) => handleChange(e)}></IonInput>
+                                            
+                                        </IonItem>
+                                        <IonItem>
+                                            <IonLabel slot="start">
+                                                Country
+                                            </IonLabel>
+
+                                            <IonInput value={formData.country || ''} autocomplete={"off"} maxlength={250} type="text" name="country" onIonChange={ (e: any) => handleChange(e)}></IonInput>
+                                        </IonItem>
+                                        <IonItem>
+                                            <div className="ion-items-center">
+                                            <IonButton disabled={!(formData.email && formData.last_name && formData.gender_title && formData.country && formData.first_name && formData.date_of_birth && formData.email.includes('@') && formData.email.includes('.') && !(new RegExp("\\\\","").test(formData.email)) && !(new RegExp("\\\\","").test(formData.first_name)) && !(new RegExp("\\\\","").test(formData.last_name)))} type="submit" size="default" color="primary">
+                                                Save changes
+                                            </IonButton>
+                                            </div>
+                                        </IonItem>
+                                    </form>
+                                }
+
+                                
 
                             </Fragment> : selected === 1 ? <Fragment>
                                 <IonList>

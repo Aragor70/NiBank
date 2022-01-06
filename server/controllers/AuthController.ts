@@ -114,7 +114,7 @@ class AuthController {
 
         const hash = SHA256(((previousTransaction?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + user.user_id + user?.user_id + (income || user?.income) + nonce).toString()).toString();
         
-        const tsx = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`, [ 0, user.user_id, income || user?.income, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, user.main_wallet, description || '' ]);
+        const tsx = await pool.query(`INSERT INTO transactions (from_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`, [ 1, user.user_id, income || user?.income, previousHash || 'genesis', hash, nonce || 1, accounting_date || today, user.main_wallet, description || '' ]);
         
         return tsx?.rows[0];
     };
