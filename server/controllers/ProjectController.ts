@@ -116,18 +116,15 @@ class ProjectController {
         const today = moment().format('YYYY-MM-DD');
 
         if (project.status !== "OPEN") {
-            console.log('status')
             return next(new ErrorResponse('Project is not open.', 422))
         }
         if (project?.owner_id === user?.user_id) {
             return next(new ErrorResponse('You cannot participate in your project opportunity.', 422))
         }
         if (!amount || amount < project.minimuminvestment) {
-            console.log('amount')
             return next(new ErrorResponse('The amount is too little.', 422))
         }
         if (moment(today) > moment(project.closedate)) {
-            console.log('close date')
             return next(new ErrorResponse('Project is not open.', 422))
         }
         

@@ -274,7 +274,13 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
               Cross-platform app. Powered by the Web.
               </IonCardSubtitle>
             </IonCardHeader>
-
+            <IonCardContent>
+              <IonItem>
+                <IonText>
+                  NiVest simulates the real crowdfunding market with Blockchain technology. By creating an account, you join the Internet community.
+                </IonText>
+              </IonItem>
+            </IonCardContent>
 
           </IonCard>
 

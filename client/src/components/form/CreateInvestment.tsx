@@ -26,13 +26,12 @@ const CreateInvestment: React.FC<any> = React.memo(({ newInvest, history, user, 
 
     if (prevTsx) {
 
-      console.log(prevTsx)
       setFormData({...formData, ...prevTsx, description: 'Investment', accounting_date: moment().format('YYYY-MM-DD')})
 
     }
 
     return () => {
-      console.log('clear tsx from')
+      
       setFormData({
         project_id: '',
         amount: '',
@@ -53,7 +52,7 @@ const CreateInvestment: React.FC<any> = React.memo(({ newInvest, history, user, 
     try {
 
       e.preventDefault();
-      console.log(formData)
+      
 
       if (tsx?.tsx?.to_project_id) {
 

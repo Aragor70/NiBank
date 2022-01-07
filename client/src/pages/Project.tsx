@@ -42,13 +42,13 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
     const handleSubmit = async(e: any) => {
         try {
-        e.preventDefault();
+            e.preventDefault();
 
-        await updateProject(formData, present)
-        console.log('update')
+            await updateProject(formData, present)
+
         } catch (err: any) {
 
-        console.log(err.message)
+            console.log(err.message)
         
         }
 
@@ -123,7 +123,6 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
 
         if (project?.project) {
     
-          console.log(project?.project)
           setFormData({...formData, ...project?.project, startdate: moment().format('YYYY-MM-DD')})
     
         }

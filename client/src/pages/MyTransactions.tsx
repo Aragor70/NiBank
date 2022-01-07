@@ -20,7 +20,6 @@ const Transactions: React.FC<any> = ({ account }) => {
     getBalance()
 
     return () => {
-      console.log('clearr tsxs')
       clearTsxs()
     }
   }, [])

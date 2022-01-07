@@ -28,8 +28,7 @@ class AuthController {
         const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
     
         const user = await rows[0] || false;
-        console.log(user, 'Userload')
-        
+
         res.json(user);
 
     })

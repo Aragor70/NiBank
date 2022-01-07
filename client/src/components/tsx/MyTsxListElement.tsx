@@ -32,7 +32,7 @@ const MyTsxListElement: React.FC<any> = ({ tsx, auth, extendTsx, setExtendTsx, i
   useEffect(() => {
 
     const value: any[] = users?.users?.filter((element: any) => element.user_id === tsx?.from_id) || []
-    console.log(value[0])
+    
     setFrom(value[0])
 
   }, [users?.users, users?.loading])

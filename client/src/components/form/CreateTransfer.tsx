@@ -43,7 +43,7 @@ const CreateTransfer: React.FC<any> = React.memo(({ newTsx, history, user, users
     }
 
     return () => {
-      console.log('clear tsx from')
+      
       setFormData({
         tsx_id: '',
         to: '',
@@ -58,10 +58,6 @@ const CreateTransfer: React.FC<any> = React.memo(({ newTsx, history, user, users
     
   }, [prevTsx, tsx.loading, formData?.tsx_id])
 
-  console.log(tsx)
-  /* 
-
-  console.log('formData', formData) */
 
   const [present] = useIonAlert();
 

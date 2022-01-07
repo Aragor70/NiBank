@@ -29,7 +29,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
     getProjects(auth.user)
 
     return () => {
-      console.log('close tsx')
+      
       setSelectView({
         investment: 0,
         transfer: 0

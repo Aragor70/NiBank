@@ -13,7 +13,6 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
 
   const [ isOpen, setIsOpen ] = useState(false)
   
-  console.log('hey', tsx)
 
   return (
     <Fragment>
