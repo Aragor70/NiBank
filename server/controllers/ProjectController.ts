@@ -200,6 +200,10 @@ class ProjectController {
             
             return next(new ErrorResponse('Choose a proper close date.', 422))
         }
+        
+        if (volumetotal < 1000000) {
+            return next(new ErrorResponse('Submit volume target to at least 1 000 000.', 404))
+        }
     
         
     
