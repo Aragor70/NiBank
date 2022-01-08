@@ -1,5 +1,5 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonGrid, IonRow, IonCol, IonInput, IonSelect, IonSelectOption, IonButtons, IonImg } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonGrid, IonRow, IonCol, IonInput, IonSelect, IonSelectOption, IonButtons, IonImg, IonAccordion, IonAccordionGroup } from '@ionic/react';
 import axios from 'axios';
 import { checkmark, closeCircleOutline, home, lockClosed, lockOpen } from 'ionicons/icons';
 import moment from 'moment';
@@ -12,11 +12,11 @@ import Loader from '../components/Loader';
 import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import { createWallet, loadUser, update, updateIncome } from '../store/actions/auth';
+import { createWallet, loadUser, update, updateCredentials, updateIncome } from '../store/actions/auth';
 import { getBalance, updateMainWallet } from '../store/actions/tsx';
 
 
-const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account, updateMainWallet, update, createWallet, updateIncome }) => {
+const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account, updateMainWallet, update, createWallet, updateIncome, updateCredentials }) => {
 
 
 
@@ -142,6 +142,34 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
         } catch (err: any) {
             console.log(err.message)
         }
+    }
+
+    const [ passwordData, setPasswordData ] = useState({
+        password: '',
+        passwordConfirmation: ''
+    })
+
+
+    const handleChangePassword = (e: any) => {
+        setPasswordData({ ...passwordData, [e.target.name]: e.target.value })
+    }
+
+    const handleUpdate = async (e: any) => {
+        try {
+            e.preventDefault();
+      
+            
+            if (!passwordData?.password || !passwordData?.passwordConfirmation) {
+              return false;
+            }
+      
+            await updateCredentials(passwordData, history)
+            
+          } catch (err: any) {
+      
+            console.log(err.message)
+            
+          }
     }
 
     
@@ -397,6 +425,76 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
 
                 </IonCardContent>
             </IonCard>
+            {
+                !auth?.loading && selected === 0 && <Fragment>
+
+                    <IonCard>
+                    <IonCardHeader>
+                        <IonCardTitle mode="md">
+                        More information
+
+                        </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                        <IonToolbar mode="md">
+                            <IonAccordionGroup>
+                                <IonCard>
+                                    <IonCardContent>
+                                        <IonAccordion>
+                                        <IonItem slot="header">
+
+                                            <IonText>Change my password</IonText>
+                                        
+                                        </IonItem>
+                                        <IonItem slot="content">
+                                        <form onSubmit={(e: any) => handleUpdate(e)}>
+                                            <IonItem>
+                                                <IonLabel>
+                                                New password
+                                                </IonLabel>
+                                                <IonInput value={ passwordData.password || '' } name="password" slot="end" onIonChange={(e: any)=> handleChangePassword(e)}></IonInput>
+                                            </IonItem>
+                                            <IonItem>
+                                                <IonLabel>
+                                                Confirm password
+                                                </IonLabel>
+                                                <IonInput value={ passwordData.passwordConfirmation || '' } name="passwordConfirmation" slot="end" onIonChange={(e: any)=> handleChangePassword(e)}></IonInput>
+                                            </IonItem>
+                                            <IonItem>
+                                                <IonButton type="submit" slot="end" size="default" disabled={ !(passwordData.password && passwordData.passwordConfirmation) }>
+                                                Submit
+                                                </IonButton>
+                                            </IonItem>
+                                        </form>
+                                        </IonItem>
+                                        </IonAccordion>
+                                        
+                                        <IonAccordion>
+                                        <IonItem slot="header" >
+                                        
+                                            <IonText color="danger">Delete my account</IonText>
+                                        
+                                        </IonItem>
+
+                                        
+                                        <IonItem slot="content">
+                                            This feature is coming soon. Please contact mikey.nivest@gmail.com
+                                        </IonItem>
+
+                                        </IonAccordion>
+                                    </IonCardContent>
+                                </IonCard>
+                            </IonAccordionGroup>
+                        </IonToolbar>
+                        </IonCardContent>
+                    
+                    </IonCard>
+                    
+                </Fragment>
+
+                    
+            }
         </IonList>
                 
         </IonList>
@@ -413,4 +511,4 @@ const mapStateToProps = (state: any) => ({
     account: state.account
 })
 
-export default connect(mapStateToProps, { updateMainWallet, update, createWallet, updateIncome })(withRouter(Settings));
+export default connect(mapStateToProps, { updateMainWallet, update, createWallet, updateIncome, updateCredentials })(withRouter(Settings));

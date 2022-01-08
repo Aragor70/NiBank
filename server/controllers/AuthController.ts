@@ -427,7 +427,36 @@ class AuthController {
 
     
     updateCredentials = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+        
+        if (req.headers.authorization && req.headers.authorization.includes('Bearer')) {
+            
+            const { password, passwordConfirmation } = req.body;
+
+            if (password !== passwordConfirmation) {
+                return next(new ErrorResponse('These passwords are not equal.', 422))
+            }
+
+            const token = req.headers.authorization.slice(req.headers.authorization.indexOf('Bearer') + 7)
+        
+            const { rows } = await pool.query(`SELECT * FROM accounts WHERE token = $1`, [token]);
+        
+            const user = await rows[0] || false;
+
+            if (!user) {
+                return next(new ErrorResponse('User not found.', 404))
+            }
+            
+            const salt = await bcrypt.genSalt(10);
     
+            const safePassword = await bcrypt.hash(password, salt);
+        
+            const users: any = await pool.query(`UPDATE accounts SET password = $1, recovery = $2 WHERE email = $3 RETURNING *`, [ safePassword, null, user.email ]);
+        
+            return res.json({ success: true, user: users?.rows[0] || {} });
+
+        }
+
+
         const { email, code, password, passwordConfirmation } = req.body;
         
         if (password !== passwordConfirmation) {
@@ -449,7 +478,7 @@ class AuthController {
     
         const users: any = await pool.query(`UPDATE accounts SET password = $1, recovery = $2 WHERE email = $3 RETURNING *`, [ safePassword, null, user.email ]);
      
-        res.json({ success: true, user: users?.rows[0] || {} });
+        return res.json({ success: true, user: users?.rows[0] || {} });
            
     })    
 
