@@ -66,6 +66,9 @@ class ProjectController {
         if (status !== 'UNDER_CONSIDERATION') {
             return next(new ErrorResponse('Submit opportinity with a status under consideration.', 404))
         }
+        if (volumetotal < 1000000) {
+            return next(new ErrorResponse('Submit volume target to at least 1 000 000.', 404))
+        }
         
         const projects = await pool.query(`INSERT INTO projects (owner_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, volumeinvested, images, listofinvestors, long_description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`, [ user.user_id, projectname, country, yieldpa, volumetotal, minimuminvestment, description, currency, status, typeofproperty, typeofinvestment, project, 0, images, [], long_description ]);
         res.json({ project: projects.rows[0], message: 'Success', success: true });
