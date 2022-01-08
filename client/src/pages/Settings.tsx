@@ -453,13 +453,13 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                                 <IonLabel>
                                                 New password
                                                 </IonLabel>
-                                                <IonInput value={ passwordData.password || '' } name="password" slot="end" onIonChange={(e: any)=> handleChangePassword(e)}></IonInput>
+                                                <IonInput type="password" value={ passwordData.password || '' } name="password" slot="end" onIonChange={(e: any)=> handleChangePassword(e)}></IonInput>
                                             </IonItem>
                                             <IonItem>
                                                 <IonLabel>
                                                 Confirm password
                                                 </IonLabel>
-                                                <IonInput value={ passwordData.passwordConfirmation || '' } name="passwordConfirmation" slot="end" onIonChange={(e: any)=> handleChangePassword(e)}></IonInput>
+                                                <IonInput type="password" value={ passwordData.passwordConfirmation || '' } name="passwordConfirmation" slot="end" onIonChange={(e: any)=> handleChangePassword(e)}></IonInput>
                                             </IonItem>
                                             <IonItem>
                                                 <IonButton type="submit" slot="end" size="default" disabled={ !(passwordData.password && passwordData.passwordConfirmation) }>
