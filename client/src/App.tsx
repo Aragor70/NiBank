@@ -55,6 +55,7 @@ import Settings from './pages/Settings';
 import Wallets from './pages/Wallets';
 import Wallet from './pages/Wallet';
 import { setupIonicReact } from '@ionic/react';
+import TermsAndConditions from './pages/TermsAndConditions';
 
 const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx, loadUsers, users }) => {
 
@@ -166,6 +167,9 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
               <Route exact path="/security_center">
                 <SecurityCenter />
               </Route>
+              <Route exact path="/terms_and_conditions">
+                <TermsAndConditions />
+              </Route>
               <Route exact path="/account_approvement">
                 {
                   auth?.user?.approved ? <PageNotFound /> : <ApprovePage />
@@ -191,6 +195,9 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
               </Route>
               <Route exact path="/security_center">
                 <SecurityCenter />
+              </Route>
+              <Route exact path="/terms_and_conditions">
+                <TermsAndConditions />
               </Route>
               <Route exact path="/recover_email">
                 <RecoverEmail />

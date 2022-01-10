@@ -165,6 +165,11 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                 <IonRouterLink onClick={() => history.push('/recover_password')} class="spacing">I've forgotten my password</IonRouterLink>
               
             </IonItem>
+            <IonItem>
+              
+                <IonRouterLink onClick={() => history.push('/terms_and_conditions')} class="spacing">Terms and conditions</IonRouterLink>
+              
+            </IonItem>
             </IonToolbar>
             </IonCardContent>
           </IonCard>

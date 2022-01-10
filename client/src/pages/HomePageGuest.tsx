@@ -441,7 +441,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
             Why use the app?
           </IonTitle>
           </IonListHeader>
-          <IonCard>
+          {/* <IonCard>
             <IonCardHeader>
               Transaction notifications
 
@@ -461,17 +461,14 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
 
 
             </IonCardContent>
-          </IonCard>
+          </IonCard> */}
           <IonCard>
             <IonCardHeader>
-              Confirm your purchases
+              This app virtualize the market
 
             </IonCardHeader>
             <IonCardContent>
-              Keep yourself safe from fraud by confirming online card payments in the app.
-
-
-
+              You use this application for free of charge without providing any financial information. The funds are strictly simulated.
             </IonCardContent>
           </IonCard>
           <IonCard>
@@ -480,7 +477,7 @@ const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, proje
 
             </IonCardHeader>
             <IonCardContent>
-              The NiVest service exists only as a mobile application.
+              The NiVest platform exists only as a mobile app.
 
             </IonCardContent>
           </IonCard>

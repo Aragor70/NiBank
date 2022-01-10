@@ -1,5 +1,5 @@
 
-import { IonContent, IonHeader, IonItem, IonMenu, IonList, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonItem, IonMenu, IonList, IonTitle, IonToolbar, IonFooter, IonText } from '@ionic/react';
 import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -21,29 +21,85 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
           <IonList>
             {
               auth.isAuthenticated ? <Fragment>
-                <IonItem onClick={()=> history.push('/')}>Overview</IonItem>
-                <IonItem onClick={()=> history.push('/wallets')}>My wallet</IonItem>
-                <IonItem onClick={()=> history.push('/projects')}>Projects</IonItem>
-                <IonItem onClick={()=> history.push('/transactions')}>Transactions</IonItem>
+                <IonItem onClick={()=> history.push('/')}>
+                  <IonText color="primary">
+                    Overview
+                  </IonText>
+                </IonItem>
+                <IonItem onClick={()=> history.push('/wallets')}>
+                  <IonText>
+                    My wallets
+                  </IonText>
+                </IonItem>
+                <IonItem onClick={()=> history.push('/projects')}>
+                  <IonText>
+                    Projects
+                  </IonText>
+                </IonItem>
+                <IonItem onClick={()=> history.push('/transactions')}>
+                  <IonText>
+                    Transactions
+                  </IonText>
+                </IonItem>
                 {/* <IonItem onClick={()=> history.push('/currency_exchange')}>Currency exchange</IonItem> */}
-                <IonItem onClick={()=> history.push('/security_center')}>Security Center</IonItem>
-                <IonItem onClick={()=> history.push('/settings')}>Settings</IonItem>
-                <IonItem onClick={()=> logout(history)}>Logout</IonItem>
+                <IonItem onClick={()=> history.push('/security_center')}>
+                  <IonText>
+                    Security Center
+                  </IonText>
+                </IonItem>
+                <IonItem onClick={()=> history.push('/settings')}>
+                  <IonText>
+                    Settings
+                  </IonText>
+                </IonItem>
+                <IonItem onClick={()=> logout(history)}>
+                  <IonText>
+                    Logout
+                  </IonText>
+                </IonItem>
                 
                 {
                   !auth?.user?.approved && <Approval />
                 }
               </Fragment> : <Fragment>
-                <IonItem onClick={()=> history.push('/')}>Dashboard</IonItem>
-                <IonItem onClick={()=> history.push('/logon')}>Log on</IonItem>
-                <IonItem onClick={()=> history.push('/register')}>Register</IonItem>
-                <IonItem onClick={()=> history.push('/security_center')}>Security Center</IonItem>
-                <IonItem onClick={()=> history.push('/projects')}>Project Opportunities</IonItem>
+                <IonItem onClick={()=> history.push('/')}>
+                  <IonText>
+                    Dashboard
+                  </IonText>
+                </IonItem>
+                <IonItem onClick={()=> history.push('/logon')}>
+                  <IonText color="primary">
+                    Log on
+                  </IonText>
+                </IonItem>
+                <IonItem onClick={()=> history.push('/register')}>
+                  <IonText>
+                    Register
+                  </IonText>
+                </IonItem>
+                <IonItem onClick={()=> history.push('/security_center')}>
+                  <IonText>
+                    Security Center
+                  </IonText>
+                </IonItem>
+                <IonItem onClick={()=> history.push('/projects')}>
+                  <IonText>
+                    Project Opportunities
+                  </IonText>
+                </IonItem>
               </Fragment>
             }
               
           </IonList>
         </IonContent>
+
+        <IonFooter className="ion-items-center">
+          <IonItem onClick={()=> history.push('/terms_and_conditions')}>
+            <IonText color="secondary">
+              Terms {"&"} Conditions
+            </IonText>
+          </IonItem>
+        </IonFooter>
   </IonMenu>
   );
 };
