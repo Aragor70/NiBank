@@ -72,7 +72,7 @@ class TsxController {
 
         if (!validTsxs?.length) return false;
         
-        const previousTransaction = await validTsxs.slice().sort((a: any, b: any) => a?.tsx_id - b?.tsx_id)[0];
+        const previousTransaction = await validTsxs.slice().sort((a: any, b: any) => b?.tsx_id - a?.tsx_id)[0];
 
         const previousHash = await previousTransaction?.current_hash;
         const nonce = await previousTransaction?.nonce + 1;

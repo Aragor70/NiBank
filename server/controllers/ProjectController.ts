@@ -145,7 +145,7 @@ class ProjectController {
             await pool.query(`UPDATE projects SET status = $1 WHERE project_id = $2 RETURNING *`, [ 'FUNDED', project_id ]);
         }
         
-        const previousTransaction = await validTsxs.slice().sort((a: any, b: any) => a?.tsx_id - b?.tsx_id)[0];
+        const previousTransaction = await validTsxs.slice().sort((a: any, b: any) => b?.tsx_id - a?.tsx_id)[0];
 
         const previousHash = previousTransaction?.current_hash;
         const nonce = previousTransaction?.nonce + 1;
