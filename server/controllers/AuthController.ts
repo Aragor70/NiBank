@@ -106,7 +106,7 @@ class AuthController {
 
         //if (!validTsxs?.length) return false;
         
-        const previousTransaction = await validTsxs[0] || { current_hash: 'genesis', nonce: 0, tsx_id: 0 };
+        const previousTransaction = await validTsxs.slice().sort((a: any, b: any) => a?.tsx_id - b?.tsx_id)[0] || { current_hash: 'genesis', nonce: 0, tsx_id: 0 };
 
         const previousHash = previousTransaction?.current_hash;
         const nonce = previousTransaction?.nonce + 1;
