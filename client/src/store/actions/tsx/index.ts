@@ -4,12 +4,16 @@ import { setAlert } from "../alert";
 import { Tsx_Create_Success, Invest_Create_Success, Tsx_Create_Fail, Invest_Create_Fail, Get_Balance_Success, Get_Balance_Fail, Get_Tsxs_Success, Get_Tsxs_Fail, Get_My_Tsxs_Success, Get_Total_Funds_Success, Get_YieldPA_Success, Get_Total_Funds_Fail, Get_YieldPA_Fail, Get_My_Tsxs_Fail, Tsx_Loading, Get_My_Investments_Fail, Get_Tsx_Success, Get_Tsx_Fail, Get_Wallets_Fail, Get_Wallets_Success, Update_Main_Wallet_Success, Update_Main_Wallet_Fail, Account_Loading } from './types';
 import { Loading_Auth, User_Update, User_Update_Fail } from '../auth/types';
 
+import ValidatingMethods from '../../../utils/ValidatingMethods';
+import { URL } from '../../../utils/constants';
+
+const validatingMethods = new ValidatingMethods;
 
 export const newTsx = (formData: any, history: any, present: any) => async(dispatch: Dispatch<any>) => {
     try {
         dispatch({ type: Tsx_Loading });
 
-        const res: any = await axios.post('http://139.59.150.253:5000/api/tsx', formData);
+        const res: any = await axios.post(URL + '/api/tsx', formData);
         console.log(res.data)
         dispatch({ type: Tsx_Create_Success, payload: res.data })
         
@@ -38,7 +42,7 @@ export const newInvest = (id: number, formData: any, history: any, present: any)
     try {
         dispatch({ type: Tsx_Loading });
 
-        const res: any = await axios.post(`http://139.59.150.253:5000/api/projects/${id}`, formData);
+        const res: any = await axios.post(URL + `/api/projects/${id}`, formData);
         console.log(res.data)
         dispatch({ type: Tsx_Create_Success, payload: res.data })
         
@@ -66,7 +70,7 @@ export const getTsx = (id: number) => async(dispatch: Dispatch<any>) => {
     try {
         await dispatch({ type: Tsx_Loading });
 
-        const res: any = await axios.get(`http://139.59.150.253:5000/api/tsx/${id}`);
+        const res: any = await axios.get(URL + `/api/tsx/${id}`);
         
 
         await dispatch({ type: Get_Tsx_Success, payload: res?.data?.tsx })
@@ -87,7 +91,7 @@ export const updateMainWallet = (e: any) => async (dispatch: Dispatch<any>) => {
     try {
         await dispatch({ type: Loading_Auth });
 
-        const res: any = await axios.put('http://139.59.150.253:5000/api/auth/main_wallet', { main_wallet: e.target.value })
+        const res: any = await axios.put(URL + '/api/auth/main_wallet', { main_wallet: e.target.value })
         
 
         await dispatch({ type: User_Update, payload: res?.data })
@@ -109,7 +113,7 @@ export const getBalance = (user: any = null) => async(dispatch: Dispatch<any>) =
         dispatch({ type: Account_Loading });
         
         
-        const res: any = await axios.get('http://139.59.150.253:5000/api/tsx');
+        const res: any = await axios.get(URL + '/api/tsx');
         
         let balance = 0;
 
@@ -129,17 +133,16 @@ export const getBalance = (user: any = null) => async(dispatch: Dispatch<any>) =
                 return [...acc, element];
               }, []);
         }
+
+        const tsxs: any[] = await validatingMethods.getValidTsxs(res.data || [])
         
-        
-        const myTransactions = user ? await res.data.filter((element: any) => (element?.from_id?.toString() === user?.user_id?.toString()) || (element?.to_user_id?.toString() === user?.user_id?.toString())) : []
+        const myTransactions = user ? tsxs.filter((element: any) => (element?.from_id?.toString() === user?.user_id?.toString()) || (element?.to_user_id?.toString() === user?.user_id?.toString())) : []
         let myTotalFunds = 0
         let myYieldPA = 0
         
-        // let validated: any[] = res.data.filter((element: any, index: number) => index ?  ((element.previous_hash !== element.current_hash) && ( index ? element.previous_hash === res.data[index - 1].current_hash : true )) : true)
-
-        console.log(res.data)
+        console.log(tsxs)
             
-        for (const transaction of res.data) {
+        for (const transaction of tsxs) {
             
             if (user && transaction?.from_id?.toString() === user?.user_id?.toString()) {
                 //{...element, balance: (element?.balance || 0) - transaction.amount, currency: transaction.currency, out: transaction.amount}
@@ -160,7 +163,7 @@ export const getBalance = (user: any = null) => async(dispatch: Dispatch<any>) =
         
         dispatch({ type: Get_Balance_Success, payload: balance || 0 })
         dispatch({ type: Get_Wallets_Success, payload: wallets || [] })
-        dispatch({ type: Get_Tsxs_Success, payload: res.data || [] })
+        dispatch({ type: Get_Tsxs_Success, payload: tsxs || [] })
         dispatch({ type: Get_My_Tsxs_Success, payload: myTransactions || [] })
         dispatch({ type: Get_Total_Funds_Success, payload: myTotalFunds || 0})
         dispatch({ type: Get_YieldPA_Success, payload: myYieldPA || 0 })

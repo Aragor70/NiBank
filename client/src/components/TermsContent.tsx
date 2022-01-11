@@ -32,7 +32,7 @@ const TermsContent: React.FC<TermsAndConditionsUI | any> = ({}) => {
         <IonItem>
         <IonText>
             Welcome to NiVest!
-            These terms and conditions outline the rules and regulations for the use of Company App, located at NiVest.com.
+            These terms and conditions outline the rules and regulations for the use of NiVest.
 
         </IonText>
         </IonItem>
@@ -379,7 +379,7 @@ const TermsContent: React.FC<TermsAndConditionsUI | any> = ({}) => {
                 </IonAvatar>
                 <IonLabel>
                 <IonText className="ion-text-wrap">
-                    dot.com community sites;
+                    NiVest community sites;
 
                 </IonText>
                 </IonLabel>

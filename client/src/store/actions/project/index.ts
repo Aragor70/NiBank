@@ -3,12 +3,16 @@ import axios from "axios";
 import { setAlert } from "../alert";
 import { Project_Create_Success, Project_Create_Fail, Get_Projects_Success, Get_Open_Projects_Success, Get_Under_Consideration_Projects_Success, Get_Closed_Projects_Success, Get_Project_Success, Get_Project_Fail, Get_Projects_Fail, Get_Open_Projects_Fail, Get_Under_Consideration_Projects_Fail, Get_Closed_Projects_Fail, Project_Loading, Project_Update_Success, Project_Update_Fail, Project_Delete_Success, Project_Delete_Fail } from './types';
 import { Account_Loading, Get_My_Investments_Fail, Get_My_Investments_Success } from '../tsx/types';
+import { URL } from '../../../utils/constants';
+import ValidatingMethods from '../../../utils/ValidatingMethods';
+
+const validatingMethods = new ValidatingMethods;
 
 export const newProject = (formData: any, history: any, present: any) => async(dispatch: Dispatch<any>) => {
     try {
         dispatch({ type: Project_Loading });
 
-        const res: any = await axios.post('http://139.59.150.253:5000/api/projects', formData);
+        const res: any = await axios.post(URL + '/api/projects', formData);
         
         dispatch({ type: Project_Create_Success, payload: res.data })
         
@@ -36,7 +40,7 @@ export const updateProject = (formData: any, present: any) => async(dispatch: Di
     try {
         dispatch({ type: Project_Loading });
 
-        const res: any = await axios.put(`http://139.59.150.253:5000/api/projects/${formData.project_id}`, formData);
+        const res: any = await axios.put(URL + `/api/projects/${formData.project_id}`, formData);
         
         dispatch({ type: Project_Update_Success, payload: res.data.project })
         
@@ -63,7 +67,7 @@ export const deleteProject = (id: any, present: any, history: any) => async(disp
     try {
         dispatch({ type: Project_Loading });
 
-        const res: any = await axios.delete(`http://139.59.150.253:5000/api/projects/${id}`);
+        const res: any = await axios.delete(URL + `/api/projects/${id}`);
         
         dispatch({ type: Project_Delete_Success, payload: id })
 
@@ -92,16 +96,18 @@ export const getProjects = (user: any = null) => async(dispatch: Dispatch<any>) 
     try {
         dispatch({ type: Project_Loading });
         
-        const res: any = await axios.get('http://139.59.150.253:5000/api/projects');
-        const resTsx: any = await axios.get('http://139.59.150.253:5000/api/tsx');
+        const res: any = await axios.get(URL + '/api/projects');
+        const resTsx: any = await axios.get(URL + '/api/tsx');
         
         let projects = await res.data.projects.slice().map((element: any) => ({...element, listofinvestors: []}))
         
-        let tsxs = await resTsx.data.sort((a: any, b: any) => a.tsx_id - b.tsx_id).filter((element: any, index: number) => (element.to_project_id !== undefined) && (element.previous_hash !== element.current_hash) && ( index ? element?.previous_hash?.toString() === resTsx?.data[index - 1]?.current_hash?.toString() : true ))
-        console.log(tsxs)
+        let tsxs: any[] = await validatingMethods.getValidTsxs(resTsx?.data?.projects || []);
+        
+        const project_tsxs = await tsxs.filter((element: any) => ((element?.to_project_id !== undefined) && (element?.to_project_id !== null)));
+        
         //let tsxs = resTsx.data.filter((element: any) => element.to_project_id !== undefined)
         
-        for (const transaction of tsxs) {
+        for (const transaction of project_tsxs) {
             
             projects = await projects.map((element: any) => element.project_id === transaction.to_project_id ? {...element, volumeinvested: element.volumeinvested + transaction.amount, listofinvestors: [...element.listofinvestors, { user_id: transaction?.from_id, amount: transaction?.amount }] } : element)
             
@@ -137,12 +143,15 @@ export const getProject = (id: number) => async(dispatch: Dispatch<any>) => {
     try {
         await dispatch({ type: Project_Loading });
 
-        const res: any = await axios.get(`http://139.59.150.253:5000/api/projects/${id}`);
-        const resTsx: any = await axios.get('http://139.59.150.253:5000/api/tsx');
+        const res: any = await axios.get(URL + `/api/projects/${id}`);
+        const resTsx: any = await axios.get(URL + '/api/tsx');
 
-        let tsxs = await resTsx.data.sort((a: any, b: any) => a.tsx_id - b.tsx_id).filter((element: any, index: number) => (element.to_project_id !== undefined) && (element.previous_hash !== element.current_hash) && ( index ? element?.previous_hash?.toString() === resTsx?.data[index - 1]?.current_hash?.toString() : true ))
+        let tsxs = await validatingMethods.getValidTsxs(resTsx.data || []);
 
-        const investedValues: any = await tsxs.filter((element: any) => (element?.to_project_id?.toString() === id?.toString()) )?.map((element: any)=> element?.amount || 0)
+        const project_tsxs = await tsxs.filter((element: any) => ((element?.to_project_id !== undefined) && (element?.to_project_id !== null)));
+
+
+        const investedValues: any = await project_tsxs?.filter((element: any) => (element?.to_project_id?.toString() === id?.toString()) )?.map((element: any)=> element?.amount || 0)
         
         const volumeinvested: number = investedValues.length ? investedValues?.reduce((a: number, b: number) => a + b) : 0
         

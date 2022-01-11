@@ -1,3 +1,6 @@
+
+export const URL: string = 'http://139.59.150.253:5000'
+
 export const ISO_COUNTRY_CODES: any = Object.freeze({
     AF: 'Afghanistan',
     AX: 'Aland Islands',
