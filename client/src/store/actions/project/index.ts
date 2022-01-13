@@ -101,7 +101,7 @@ export const getProjects = (user: any = null) => async(dispatch: Dispatch<any>) 
         
         let projects = await res.data.projects.slice().map((element: any) => ({...element, listofinvestors: []}))
         
-        let tsxs: any[] = await validatingMethods.getValidTsxs(resTsx?.data?.projects || []);
+        let tsxs: any[] = await validatingMethods.getValidTsxs(resTsx?.data || []);
         
         const project_tsxs = await tsxs.filter((element: any) => ((element?.to_project_id !== undefined) && (element?.to_project_id !== null)));
         
