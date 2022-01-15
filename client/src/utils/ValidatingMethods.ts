@@ -27,7 +27,7 @@ class ValidatingMethods {
 
             }
             
-            return arry; // dataset?.filter((element: any, index: number) => (element.to_project_id !== undefined) && (element.previous_hash !== element.current_hash) && ( index ? element?.previous_hash?.toString() === dataset?.[index - 1]?.current_hash?.toString() : true ))
+            return arry?.slice()?.sort((a: any, b: any) => b?.tsx_id - a?.tsx_id); // dataset?.filter((element: any, index: number) => (element.to_project_id !== undefined) && (element.previous_hash !== element.current_hash) && ( index ? element?.previous_hash?.toString() === dataset?.[index - 1]?.current_hash?.toString() : true ))
 
         } else {
 

@@ -1,5 +1,12 @@
 
-export const URL: string = 'http://139.59.150.253:5000'
+export const URL: string = 'http://139.59.150.253:5050'
+
+export const PROJECTS_PALETTE: any[] = 
+    [
+        {index: 0, value: 'rgba(61, 194, 255, 1)'},
+        {index: 1, value: 'rgba(56, 128, 255, 1)'},
+        {index: 2, value: 'rgba(146, 148, 156, 1)'},
+    ]
 
 export const ISO_COUNTRY_CODES: any = Object.freeze({
     AF: 'Afghanistan',

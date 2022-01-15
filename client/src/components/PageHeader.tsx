@@ -15,28 +15,30 @@ const PageHeader: React.FC<RouteComponentProps | any> = ({ history, auth }) => {
   const handleToggle = async () => {
 
     document.body.classList.toggle("dark");
-    setIsDarkMode(!isDarkMode)
+
+    if (document?.body?.classList?.value === 'dark') {
+      setIsDarkMode(true)
+    } else {
+      setIsDarkMode(false)
+    }
+    
   }
 
-/*   useEffect(() => {
+  useEffect(() => {
 
-    const value = new Date().getHours();
-
-    const isDark = document.body.classList.contains('dark');
-
-    if (value >= 17 && !isDark) {
-
-      handleToggle()
-
+    if (document?.body?.classList?.value === 'dark') {
+      setIsDarkMode(true)
+    } else {
+      setIsDarkMode(false)
     }
+    
 
-  }, [auth?.user]) */
-
+  }, [document?.body?.classList?.value])
 
   return (
       <IonHeader>
         <IonItem mode="md">
-          <IonTitle className="no-padding"><span onClick={() => history.push("/")} className="brand-icon"><span style={{ color: '#3880ff' }}>Ni</span><span style={{ color: '#3dc2ff' }}>Vest</span> <span style={{ color: '#3dc2ff', fontSize: '12.5px' }}>Beta 1.1.2</span></span></IonTitle>
+          <IonTitle className="no-padding"><span onClick={() => history.push("/")} className="brand-icon"><span style={{ color: '#3880ff' }}>Ni</span><span style={{ color: '#3dc2ff' }}>Vest</span> <span style={{ color: '#3dc2ff', fontSize: '12.5px' }}>Beta 1.1.4</span></span></IonTitle>
           
             <IonIcon icon={isDarkMode ? sunny : moon} onClick={() => handleToggle()} slot="end"></IonIcon>
             

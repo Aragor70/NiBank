@@ -16,7 +16,7 @@ import { createWallet, loadUser, update, updateCredentials, updateIncome } from 
 import { getBalance, updateMainWallet } from '../store/actions/tsx';
 
 
-const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account, updateMainWallet, update, createWallet, updateIncome, updateCredentials }) => {
+const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account, updateMainWallet, update, createWallet, updateIncome, updateCredentials, location }) => {
 
 
 
@@ -47,6 +47,14 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
     const [ incomeValue, setIncomeValue ] = useState({
         income: ''
     })
+
+    useEffect(() => {
+        if (location?.state?.new_wallet) {
+            setSelected(1)
+        } else {
+            setSelected(0)
+        }
+    }, [location])
 
     const updateAvatar = async (e: any) => {
 

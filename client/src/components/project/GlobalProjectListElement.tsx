@@ -26,7 +26,7 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
 
       <IonCard style={{ position: 'relative' }}>
         
-
+        {/* project.status === 'UNDER_CONSIDERATION' ? '#3dc2ff' : project.status === 'OPEN' ? '#3880ff' : '#92949c' */}
         <IonCardHeader>
           
           <IonItem>
@@ -39,8 +39,8 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
               {
                 project.status === "UNDER_CONSIDERATION" ? 
                 <IonIcon size="large" color="secondary" icon={stopwatchOutline}></IonIcon>
-                : project.status !== "OPEN" ? <IonIcon size="large" color="secondary" icon={lockClosedOutline}></IonIcon>
-                : <IonIcon size="large" color="secondary" icon={cardOutline}></IonIcon>
+                : project.status !== "OPEN" ? <IonIcon size="large" color="medium" icon={lockClosedOutline}></IonIcon>
+                : <IonIcon size="large" color="primary" icon={cardOutline}></IonIcon>
                 
               }
             </IonAvatar>

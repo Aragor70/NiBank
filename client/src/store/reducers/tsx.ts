@@ -26,7 +26,7 @@ const tsx = (state: any = initialState, action: any) => {
             return {...state, tsx: null, loading: false }        
     
         case Tsx_Create_Success:
-            return {...state, tsxs: [...state.tsxs, payload.tsx], loading: false }
+            return {...state, tsxs: [ payload.tsx, ...state.tsxs ], loading: false }
 
         case Tsx_Create_Fail:
 

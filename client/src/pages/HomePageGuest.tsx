@@ -16,61 +16,19 @@ import { analytics, bookmarksOutline, bookOutline, businessOutline, card, extens
 import Loader from '../components/Loader';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 
-import CountUp from 'react-countup';
 
-import snowman from '../theme/images/svg/snowman1.svg'
+
+import CountUp from 'react-countup';
+import { PROJECTS_PALETTE } from '../utils/constants';
 
 const Home: React.FC <RouteComponentProps | any> = ({ history, tsx, users, project }) => {
 
   const setArryOfColors = (values: any[]) => {
 
-        
-    let allColors: any[] = 
-    [
-        {index: 0, value: 'rgba(0, 55, 72, 0.8)'},
-        {index: 1, value: 'rgba(50, 84, 100, 0.8)'},
-        {index: 2, value: 'rgba(90, 116, 129, 0.8)'},
-        {index: 3, value: 'rgba(129, 149, 159, 0.8)'},
-        {index: 4, value: 'rgba(170, 183, 190, 0.8)'},
-        {index: 5, value: 'rgba(212, 218, 222, 0.8)'},
-        {index: 6, value: 'rgba(225,236, 255, 0.8)'},
-        {index: 7, value: 'rgba(225,236, 230, 0.8)'},
-        {index: 8, value: 'rgba(225, 236, 219, 0.8)'},
-        {index: 9, value: 'rgba(195, 217, 184, 0.8)'},
-        {index: 10, value: 'rgba(165, 199, 150, 0.8)'},
-        {index: 11, value: 'rgba(135, 180, 116, 0.8)'},
-        {index: 12, value: 'rgba(105, 161, 83, 0.8)'},
-        {index: 13, value: 'rgba(72, 143, 49, 0.8)'},
-    ]
-
-    let positives: any[] = [
-        {index: 7, value: 'rgba(225, 236, 219, 1)'},
-        {index: 8, value: 'rgba(195, 217, 184, 1)'},
-        {index: 9, value: 'rgba(165, 199, 150, 1)'},
-        {index: 10, value: 'rgba(135, 180, 116, 1)'},
-        {index: 11, value: 'rgba(105, 161, 83, 1)'},
-        {index: 12, value: 'rgba(72, 143, 49, 1)'},
-    ]
-
-    let negatives: any[] = [
-        {index: 0, value: 'rgba(0, 55, 72, 1)'},
-        {index: 1, value: 'rgba(50, 84, 100, 1)'},
-        {index: 2, value: 'rgba(90, 116, 129, 1)'},
-        {index: 3, value: 'rgba(129, 149, 159, 1)'},
-        {index: 4, value: 'rgba(170, 183, 190, 1)'},
-        {index: 5, value: 'rgba(212, 218, 222, 1)'},
-    ]
-
-
-    const half: any = values.length / 2;
-    
-    let colors: any[] = values.length < 8 ? negatives.slice(0, half).concat(positives.slice(half)) : allColors
-
-
     const arry: any[] = values.slice()
     
     
-    colors = colors.map((element: any, index: any) => {return { sortBy: arry[index], ...element}})
+    let colors = PROJECTS_PALETTE.map((element: any, index: any) => {return { sortBy: arry[index], ...element}})
 
     let toReturn: any[] = []
 

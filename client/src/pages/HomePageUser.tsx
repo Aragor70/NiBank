@@ -207,38 +207,55 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
                     
                   </Fragment>)} 
                   
-                  <IonSlide>
+                  {
+                    account?.wallets?.length < 4 && 
 
 
-                    <IonCard style={{ width: '100%'}}>
-                      <IonCardHeader>
-                      <IonItem style={{ padding: '10px 0'}} onClick={() => history.push('/settings')}>
+                      <IonSlide>
+
+
+                        <IonCard style={{ width: '100%'}}>
+                          <IonCardHeader>
+                          <IonItem style={{ padding: '10px 0'}} onClick={() => history.push({
+                            
+                              pathname: '/settings',
+                              state: { new_wallet: true }
                           
-                        <IonCol>
-                          <IonText className="ion-items-center" style={{ fontSize: '18px' }}>
-                            Create a new wallet
-                          </IonText>
-                          
-                              <IonText style={{ fontSize: '24px' }} className="ion-items-center">
-                                  <IonIcon icon={addCircleOutline}></IonIcon>
+                          })}>
+                              
+                            <IonCol>
+                              <IonText className="ion-items-center" style={{ fontSize: '18px' }}>
+                                Create a new wallet
                               </IonText>
+                              
+                                  <IonText style={{ fontSize: '24px' }} className="ion-items-center">
+                                      <IonIcon icon={addCircleOutline}></IonIcon>
+                                  </IonText>
+                              
+                            </IonCol>
+                              
+                            
+                          </IonItem>
+                          </IonCardHeader>
                           
-                        </IonCol>
-                          
-                        
-                      </IonItem>
-                      </IonCardHeader>
-                      
-                    </IonCard>
+                        </IonCard>
 
-                  </IonSlide>
+                      </IonSlide>
+
+                  }
+                  
 
               </IonSlides> : 
 
 
                   <IonCard>
                     <IonCardHeader>
-                    <IonItem style={{ padding: '10px 0'}} onClick={() => history.push('/settings')}>
+                    <IonItem style={{ padding: '10px 0'}} onClick={() => history.push({
+                        
+                        pathname: '/settings',
+                        state: { new_wallet: true }
+                    
+                    })}>
                         
                       <IonCol>
                         <IonText className="ion-items-center" style={{ fontSize: '18px' }}>
@@ -276,7 +293,19 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
 
                       <IonList className="ion-items-center" style={{ flexDirection: 'row', display: 'flex' }} >
                         {
-                          account?.wallets?.length ? <Fragment>{account?.wallets?.map((element: any, index: number) => <IonCol key={index}><IonItem><div className="ion-items-center" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem></IonCol>)}<IonCol><IonItem><div className="ion-items-center" onClick={() => handleWalletChange(account?.wallets?.length || 0)}><IonIcon color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''} icon={addCircle} size="small"></IonIcon><IonText color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''}>NEW</IonText></div></IonItem></IonCol></Fragment> : <Fragment><IonCol><IonItem><div className="ion-items-center"><IonIcon color="primary" icon={addCircle} size="small"></IonIcon><IonText color="primary">NEW</IonText></div></IonItem></IonCol></Fragment>
+                          account?.wallets?.length === 4 ? 
+                          <Fragment>{account?.wallets?.map((element: any, index: number) => <IonCol key={index}><IonItem><div className="ion-items-center" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem></IonCol>)}</Fragment> : account?.wallets?.length ? 
+                          <Fragment>{account?.wallets?.map((element: any, index: number) => <IonCol key={index}><IonItem><div className="ion-items-center" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem></IonCol>)}<IonCol><IonItem><div className="ion-items-center" onClick={() => handleWalletChange(account?.wallets?.length || 0)}><IonIcon color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''} icon={addCircle} size="small"></IonIcon><IonText color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''}>NEW</IonText></div></IonItem></IonCol></Fragment> : 
+                          <Fragment>
+                            <IonCol>
+                              <IonItem>
+                                <div className="ion-items-center">
+                                  <IonIcon color="primary" icon={addCircle} size="small"></IonIcon>
+                                  <IonText color="primary">NEW</IonText>
+                                </div>
+                              </IonItem>
+                            </IonCol>
+                          </Fragment>
                         }
                       </IonList>
 

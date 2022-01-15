@@ -418,11 +418,12 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
                                     <IonAvatar slot="start">
                                         {/* <IonIcon size="large" color="secondary" icon={project.status === "OPEN" ? lockOpen : lockClosed}></IonIcon> */}
                                         {
-                                        projectData.status === "UNDER_CONSIDERATION" ? 
-                                        <IonIcon size="large" color="secondary" icon={stopwatchOutline}></IonIcon>
-                                        : projectData.status !== "OPEN" ? <IonIcon size="large" color="secondary" icon={lockClosedOutline}></IonIcon>
-                                        : <IonIcon size="large" color="secondary" icon={cardOutline}></IonIcon>
-                                        
+                                            
+                                            projectData.status === "UNDER_CONSIDERATION" ? 
+                                            <IonIcon size="large" color="secondary" icon={stopwatchOutline}></IonIcon>
+                                            : projectData.status !== "OPEN" ? <IonIcon size="large" color="medium" icon={lockClosedOutline}></IonIcon>
+                                            : <IonIcon size="large" color="primary" icon={cardOutline}></IonIcon>
+                                            
                                         }
                                     </IonAvatar>
                                 

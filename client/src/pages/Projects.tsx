@@ -13,6 +13,7 @@ import { clearProjects, getProjects } from '../store/actions/project';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 import CreateProject from '../components/form/CreateProject';
 import NotFound from '../components/NotFound';
+import { PROJECTS_PALETTE } from '../utils/constants';
 
 const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
 
