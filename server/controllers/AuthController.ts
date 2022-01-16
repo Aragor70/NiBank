@@ -10,9 +10,11 @@ import moment from 'moment';
 import TsxController from './TsxController';
 import { SHA256 } from 'crypto-js';
 import CodeGenerate from '../utils/CodeGenerate';
+import ProjectController from './ProjectController';
 
 const tsxController = new TsxController;
 const sendingEmail = new SendingEmail;
+const projectController = new ProjectController;
 
 class AuthController {
 
@@ -62,7 +64,9 @@ class AuthController {
         const last_login = await user?.last_login ? moment(user?.last_login).format('DD-MM-YYYY') : null;
 
         if (today !== last_login && user?.main_wallet && user?.income) {
+           
             await this.sendIncome(user, next);
+
         }
         
         await pool.query(`UPDATE accounts SET last_login = now() WHERE email = $1`, [email]);
@@ -81,6 +85,7 @@ class AuthController {
         });
     
     })
+
 
     sendIncome = async (user: any, next: NextFunction, income: number = 0, accounting_date: any = null) => {
         

@@ -22,10 +22,17 @@ router.get('/', projectController.getProjects);
 //access       public
 router.get('/:project_id', projectController.getProjectById);
 
+
 //route post   api/auth
 //description  post new project
 //access       private
 router.post('/', projectController.createProject);
+
+
+//route get    api/projects
+//description  handle return
+//access       public
+router.post('/handle_return', projectController.handleReturn);
 
 //route post   api/projects
 //description  invest on project by project_id

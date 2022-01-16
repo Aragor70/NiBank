@@ -13,7 +13,7 @@ class ValidatingMethods {
             
             for await ( let [i, element] of dataset?.entries() ) {
 
-                const previous_object = await dataset?.[i - 1]?.current_hash?.toString()
+                const previous_object = await dataset[i - 1]?.current_hash?.toString()
                 const current_object = await element?.previous_hash?.toString()
 
                 const previous_saved = await arry[arry?.length - 1]?.current_hash;

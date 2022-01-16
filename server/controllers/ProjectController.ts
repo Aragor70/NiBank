@@ -43,9 +43,74 @@ class ProjectController {
         
         const project = { ...projects.rows[0], investors }
         
+        
         res.json({ project, message: 'Success', success: true });
 
     })
+
+    handleReturn = asyncHandler( async (req: any, res: any, next: any) => {
+
+        const yieldPA = await this.returnYield();
+
+        console.log('monthlyProcess', yieldPA)
+
+        res.json({ success: true });
+
+    })
+    
+    returnYield = async () => {
+        
+        
+        const projects = await pool.query('SELECT * FROM projects');
+
+        const tsxs: any[] = await tsxController.getAllTsxs('from');
+
+        const validTsxs: any[] = await tsxController.getValidTsxs(tsxs);
+
+        if (!validTsxs?.length) return false;
+
+        const investors: any[] = await this.getProjectInvestors(projects.rows[0], validTsxs);
+        
+        const project = { ...projects.rows[0], investors }
+        
+        if (project?.status !== 'FUNDED') return false
+
+    
+        const today = moment().format('YYYY-MM-DD');
+
+        if (!project?.owner_id) return false
+
+        const description: string = await (project?.projectname || 'N/A') + " project return";
+
+
+        if (!validTsxs?.length) return false;
+
+        const projectInvestors: any[] = await project?.investors;
+        
+        for await (const [i, elem] of projectInvestors?.entries()) {
+
+            const volumeInvested: number = await elem?.amount || 0;
+
+            const yieldAmount: number = volumeInvested * (project.yieldpa / 100);
+
+            const previousTransaction = await validTsxs.slice().sort((a: any, b: any) => b?.tsx_id - a?.tsx_id)[0] || { current_hash: 'genesis', nonce: 0, tsx_id: 0 };
+
+            const previousHash = previousTransaction?.current_hash;
+            const nonce = previousTransaction?.nonce + 1;
+
+            const hash = SHA256(((previousTransaction?.tsx_id) || 0).toString() + (previousHash || 'genesis') + (new Date().getTime() + project?.owner_id + elem?.from_id + (yieldAmount || 0) + nonce).toString()).toString();
+            
+            const tsx = await pool.query(`INSERT INTO transactions (from_id, from_project_id, to_user_id, amount, previous_hash, current_hash, nonce, accounting_date, currency, description) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`, [ project?.owner_id, project?.project_id, elem?.user_id, yieldAmount, previousHash || 'genesis', hash, nonce || 1, today, project?.currency, description ]);
+            
+            console.log(tsx?.rows[0])
+
+            return tsx?.rows[0];
+
+        }
+
+        return false;
+
+    };
     
     createProject = asyncHandler( async (req: any, res: any, next: any) => {
 
@@ -128,7 +193,8 @@ class ProjectController {
             return next(new ErrorResponse('The amount is too little.', 422))
         }
         if (moment(today) > moment(project.closedate)) {
-            return next(new ErrorResponse('Project is not open.', 422))
+            await pool.query(`UPDATE projects SET status = $1 WHERE project_id = $2 RETURNING *`, [ 'CLOSED', project_id ]);
+            return next(new ErrorResponse('The project is out of date.', 422))
         }
         
         const tsxs: any[] = await tsxController.getAllTsxs();
