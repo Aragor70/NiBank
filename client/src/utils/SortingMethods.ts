@@ -16,7 +16,7 @@ class SortingMethods {
         
         for (let i = 0; i < arry.length - 1; i++) {
     
-            if ((is_object ? arry[i].num < pivot.num : arry[i] < pivot)) {
+            if ((is_object ? arry[i][key] < pivot[key] : arry[i] < pivot)) {
                 leftSide = [...leftSide, arry[i]];
             } else {
                 rightSide = [...rightSide, arry[i]];
