@@ -48,9 +48,17 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
                   </IonText>
                 </IonItem>
                 <IonItem onClick={()=> history.push('/settings')}>
-                  <IonText>
-                    Settings
-                  </IonText>
+                  
+                  {
+                    (!auth?.user?.wallets?.length && auth?.user?.approved) ? 
+                      <IonText color="warning">
+                        Settings (create a new wallet)
+                      </IonText> :
+                      <IonText>
+                        Settings
+                      </IonText>
+                  }
+                  
                 </IonItem>
                 <IonItem onClick={()=> logout(history)}>
                   <IonText>
