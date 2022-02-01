@@ -175,7 +175,9 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
         }
       </IonContent>
 
-      <FooterLoggedIn />
+      {
+        auth?.isAuthenticated && <FooterLoggedIn />
+      }
       
     </IonPage>
   );
