@@ -41,8 +41,8 @@ const Wallets: React.FC<any> = ({ account, history }) => {
             </IonListHeader>
             {
                 account.loading ? <Loader /> : account.wallets.length ? account.wallets.map((element: any, index: number) => <Fragment key={index}>
-                    <IonItem style={{ fontSize: '16px' }} onClick={() => history.push(`/wallets/${element.currency}`)}>
-                        { element ? element.balance : 'N/A' } { element ? element.currency : 'N/A' }
+                    <IonItem className="inner-text-active" style={{ fontSize: '16px' }} onClick={() => history.push(`/wallets/${element.currency}`)}>
+                        <IonText>{ element ? element.balance : 'N/A' } { element ? element.currency : 'N/A' }</IonText>
                     </IonItem>
                 </Fragment>) : <NotFound message={"No available wallets."} />
             }

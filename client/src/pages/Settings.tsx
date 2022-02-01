@@ -51,8 +51,6 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
     useEffect(() => {
         if (location?.state?.new_wallet) {
             setSelected(1)
-        } else if ((!auth?.user?.wallets?.length && auth?.user?.approved)) {
-            setSelected(1)
         } else {
             setSelected(0)
         }
@@ -118,7 +116,7 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
             }
             await updateMainWallet(e)
 
-            await setMainWallet({ main_wallet: e.target.value })
+            setMainWallet({ main_wallet: e.target.value })
 
 
         } catch (err: any) {
@@ -226,20 +224,13 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                         <IonItem>
                             <IonGrid>
                                 <IonRow>
-                                    <IonCol className="ion-items-center" style={ selected === 0 ? { fontWeight: 'bold' } : {} }>
+                                    <IonCol className="ion-items-center inner-items-active" style={ selected === 0 ? { fontWeight: 'bold' } : {} }>
                                         <IonText onClick={() => setSelected(0)}>My profile</IonText>
 
                                     </IonCol>
-                                    <IonCol className="ion-items-center" style={ selected === 1 ? { fontWeight: 'bold' } : {} }>
-                                        
-                                        {
-                                            (!auth?.user?.wallets?.length && auth?.user?.approved) ?
-                                            <IonText color="warning" onClick={() => setSelected(1)}>My wallet</IonText> :
-                                                <IonText onClick={() => setSelected(1)}>My wallet</IonText>
+                                    <IonCol className="ion-items-center inner-items-active" style={ selected === 1 ? { fontWeight: 'bold' } : {} }>
+                                        <IonText onClick={() => setSelected(1)}>My wallet</IonText>
                                                 
-                                        }
-                                        
-
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>
@@ -371,9 +362,15 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                             auth?.user?.wallets?.length && 
                                             
                                             <IonItem>
-                                                <IonLabel>
-                                                    Primary
-                                                </IonLabel>
+                                                {
+                                                    mainWallet?.main_wallet ?
+                                                        <IonLabel>
+                                                            Primary
+                                                        </IonLabel> : 
+                                                        <IonLabel color="warning">
+                                                            Primary
+                                                        </IonLabel>
+                                                }
                                                 <IonSelect slot="end" name="main_wallet" value={mainWallet?.main_wallet || ""} onIonChange={(e: any) => handleMainWallet(e)}>
                                                     {
                                                         auth?.user?.wallets?.length ? auth?.user?.wallets?.map((element: any, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>) : <IonSelectOption value={''}>{''}</IonSelectOption>
@@ -385,11 +382,17 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                             auth?.user?.wallets?.length !== ['EUR', 'GBP', 'PLN', 'CZK'].length &&
 
                                                 <IonItem>
-                                                    <IonLabel color="warning">
-                                                        Create a new wallet
-                                                    </IonLabel>
                                                     {
-                                                        
+                                                        auth?.user?.wallets?.length ?
+                                                            <IonLabel>
+                                                                Create a new wallet
+                                                            </IonLabel> : 
+                                                            <IonLabel color="warning">
+                                                                Create a new wallet
+                                                            </IonLabel>
+                                                    }
+                                                    
+                                                    {
                                                         <IonSelect slot="end" name="wallet" onIonChange={(e: any) => handleWallet(e)}>
                                                             {
                                                                 ['EUR', 'GBP', 'PLN', 'CZK'].map((element: string, index: number) => <IonSelectOption key={index} value={element}>{element}</IonSelectOption>)
@@ -402,9 +405,16 @@ const Settings: React.FC<RouteComponentProps | any> = ({ history, auth, account,
                                         {
                                             mainWallet?.main_wallet && 
                                                 <IonItem>
-                                                    <IonLabel>
-                                                        Daily income
-                                                    </IonLabel>
+                                                    {
+                                                        incomeValue?.income === null ?
+                                                        
+                                                            <IonLabel color="warning">
+                                                                Daily income
+                                                            </IonLabel> : 
+                                                            <IonLabel >
+                                                                Daily income
+                                                            </IonLabel>
+                                                    }
                                                     {
                                                         
                                                         <IonSelect slot="end" name="wallet" value={ incomeValue?.income } onIonChange={(e: any) => handleIncome(e)}>

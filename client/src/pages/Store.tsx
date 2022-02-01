@@ -41,11 +41,11 @@ const Store: React.FC<any> = ({ history }) => {
         </IonListHeader>
         <IonCard>
           <IonCardContent>
-            <IonItem onClick={() => history.push('/projects')}>
+            <IonItem className="inner-items-active" onClick={() => history.push('/projects')}>
               <IonIcon slot="start" icon={businessOutline} color="primary"></IonIcon>
               <IonText>Projects</IonText>
             </IonItem>
-            <IonItem onClick={() => history.push('/transactions')}>
+            <IonItem className="inner-items-active" onClick={() => history.push('/transactions')}>
               <IonIcon slot="start" icon={card}></IonIcon>
               <IonText>Transactions</IonText>
             </IonItem>

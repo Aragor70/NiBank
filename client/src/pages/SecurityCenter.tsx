@@ -158,7 +158,7 @@ const SecurityCenter: React.FC<any> = ({ tsx, history }) => {
                       </IonCol>
                     </IonRow>
                     {
-                      arry?.length ? arry?.map((element: any, index: number) => <IonRow key={index} onClick={() => history.push(`/transactions/${element.tsx_id}`)}>
+                      arry?.length ? arry?.map((element: any, index: number) => <IonRow className="inner-items-active" key={index} onClick={() => history.push(`/transactions/${element.tsx_id}`)}>
                         <IonCol className="ion-items-center">{element?.tsx_id}</IonCol>
                         <IonCol className="ion-items-center"><IonIcon color="secondary" size="small" icon={informationCircleOutline}></IonIcon></IonCol>
                         <IonCol className="ion-items-center"><IonIcon color="secondary" size="small" icon={informationCircleOutline}></IonIcon></IonCol>

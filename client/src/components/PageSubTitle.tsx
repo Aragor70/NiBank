@@ -24,7 +24,7 @@ const PageSubTitle: React.FC<PageSubTitle | any> = ({ subTitles, history }) => {
                 } */}
                 {
                   subTitles?.map((element: any, index: number) => <Fragment key={index}>
-                    <IonBreadcrumb onClick={ element.action ? () => element.action() : element.path ? () => history.push(element.path) : () => false} style={{ display: 'flex', itemsAlign: 'center' }}>
+                    <IonBreadcrumb className="inner-items-active" onClick={ element.action ? () => element.action() : element.path ? () => history.push(element.path) : () => false} style={{ display: 'flex', itemsAlign: 'center' }}>
 
                       {
                         element.icon ? <IonIcon icon={element.icon} slot="start"></IonIcon> : false

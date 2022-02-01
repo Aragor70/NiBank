@@ -192,21 +192,21 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
         <IonItem>
             <IonGrid>
                 <IonRow>
-                    <IonCol style={ selectView?.overview ? { textAlign: 'center', fontWeight: 'bold' } : { textAlign: 'center' }} onClick={() => setSelectView({ overview: true })}>
-                        Overview
+                    <IonCol className="inner-text-active" style={ selectView?.overview ? { textAlign: 'center', fontWeight: 'bold' } : { textAlign: 'center' }} onClick={() => setSelectView({ overview: true })}>
+                        <IonText>Overview</IonText>
 
                     </IonCol>
                     {
                         project?.loading ? false : (auth?.user?.approved && (projectData?.status !== 'UNDER_CONSIDERATION')) ? 
-                        <IonCol color="gray" style={ selectView?.investments ? { textAlign: 'center', fontWeight: 'bold' } : { textAlign: 'center' }} onClick={() => setSelectView({ investments: true })}>
-                            Investments
+                        <IonCol className="inner-text-active" color="gray" style={ selectView?.investments ? { textAlign: 'center', fontWeight: 'bold' } : { textAlign: 'center' }} onClick={() => setSelectView({ investments: true })}>
+                            <IonText>Investments</IonText>
     
                         </IonCol> : false
                     }
                     {
                         project?.loading ? false : (auth?.user?.approved && (projectData?.owner_id === auth?.user?.user_id) && (projectData?.status === 'UNDER_CONSIDERATION')) ?
-                        <IonCol color="gray" style={ selectView?.update ? { textAlign: 'center', fontWeight: 'bold' } : { textAlign: 'center' }} onClick={() => setSelectView({ update: true })}>
-                            Update
+                        <IonCol className="inner-text-active" color="gray" style={ selectView?.update ? { textAlign: 'center', fontWeight: 'bold' } : { textAlign: 'center' }} onClick={() => setSelectView({ update: true })}>
+                            <IonText>Update</IonText>
 
                         </IonCol> : false
                     }

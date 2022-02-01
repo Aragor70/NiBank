@@ -6,7 +6,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 const FooterLoggedOut: React.FC<RouteComponentProps> = ({ history }) => {
   return (
       <IonFooter style={{ postion: 'static'}}>
-        <IonItem className="ion-items-center">
+        <IonItem className="ion-items-center inner-items-active">
           <span onClick={() => history.push("/")}>NiVest</span>
           
         </IonItem>

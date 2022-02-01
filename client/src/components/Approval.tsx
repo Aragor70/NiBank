@@ -13,11 +13,11 @@ const Approval: React.FC<any> = ({ auth, history }) => {
     <Fragment>
       <IonCard style={{ boxShadow: 'none' }} className="no-borders">
         <IonCardContent style={{ paddingLeft: '0', paddingRight: '0', paddingBottom: '0' }}>
-        <IonItem lines="none" className="ion-items-center" style={{ border: '2px solid #3880ff', fontWeight: 'bold' }} onClick={() => history.push('/account_approvement')}>
+        <IonItem lines="none" className="ion-items-center inner-text-active" style={{ border: '2px solid #3880ff', fontWeight: 'bold' }} onClick={() => history.push('/account_approvement')}>
             <IonAvatar slot="start" className="no-margin vertical-center" style={{ alignItems: 'center' }}>
               <IonIcon color="primary" size="large" icon={star}></IonIcon>
             </IonAvatar>
-            <IonText color="primary" className="ion-items-center" >Upgrade the account to Approved</IonText>
+            <IonText color="primary" className="ion-items-center">Upgrade the account to Approved</IonText>
         </IonItem>
         </IonCardContent>
       </IonCard>

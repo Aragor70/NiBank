@@ -7,8 +7,9 @@ import { logout } from '../store/actions/auth';
 import Approval from './Approval';
 
 
-const Menu: React.FC<any> = ({ history, logout, auth }) => {
+const Menu: React.FC<any> = ({ history, logout, auth, location }) => {
 
+  const path = location.pathname;
 
   return (
     <IonMenu side="start" menuId="first" contentId="output">
@@ -22,28 +23,28 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
             {
               auth.isAuthenticated ? <Fragment>
                 <IonItem onClick={()=> history.push('/')}>
-                  <IonText color="primary">
+                  <IonText color={path === '/' ? 'success' : 'primary'}>
                     Overview
                   </IonText>
                 </IonItem>
                 <IonItem onClick={()=> history.push('/wallets')}>
-                  <IonText>
+                  <IonText color={path === '/wallets' ? 'success' : ''}>
                     My wallets
                   </IonText>
                 </IonItem>
                 <IonItem onClick={()=> history.push('/projects')}>
-                  <IonText>
+                  <IonText color={path === '/projects' ? 'success' : ''}>
                     Projects
                   </IonText>
                 </IonItem>
                 <IonItem onClick={()=> history.push('/transactions')}>
-                  <IonText>
+                  <IonText color={path === '/transactions' ? 'success' : ''}>
                     Transactions
                   </IonText>
                 </IonItem>
                 {/* <IonItem onClick={()=> history.push('/currency_exchange')}>Currency exchange</IonItem> */}
                 <IonItem onClick={()=> history.push('/security_center')}>
-                  <IonText>
+                  <IonText color={path === '/security_center' ? 'success' : ''}>
                     Security Center
                   </IonText>
                 </IonItem>
@@ -51,10 +52,10 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
                   
                   {
                     (!auth?.user?.wallets?.length && auth?.user?.approved) ? 
-                      <IonText color="warning">
+                      <IonText color={path === '/settings' ? 'success' : 'warning'}>
                         Settings (create a new wallet)
                       </IonText> :
-                      <IonText>
+                      <IonText color={path === '/settings' ? 'success' : ''}>
                         Settings
                       </IonText>
                   }
@@ -71,27 +72,27 @@ const Menu: React.FC<any> = ({ history, logout, auth }) => {
                 }
               </Fragment> : <Fragment>
                 <IonItem onClick={()=> history.push('/')}>
-                  <IonText>
+                  <IonText color={path === '/home' ? 'success' : ''}>
                     Dashboard
                   </IonText>
                 </IonItem>
                 <IonItem onClick={()=> history.push('/logon')}>
-                  <IonText color="primary">
+                  <IonText color={path === '/logon' ? 'success' : 'primary'}>
                     Log on
                   </IonText>
                 </IonItem>
                 <IonItem onClick={()=> history.push('/register')}>
-                  <IonText>
+                  <IonText color={path === '/register' ? 'success' : ''}>
                     Register
                   </IonText>
                 </IonItem>
                 <IonItem onClick={()=> history.push('/security_center')}>
-                  <IonText>
+                  <IonText color={path === '/security_center' ? 'success' : ''}>
                     Security Center
                   </IonText>
                 </IonItem>
                 <IonItem onClick={()=> history.push('/projects')}>
-                  <IonText>
+                  <IonText color={path === '/projects' ? 'success' : ''}>
                     Project Opportunities
                   </IonText>
                 </IonItem>

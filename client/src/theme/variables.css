@@ -541,7 +541,7 @@ ion-button:active
 {
   position: relative;
   top: 2px;
-  color: #2dd36f;
+  color: #2dd36f!important;
 }
 ion-router-link:active
 {
@@ -691,4 +691,31 @@ img
 ion-list.column-gap-30
 {
   column-gap: 30px !important;
+}
+
+ion-menu ion-item:active ion-text
+{
+  position: relative;
+  top: 2px;
+  color: #2dd36f;
+}
+
+.item-active
+{
+  position: relative;
+  top: 2px;
+  color: #2dd36f;
+}
+.inner-items-active:active > *
+{
+  position: relative;
+  top: 2px;
+  color: #2dd36f;
+}
+
+.inner-text-active:active ion-text
+{
+  position: relative;
+  top: 2px;
+  color: #2dd36f;
 }

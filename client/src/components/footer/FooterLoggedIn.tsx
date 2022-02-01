@@ -12,17 +12,17 @@ const FooterLoggedIn: React.FC<RouteComponentProps | any> = ({ auth, history, lo
         
         <IonList className="ion-items-center" style={{ flexDirection: 'row' }}>
           
-          <IonItem onClick={() => history.push("/")}><IonIcon size="large" color="secondary" icon={home}></IonIcon></IonItem>
-          <IonItem onClick={() => history.push("/transactions")}><IonIcon size="large" color="secondary" icon={statsChart}></IonIcon></IonItem>
-          <IonItem onClick={() => history.push("/store")}><IonIcon size="large" color="secondary" icon={appsOutline}></IonIcon></IonItem>
+          <IonItem className="inner-items-active" onClick={() => history.push("/")}><IonIcon size="large" color="secondary" icon={home}></IonIcon></IonItem>
+          <IonItem className="inner-items-active" onClick={() => history.push("/transactions")}><IonIcon size="large" color="secondary" icon={statsChart}></IonIcon></IonItem>
+          <IonItem className="inner-items-active" onClick={() => history.push("/store")}><IonIcon size="large" color="secondary" icon={appsOutline}></IonIcon></IonItem>
           {
             (!auth?.user?.wallets?.length && auth?.user?.approved) ? 
-              <IonItem onClick={() => history.push("/settings")}><IonIcon size="large" color="warning" icon={person}></IonIcon></IonItem> :
-              <IonItem onClick={() => history.push("/settings")}><IonIcon size="large" color="secondary" icon={person}></IonIcon></IonItem>
+              <IonItem className="inner-items-active" onClick={() => history.push("/settings")}><IonIcon size="large" color="warning" icon={person}></IonIcon></IonItem> :
+              <IonItem className="inner-items-active" onClick={() => history.push("/settings")}><IonIcon size="large" color="secondary" icon={person}></IonIcon></IonItem>
               
           }
           
-          <IonItem onClick={() => logout(history)}><IonIcon size="large" color="secondary" icon={logOut}></IonIcon></IonItem>
+          <IonItem className="inner-items-active" onClick={() => logout(history)}><IonIcon size="large" color="secondary" icon={logOut}></IonIcon></IonItem>
           
         </IonList>
       </IonFooter>

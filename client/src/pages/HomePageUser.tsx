@@ -216,7 +216,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
 
                         <IonCard style={{ width: '100%'}}>
                           <IonCardHeader>
-                          <IonItem style={{ padding: '10px 0'}} onClick={() => history.push({
+                          <IonItem className="inner-text-active" style={{ padding: '10px 0'}} onClick={() => history.push({
                             
                               pathname: '/settings',
                               state: { new_wallet: true }
@@ -250,7 +250,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
 
                   <IonCard>
                     <IonCardHeader>
-                    <IonItem style={{ padding: '10px 0'}} onClick={() => history.push({
+                    <IonItem className="inner-text-active" style={{ padding: '10px 0'}} onClick={() => history.push({
                         
                         pathname: '/settings',
                         state: { new_wallet: true }
@@ -278,10 +278,10 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
           }
 
           {
-            selectWalletView > 0 && auth?.user?.approved && <IonIcon onClick={() => prevSlide()} icon={returnDownBack} size="large" color="dark" style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 10 }}></IonIcon>
+            selectWalletView > 0 && auth?.user?.approved && <IonLabel className="inner-items-active" onClick={() => prevSlide()} style={{ position: 'absolute', bottom: 0, left: 0, zIndex: 10 }}><IonIcon icon={returnDownBack} size="large" color="dark" ></IonIcon></IonLabel>
           }
           {
-            (selectWalletView < account?.wallets?.length) && auth?.user?.approved && <IonIcon onClick={() => nextSlide()} icon={returnDownForward} size="large" color="dark" style={{ position: 'absolute', bottom: 0, right: 0, zIndex: 10 }}></IonIcon>
+            (selectWalletView < account?.wallets?.length) && auth?.user?.approved && <IonLabel className="inner-items-active" onClick={() => nextSlide()} style={{ position: 'absolute', bottom: 0, right: 0, zIndex: 10 }}><IonIcon icon={returnDownForward} size="large" color="dark"></IonIcon></IonLabel>
           }
           </section>
               {
@@ -294,12 +294,12 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
                       <IonList className="ion-items-center" style={{ flexDirection: 'row', display: 'flex' }} >
                         {
                           account?.wallets?.length === 4 ? 
-                          <Fragment>{account?.wallets?.map((element: any, index: number) => <IonCol key={index}><IonItem><div className="ion-items-center" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem></IonCol>)}</Fragment> : account?.wallets?.length ? 
-                          <Fragment>{account?.wallets?.map((element: any, index: number) => <IonCol key={index}><IonItem><div className="ion-items-center" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem></IonCol>)}<IonCol><IonItem><div className="ion-items-center" onClick={() => handleWalletChange(account?.wallets?.length || 0)}><IonIcon color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''} icon={addCircle} size="small"></IonIcon><IonText color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''}>NEW</IonText></div></IonItem></IonCol></Fragment> : 
+                          <Fragment>{account?.wallets?.map((element: any, index: number) => <IonCol key={index}><IonItem><div className="ion-items-center inner-items-active" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem></IonCol>)}</Fragment> : account?.wallets?.length ? 
+                          <Fragment>{account?.wallets?.map((element: any, index: number) => <IonCol key={index}><IonItem><div className="ion-items-center inner-items-active" onClick={() => handleWalletChange(index)}><IonIcon color={selectWalletView === index ? 'primary' : ''} icon={card} size="small"></IonIcon><IonText color={selectWalletView === index ? 'primary' : ''}>{element.currency}</IonText></div></IonItem></IonCol>)}<IonCol><IonItem><div className="ion-items-center" onClick={() => handleWalletChange(account?.wallets?.length || 0)}><IonIcon color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''} icon={addCircle} size="small"></IonIcon><IonText color={selectWalletView === (account?.wallets?.length || 0) ? 'primary' : ''}>NEW</IonText></div></IonItem></IonCol></Fragment> : 
                           <Fragment>
                             <IonCol>
                               <IonItem>
-                                <div className="ion-items-center">
+                                <div className="ion-items-center inner-items-active">
                                   <IonIcon color="primary" icon={addCircle} size="small"></IonIcon>
                                   <IonText color="primary">NEW</IonText>
                                 </div>
@@ -339,7 +339,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
                     <IonGrid>
                       <IonRow>
                         <IonCol>
-                          <IonItem onClick={() => history.push('/new_transaction')}>
+                          <IonItem className="inner-items-active" onClick={() => history.push('/new_transaction')}>
                             <IonAvatar slot="start">
                               <IonIcon size="large" icon={cardOutline}></IonIcon>
                             </IonAvatar>
@@ -347,7 +347,7 @@ const Home: React.FC<RouteComponentProps | any> = ({ history, logout, account, p
                           </IonItem>
                         </IonCol>
                         <IonCol>
-                          <IonItem onClick={() => history.push('/new_project')}>
+                          <IonItem className="inner-items-active" onClick={() => history.push('/new_project')}>
                             <IonAvatar slot="start">
                               <IonIcon size="large" icon={businessOutline}></IonIcon>
                             </IonAvatar>

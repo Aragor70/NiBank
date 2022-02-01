@@ -103,7 +103,7 @@ const TsxDetails: React.FC<any> = ({ tsx, from, auth, access = 'guest' }) => {
                 
                 <IonCard>
                   <IonCardContent>
-                    <IonItem onClick={() => setIsOpen(!isOpen)}>
+                    <IonItem className="inner-items-active" onClick={() => setIsOpen(!isOpen)}>
                       <IonIcon slot="start" icon={cardOutline}></IonIcon>
                       <IonRouterLink>
                         New transaction
