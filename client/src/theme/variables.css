@@ -549,6 +549,10 @@ ion-router-link:active
   top: 2px;
   color: #3dc2ff;
 }
+ion-button
+{
+  padding: 0 13px;
+}
 
 ion-text
 {

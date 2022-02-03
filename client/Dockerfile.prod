@@ -1,5 +1,5 @@
 FROM node:alpine
-WORKDIR /app
+WORKDIR /app/nivest/client
 COPY package.json ./
 COPY package-lock.json ./
 COPY ./ ./
@@ -8,11 +8,11 @@ CMD ["npm", "run", "start"]
 
 # stage1 - build react app first 
 FROM node:12.16.1-alpine3.9 as build
-WORKDIR /app
+WORKDIR /app/nivest/client
 ENV PATH /app/node_modules/.bin:$PATH
-COPY ./package.json /app/
+COPY ./package.json /app/nivest/client/
 RUN npm i --silent
-COPY . /app
+COPY . /app/nivest/client
 RUN npm build
 
 # stage 2 - build the final image and copy the react build files

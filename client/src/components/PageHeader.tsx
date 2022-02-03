@@ -3,7 +3,6 @@ import { IonHeader, IonToolbar, IonTitle, IonIcon, IonItem, IonToggle, IonMenuTo
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 
-import { menuController } from '@ionic/core';
 import { moon, sunny } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -38,7 +37,7 @@ const PageHeader: React.FC<RouteComponentProps | any> = ({ history, auth }) => {
   return (
       <IonHeader>
         <IonItem mode="md">
-          <IonTitle className="no-padding"><span onClick={() => history.push("/")} className="brand-icon"><span style={{ color: '#3880ff' }}>Ni</span><span style={{ color: '#3dc2ff' }}>Vest</span> <span style={{ color: '#3dc2ff', fontSize: '12.5px' }}>Beta 1.1.5</span></span></IonTitle>
+          <IonTitle className="no-padding"><span onClick={() => history.push("/")} className="brand-icon"><span style={{ color: '#3880ff' }}>Ni</span><span style={{ color: '#3dc2ff' }}>Vest</span> <span style={{ color: '#3dc2ff', fontSize: '12.5px' }}>Beta 1.1.6</span></span></IonTitle>
           
             <IonIcon icon={isDarkMode ? sunny : moon} onClick={() => handleToggle()} slot="end"></IonIcon>
             

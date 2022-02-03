@@ -1,5 +1,5 @@
 
-export const URL: string = 'http://139.59.150.253:5050'
+export const URL: string = 'http://139.59.150.253:5000'
 
 export const PROJECTS_PALETTE: any[] = 
     [
