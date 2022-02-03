@@ -88,7 +88,6 @@
     ]
   },
   "description": "Register to Online Platform",
-  "proxy": "http://139.59.150.253:5000",
   "devDependencies": {
     "@capacitor/cli": "3.2.5",
     "@types/babel__core": "^7.1.17"
