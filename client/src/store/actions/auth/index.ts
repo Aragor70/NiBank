@@ -4,6 +4,7 @@ import axios from "axios";
 import { setAlert } from "../alert/";
 import setAuthToken from "../../../utils/setAuthToken";
 import { URL } from "../../../utils/constants";
+import { RouteComponentProps } from "react-router";
 
 export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     if (localStorage.token) {
@@ -225,7 +226,7 @@ export const register = (formData: LoginUserType, history: any, present: any) =>
     }
 }
 
-export const logout = (history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+export const logout = ({history}: RouteComponentProps) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({ type: Loading_Auth })
         dispatch({ type: Logout_User });

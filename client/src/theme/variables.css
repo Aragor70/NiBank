@@ -556,7 +556,7 @@ ion-button
 
 ion-text
 {
-  text-align: 'left'
+  text-align: left;
 }
 
 ion-avatar ion-icon:nth-child(2)
@@ -722,4 +722,12 @@ ion-menu ion-item:active ion-text
   position: relative;
   top: 2px;
   color: #2dd36f;
+}
+
+
+.ion-items-wrap
+{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
