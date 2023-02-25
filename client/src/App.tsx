@@ -231,7 +231,6 @@ const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, locat
                 <PageNotFound />
               </Route>
 
-              
               <Route
                 path="/"
                 render={() => <Redirect to="/home" />}

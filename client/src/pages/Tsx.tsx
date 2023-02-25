@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonCardSubtitle } from '@ionic/react';
-import { checkmark, home, informationCircleOutline } from 'ionicons/icons';
+import { checkmark, home, informationCircleOutline, swapHorizontal } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -74,7 +74,7 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Transaction page", path: `/transactions/${tsxData?.tsx_id}`, icon: '', 
+      text: "Transaction page", path: `/transactions/${tsxData?.tsx_id}`, icon: swapHorizontal, 
     
     }
   ]
