@@ -1,7 +1,7 @@
 
 import { present } from '@ionic/core/dist/types/utils/overlays';
-import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonRouterLink, IonCheckbox, useIonAlert } from '@ionic/react';
-import { Fragment } from 'react';
+import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonRouterLink, IonCheckbox, useIonAlert, IonSpinner } from '@ionic/react';
+import { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { preLogin } from '../../store/actions/auth';
@@ -12,6 +12,7 @@ const EmailField: React.FC<RouteComponentProps | any> = ({ formData, setFormData
     
     const { email, password, emailSave } = formData;
 
+    const [loadingData, setLoadingData] = useState(false)
     
     const [present] = useIonAlert();
 
@@ -26,10 +27,14 @@ const EmailField: React.FC<RouteComponentProps | any> = ({ formData, setFormData
 
         e.preventDefault();
 
+        await setLoadingData(true);
+
         await preLogin(formData, present, setStep)
 
+        setLoadingData(false);
 
       } catch (err: any) {
+        setLoadingData(false);
         console.log(err.message)
       }
 
@@ -55,7 +60,11 @@ const EmailField: React.FC<RouteComponentProps | any> = ({ formData, setFormData
               
             </IonItem>
           <IonToolbar mode="md">
-            <IonButton disabled={!(email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)))} type="submit" size="small" color="secondary" slot="end">Continue {">"}</IonButton>
+            <IonButton disabled={!(email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)))} type="submit" size="small" color="secondary" slot="end">
+              {
+                loadingData ? <IonSpinner duration={1500} color="light"></IonSpinner> : "Continue >"
+              }
+              </IonButton>
           </IonToolbar>
           <IonToolbar mode="md">
             <IonItem>

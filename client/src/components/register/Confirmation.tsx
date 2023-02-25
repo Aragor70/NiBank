@@ -1,7 +1,7 @@
 
-import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonButton, IonItem, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonInput, IonText, IonBadge, IonAvatar, IonAlert, useIonAlert } from '@ionic/react';
+import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonButton, IonItem, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonInput, IonText, IonBadge, IonAvatar, IonAlert, useIonAlert, IonSpinner } from '@ionic/react';
 import { checkmark, close } from 'ionicons/icons';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { register } from '../../store/actions/auth';
@@ -12,14 +12,18 @@ const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormDa
 
     const { termsAndConditions, email, password, passwordConfirmation, twoFactor, accountType} = formData;
 
+    const [loadingData, setLoadingData] = useState(false)
+
     const [present] = useIonAlert();
     
     const registerHandler = async(data: any) => {
         try {
   
-          await register(data, history, present);
-  
+        await setLoadingData(true);
 
+        await register(data, history, present);
+  
+        setLoadingData(false);
 
         } catch (err: any) {
             
@@ -75,7 +79,9 @@ const Confirmation: React.FC<RouteComponentProps | any> = ({ formData, setFormDa
                 <IonItem>
                     <div className="ion-items-center">
                     <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation)} onClick={() => registerHandler(formData)} type="button" size="default" color="primary">
-                        Register
+                        {
+                            loadingData ? <IonSpinner duration={1500} color="light"></IonSpinner> : "Register"
+                        }
                     </IonButton>
                     </div>
                 </IonItem>

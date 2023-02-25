@@ -677,8 +677,6 @@ const TermsContent: React.FC<TermsAndConditionsUI | any> = ({}) => {
                 <IonText className="ion-text-wrap">
                     limit or exclude our or your liability for fraud or fraudulent misrepresentation;
 
-
-
                 </IonText>
                 </IonLabel>
 
@@ -693,10 +691,8 @@ const TermsContent: React.FC<TermsAndConditionsUI | any> = ({}) => {
                 <IonText className="ion-text-wrap">
                     limit any of our or your liabilities in any way that is not permitted under applicable law; or
 
-
                 </IonText>
                 </IonLabel>
-
 
                 </IonItem>
                 <IonItem>
@@ -708,11 +704,8 @@ const TermsContent: React.FC<TermsAndConditionsUI | any> = ({}) => {
                 <IonText className="ion-text-wrap">
                     exclude any of our or your liabilities that may not be excluded under applicable law.
 
-
-
                 </IonText>
                 </IonLabel>
-
 
                 </IonItem>
                 <IonItem>

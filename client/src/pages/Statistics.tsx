@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
-import { checkmark, home } from 'ionicons/icons';
+import { checkmark, home, pieChart } from 'ionicons/icons';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
@@ -14,7 +14,7 @@ const Statistics: React.FC = () => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Statistics", path: '/statistics', icon: '', 
+      text: "Statistics", path: '/statistics', icon: pieChart, 
     
     }
   ]
@@ -32,6 +32,10 @@ const Statistics: React.FC = () => {
       <IonList>
 
         <IonListHeader>
+          
+          <IonItem lines='none'>
+            <IonIcon size="large" color='dark' icon={pieChart}></IonIcon>
+          </IonItem>
             <IonTitle style={{ textAlign: 'center' }}>
                 Statistics
 

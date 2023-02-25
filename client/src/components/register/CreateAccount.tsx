@@ -1,6 +1,6 @@
 
-import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, useIonAlert } from '@ionic/react';
-import { Fragment } from 'react';
+import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, useIonAlert, IonSpinner } from '@ionic/react';
+import { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { preRegister } from '../../store/actions/auth';
@@ -15,6 +15,7 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
+    const [loadingData, setLoadingData] = useState(false)
     
     const [present] = useIonAlert();
     
@@ -23,8 +24,11 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
         try {
   
           e.preventDefault();
-  
-          await preRegister(formData, present, setStep)
+          await setLoadingData(true)
+
+          await preRegister(formData, present, setStep);
+
+          await setLoadingData(false)
   
   
         } catch (err: any) {
@@ -66,7 +70,9 @@ const CreateAccount: React.FC<RouteComponentProps | any> = ({ formData, setFormD
                     <IonItem>
                         <div className="ion-items-center">
                         <IonButton disabled={!(accountType && termsAndConditions && email && password && passwordConfirmation && password === passwordConfirmation && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} type="submit" size="default" color="primary">
-                            Continue
+                        {
+                            loadingData ? <IonSpinner duration={1500} color="light"></IonSpinner> : "Continue"
+                        }
                         </IonButton>
                         </div>
                     </IonItem>

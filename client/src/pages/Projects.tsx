@@ -1,19 +1,16 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonAccordionGroup, IonAccordion } from '@ionic/react';
-import { checkmark, home, informationCircleOutline } from 'ionicons/icons';
+import { business, checkmark, home } from 'ionicons/icons';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
-import CreateTransfer from '../components/form/CreateTransfer';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
-import MyTsxListElement from '../components/tsx/MyTsxListElement';
 import { Fragment, useEffect, useState } from 'react';
 import { clearProjects, getProjects } from '../store/actions/project';
 import GlobalProjectListElement from '../components/project/GlobalProjectListElement';
 import CreateProject from '../components/form/CreateProject';
 import NotFound from '../components/NotFound';
-import { PROJECTS_PALETTE } from '../utils/constants';
 
 const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
 
@@ -64,7 +61,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "All project", path: '/projects', icon: '', 
+      text: "All project", path: '/projects', icon: business, 
     
       action: () => setStep(0)
     }
@@ -75,12 +72,12 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth }) => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "All project", path: '/projects', icon: '', 
+      text: "All project", path: '/projects', icon: business, 
     
       action: () => setStep(0)
     }, 
     {
-      text: "New project", path: '/projects', icon: '', 
+      text: "New project", path: '/projects', icon: business, 
     
       action: () => setStep(1)
     }

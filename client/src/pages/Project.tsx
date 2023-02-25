@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonCardSubtitle, IonGrid, IonCol, IonRow, IonBadge, IonProgressBar, IonImg, IonInput, IonSelect, IonSelectOption, IonSlides, IonSlide, useIonAlert, IonTextarea } from '@ionic/react';
-import { cardOutline, checkmark, home, informationCircleOutline, lockClosedOutline, stopwatchOutline } from 'ionicons/icons';
+import { business, cardOutline, checkmark, home, informationCircleOutline, lockClosedOutline, stopwatchOutline } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -117,8 +117,6 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
         
     }
     
-
-    
     useEffect(() => {
 
         if (project?.project) {
@@ -165,7 +163,7 @@ const Project: React.FC<any> = ({ project, match, getProject, auth, updateProjec
           text: "Home", path: '/', icon: home
         }, 
         {
-          text: "Project page", path: `/projects/${projectData?.project_id}`, icon: '', 
+          text: "Project page", path: `/projects/${projectData?.project_id}`, icon: business, 
         
         }
       ]

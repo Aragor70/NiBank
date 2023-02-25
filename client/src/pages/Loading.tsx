@@ -1,12 +1,14 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonLoading, IonSpinner } from '@ionic/react';
-import { checkmark, home } from 'ionicons/icons';
+import { checkmark, home, refresh } from 'ionicons/icons';
+import { connect } from 'react-redux';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
+import FooterLoggedOut from '../components/footer/FooterLoggedOut';
 import Loader from '../components/Loader';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 
-const Loading: React.FC = () => {
+const Loading: React.FC = ({ isAuthenticated }: any) => {
 
   
   const subTitles: any[] = [
@@ -14,7 +16,7 @@ const Loading: React.FC = () => {
       text: "Home", path: '/', icon: home
     },
     {
-      text: "Loading...", path: '/', icon: ''
+      text: "Loading...", path: '/', icon: refresh
     }
   ]
 
@@ -39,17 +41,21 @@ const Loading: React.FC = () => {
 
         <Loader />
         
-        
-        
       </IonList>
         
         
       </IonContent>
 
-      <FooterLoggedIn />
+      {
+        isAuthenticated ? <FooterLoggedIn /> : null
+      }
       
     </IonPage>
   );
 };
 
-export default Loading;
+const mapStateToProps = (state: any) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+})
+
+export default connect(mapStateToProps, {})(Loading);

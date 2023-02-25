@@ -1,7 +1,7 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonGrid, IonCol, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonRow } from '@ionic/react';
 import { connect } from 'react-redux';
-import { alert, arrowForward, businessOutline, checkmark, home, people } from 'ionicons/icons';
+import { alert, arrowForward, business, businessOutline, card, checkmark, home, people, trailSign } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
@@ -44,7 +44,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Choose transaction", path: '/new_transaction', icon: '', 
+      text: "Choose transaction", path: '/new_transaction', icon: trailSign, 
     
       action: () => setSelectView({
         investment: 0,
@@ -52,7 +52,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
       })
     },
     {
-      text: "Investments", path: '/new_transaction', icon: '', 
+      text: "Investments", path: '/new_transaction', icon: business, 
     
       action: () => setSelectView({
         investment: 1,
@@ -66,7 +66,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Choose transaction", path: '/new_transaction', icon: '', 
+      text: "Choose transaction", path: '/new_transaction', icon: trailSign, 
     
       action: () => setSelectView({
         investment: 0,
@@ -74,7 +74,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
       })
     },
     {
-      text: "New transfer", path: '/new_transaction', icon: '', 
+      text: "New transfer", path: '/new_transaction', icon: people, 
     
       action: () => setSelectView({
         investment: 0,
@@ -87,7 +87,7 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Choose transaction", path: '/new_transaction', icon: '', 
+      text: "Choose transaction", path: '/new_transaction', icon: trailSign, 
     
       action: () => setSelectView({
         investment: 0,
@@ -103,9 +103,6 @@ const ChooseTransaction: React.FC<any> = ({ location, project, getProjects, auth
       <PageHeader />     
 
       <IonContent fullscreen>
-
-        
-        
 
         {
           investment || transfer ? <Fragment>

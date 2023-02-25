@@ -1,12 +1,10 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonCardSubtitle } from '@ionic/react';
 import { checkmark, home, informationCircleOutline } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
-import CreateInvestment from '../components/form/CreateInvestment';
-import CreateTransfer from '../components/form/CreateTransfer';
 import Loader from '../components/Loader';
 import NotFound from '../components/NotFound';
 import PageHeader from '../components/PageHeader';
@@ -98,12 +96,15 @@ const Tsx: React.FC<any> = ({ tsx, match, getTsx, clearTsx, auth, users }) => {
                 Transaction # {tsx?.tsx?.tsx_id}
 
             </IonTitle>
+            <IonCardSubtitle>
+              History of the transaction
+            </IonCardSubtitle>
         </IonListHeader>
         {
             tsx.loading || users.loading ? <Loader /> : tsxData ? <Fragment>
                 
                 {
-                    auth?.user ? tsxData.from_id === auth?.user?.user_id || tsxData.to_user_id === auth?.user?.user_id ? <Fragment>
+                    auth?.user ? ((tsxData.from_id === auth?.user?.user_id) || (tsxData.to_user_id === auth?.user?.user_id)) ? <Fragment>
                         <TsxDetails access='user' tsx={tsxData} from={from} />
                     </Fragment> : <Fragment>
                         <TsxDetails access='guest' tsx={tsxData} from={from} />

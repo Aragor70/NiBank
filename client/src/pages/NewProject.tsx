@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonCardSubtitle, IonGrid, IonCol, IonRow, IonSlides, IonSlide, IonInput, useIonAlert, IonSelect, IonSelectOption, IonButtons, IonTextarea } from '@ionic/react';
-import { alert, checkmark, home } from 'ionicons/icons';
+import { alert, business, checkmark, home } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
@@ -116,7 +116,7 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "New project", path: '/new_project', icon: '', 
+      text: "New project", path: '/new_project', icon: business, 
     }
   ]
 
@@ -133,6 +133,10 @@ const NewProject: React.FC<any> = ({ auth, newProject, history }) => {
       <IonList>
 
         <IonListHeader>
+              
+            <IonItem lines='none'>
+              <IonIcon size="large" color='dark' icon={business}></IonIcon>
+            </IonItem>
             <IonTitle style={{ textAlign: 'center' }}>
                 New project
 

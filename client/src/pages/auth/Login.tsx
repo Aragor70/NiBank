@@ -5,7 +5,7 @@ import PageSubTitle from '../../components/PageSubTitle';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import EmailField from '../../components/login/EmailField';
 import PasswordField from '../../components/login/PasswordField';
-import { home } from 'ionicons/icons';
+import { enter, home } from 'ionicons/icons';
 
 type LoginForm = {
   email: string | null,
@@ -54,7 +54,7 @@ const { email, password } = formData;
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Log on", path: '/logon', icon: '', 
+      text: "Log on", path: '/logon', icon: enter, 
     
     }
   ]
@@ -70,9 +70,11 @@ const { email, password } = formData;
 
       <IonList>
 
-          
-
           <IonListHeader>
+            
+            <IonItem lines='none'>
+              <IonIcon size="large" color='dark' icon={enter}></IonIcon>
+            </IonItem>
             <IonTitle style={{ textAlign: 'center' }} color="dark">Log on to Online Platform</IonTitle>
           </IonListHeader>
 
@@ -97,9 +99,6 @@ const { email, password } = formData;
             
             
           </IonList>
-          
-              
-            
 
           </IonCardContent>
         </IonCard>

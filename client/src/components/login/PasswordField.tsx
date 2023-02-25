@@ -1,6 +1,6 @@
 
-import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonRouterLink, IonCheckbox, useIonAlert } from '@ionic/react';
-import { Fragment, useEffect } from 'react';
+import { IonHeader, IonToolbar, IonTitle, IonIcon, IonCard, IonItem, IonButton, IonInput, IonList, IonLabel, IonListHeader, IonCardHeader, IonCardContent, IonCardTitle, IonRouterLink, IonCheckbox, useIonAlert, IonSpinner } from '@ionic/react';
+import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { login } from '../../store/actions/auth';
@@ -11,7 +11,7 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
     
     const { email, password } = formData;
 
-    
+    const [loadingData, setLoadingData] = useState(false)
     const [present] = useIonAlert();
 
     const handleChange = (e: any) => {
@@ -24,14 +24,16 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
       try {
         
         e.preventDefault();
-
+        await setLoadingData(true);
         await login(formData, history, present);
+        await setLoadingData(false);
 
         await setFormData({});
         await setStep(1);
 
       } catch (err: any) {
         
+        setLoadingData(false);
         console.log(err.message)
       }
     }
@@ -63,7 +65,11 @@ const PasswordField: React.FC<RouteComponentProps | any> = ({ formData, setFormD
             </IonItem>
           <IonToolbar mode="md">
             <IonButton disabled={!(password && email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} type="submit" size="small" color="secondary" slot="end">Log on</IonButton>
-            <button style={{ display: 'none' }} disabled={!(password && email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} type="submit" color="secondary" slot="end">Log on</button>
+            <button style={{ display: 'none' }} disabled={!(password && email && email.includes('@') && email.includes('.') && !(new RegExp("\\\\","").test(email)) && !(new RegExp("\\\\","").test(password)))} type="submit" color="secondary" slot="end">
+              {
+                loadingData ? <IonSpinner duration={1500} color="light"></IonSpinner> : "Log on"
+              }
+            </button>
             
           </IonToolbar>
           <IonToolbar mode="md">

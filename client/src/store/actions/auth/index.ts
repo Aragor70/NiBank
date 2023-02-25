@@ -8,7 +8,7 @@ import { RouteComponentProps } from "react-router";
 
 export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     if (localStorage.token) {
-        setAuthToken(localStorage.token)
+        setAuthToken(localStorage.token);
     }
     
     try {
@@ -34,7 +34,6 @@ export const loadUsers = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     }
 }
 
-
 export const login = (formData: LoginUserType, history: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         dispatch({ type: Loading_Auth })
@@ -56,12 +55,12 @@ export const login = (formData: LoginUserType, history: any, present: any) => as
         
     } catch (err: any) {
         dispatch({ type: Login_Fail });
-        dispatch(setAlert(err.response.data.message, 'danger'))
+        dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
 
         present({
             cssClass: 'error-message',
             header: 'Error message',
-            message: err?.response?.data?.message || err?.message,
+            message: err?.response?.data?.message ?? err?.message,
             buttons: [
               { text: 'CLOSE', handler: () => console.log('ok pressed') },
             ],
@@ -80,8 +79,7 @@ export const preLogin = (formData: LoginUserType, present: any, setStep: any) =>
         
     } catch (err: any) {
         dispatch({ type: Pre_Login_Fail });
-        dispatch(setAlert(err.response.data.message, 'danger'))
-
+        dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
         present({
             cssClass: 'error-message',
             header: 'Error message',
@@ -95,23 +93,30 @@ export const preLogin = (formData: LoginUserType, present: any, setStep: any) =>
     }
 }
 
-export const setForgotCredentials = (formData: any, setStep: any) => async(dispatch: Dispatch<any>) => {
+export const setForgotCredentials = (formData: any, setStep: any, present: any) => async(dispatch: Dispatch<any>) => {
     try {
         
         const res: any = await axios.post(URL + '/api/auth/recovery', formData);
         
         setStep(1)
         
-        
-        
     } catch (err: any) {
 
         console.log(err.message)
+        present({
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
+            buttons: [
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
 
     }
 }
 
-export const preRecovery = (formData: any, setStep: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+export const preRecovery = (formData: any, setStep: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         const res: any = await axios.post(URL + '/api/auth/pre_recovery', formData);
         
@@ -121,12 +126,21 @@ export const preRecovery = (formData: any, setStep: any) => async(dispatch: Disp
     } catch (err: any) {
 
         console.log(err.message)
-        //dispatch(setAlert(err.response.data.message, 'danger'))
+        //dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
+        present({
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
+            buttons: [
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
         
     }
 }
 
-export const verifySecret = (formData: any, setStep: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+export const verifySecret = (formData: any, setStep: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         const res: any = await axios.post(URL + '/api/auth/verify_secret', formData);
         
@@ -135,12 +149,21 @@ export const verifySecret = (formData: any, setStep: any) => async(dispatch: Dis
     } catch (err: any) {
 
         console.log(err.message)
-        //dispatch(setAlert(err.response.data.message, 'danger'))
+        //dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
+        present({
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
+            buttons: [
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
         
     }
 }
 
-export const updateCredentials = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+export const updateCredentials = (formData: any, history: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         const res: any = await axios.put(URL + '/api/auth/recovery', formData);
         
@@ -151,12 +174,20 @@ export const updateCredentials = (formData: any, history: any) => async(dispatch
     } catch (err: any) {
         dispatch({ type: User_Update_Fail })
         console.log(err.message)
-        //dispatch(setAlert(err.response.data.message, 'danger'))
-        
+        //dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
+        present({
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
+            buttons: [
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
     }
 }
 
-export const updateEmail = (formData: any, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+export const updateEmail = (formData: any, history: any, present: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         const res: any = await axios.put(URL + '/api/auth/email_recovery', formData);
         
@@ -167,8 +198,16 @@ export const updateEmail = (formData: any, history: any) => async(dispatch: Disp
     } catch (err: any) {
         dispatch({ type: User_Update_Fail })
         console.log(err.message)
-        //dispatch(setAlert(err.response.data.message, 'danger'))
-        
+        //dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
+        present({
+            cssClass: 'error-message',
+            header: 'Error message',
+            message: err?.response?.data?.message || err?.message,
+            buttons: [
+              { text: 'CLOSE', handler: () => console.log('ok pressed') },
+            ],
+            onDidDismiss: () => console.log('did dismiss')
+        });
     }
 }
 
@@ -182,7 +221,7 @@ export const preRegister = (formData: RegisterUserType, present: any, setStep: a
         
     } catch (err: any) {
         dispatch({ type: Pre_Register_Fail });
-        dispatch(setAlert(err.response.data.message, 'danger'))
+        dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
 
         present({
             cssClass: 'error-message',
@@ -212,7 +251,7 @@ export const register = (formData: LoginUserType, history: any, present: any) =>
         
     } catch (err: any) {
         dispatch({ type: Register_Fail });
-        dispatch(setAlert(err.response.data.message, 'danger'))
+        dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
         present({
             cssClass: 'error-message',
             header: 'Error message',
@@ -249,7 +288,7 @@ export const confirm = (formData: any, history: any) => async(dispatch: Dispatch
     } catch (err: any) {
         dispatch({ type: User_Update_Fail })
         console.log(err.message)
-        //dispatch(setAlert(err.response.data.message, 'danger'))
+        //dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
         
     }
 }
@@ -266,7 +305,7 @@ export const codeUpdate = () => async(dispatch: Dispatch<AuthDispatchTypes>) => 
     } catch (err: any) {
         dispatch({ type: User_Update_Fail })
         console.log(err.message)
-        //dispatch(setAlert(err.response.data.message, 'danger'))
+        //dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
         
     }
 }
@@ -281,7 +320,7 @@ export const update = (formData: any) => async(dispatch: Dispatch<AuthDispatchTy
         
     } catch (err: any) {
         dispatch({ type: User_Update_Fail })
-        //dispatch(setAlert(err.response.data.message, 'danger'))
+        //dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
         
     }
 }
@@ -295,7 +334,7 @@ export const createWallet = (formData: any) => async(dispatch: Dispatch<AuthDisp
         
     } catch (err: any) {
         dispatch({ type: User_Update_Fail })
-        //dispatch(setAlert(err.response.data.message, 'danger'))
+        //dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
         
     }
 }
@@ -310,7 +349,7 @@ export const updateIncome = (formData: any) => async(dispatch: Dispatch<AuthDisp
         
     } catch (err: any) {
         dispatch({ type: User_Update_Fail })
-        //dispatch(setAlert(err.response.data.message, 'danger'))
+        //dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
         
     }
 }

@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
-import { checkmark, home, information, informationCircleOutline } from 'ionicons/icons';
+import { checkmark, home, information, informationCircleOutline, planet } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -22,7 +22,7 @@ const Transactions: React.FC<any> = ({ tsx }) => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Global transactions", path: '/transactions', icon: '', 
+      text: "Global transactions", path: '/transactions', icon: planet, 
     
     }
   ]
@@ -40,6 +40,10 @@ const Transactions: React.FC<any> = ({ tsx }) => {
       <IonList>
 
         <IonListHeader>
+          
+            <IonItem lines='none'>
+              <IonIcon size="large" color='dark' icon={planet}></IonIcon>
+            </IonItem>
             <IonTitle style={{ textAlign: 'center' }} className="no-padding">
                 Global transactions
 
@@ -57,7 +61,6 @@ const Transactions: React.FC<any> = ({ tsx }) => {
             </IonCardContent>
         </IonCard>
       </IonList>
-        
         
       </IonContent>
 

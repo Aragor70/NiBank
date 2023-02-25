@@ -16,7 +16,6 @@ const GlobalProjectListElement: React.FC<any> = ({ project, auth, history, isSam
     
   }
 
-  
     const handleDefaultSrc = (e: any) => {
         e.target.src = 'https://www.investopedia.com/thmb/FKP-u7NEKNODSvAkMo-9WUz0E_c=/2121x1193/smart/filters:no_upscale()/GettyImages-1169053915-76068125fc394f9691db9edaf7c76baf.jpg'
     }

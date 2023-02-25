@@ -1,5 +1,7 @@
 
-import { IonContent, IonHeader, IonItem, IonMenu, IonList, IonTitle, IonToolbar, IonFooter, IonText } from '@ionic/react';
+import { IonContent, IonHeader, IonItem, IonMenu, IonList, IonTitle, IonToolbar, IonFooter, IonText, IonMenuToggle, IonIcon } from '@ionic/react';
+import { Icon } from 'ionicons/dist/types/components/icon/icon';
+import { add, atOutline, business, businessOutline, clipboard, enter, home, logOut, settings, shareOutline, statsChart, thunderstorm, wallet } from 'ionicons/icons';
 import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -22,34 +24,41 @@ const Menu: React.FC<any> = ({ history, logout, auth, location }) => {
           <IonList>
             {
               auth.isAuthenticated ? <Fragment>
-                <IonItem onClick={()=> history.push('/')}>
+                
+                <IonMenuToggle>
+                <IonItem routerLink={"/"}>
+                  <IonIcon size="large" slot="start" color={path === '/home' ? 'success' : ''} icon={home}></IonIcon>
                   <IonText color={path === '/' ? 'success' : 'primary'}>
                     Overview
                   </IonText>
                 </IonItem>
-                <IonItem onClick={()=> history.push('/wallets')}>
+                <IonItem routerLink={"/wallets"}>
+                  <IonIcon size="large" slot="start" color={path === '/home' ? 'success' : ''} icon={wallet}></IonIcon>
                   <IonText color={path === '/wallets' ? 'success' : ''}>
                     My wallets
                   </IonText>
                 </IonItem>
-                <IonItem onClick={()=> history.push('/projects')}>
+                <IonItem routerLink={"/projects"}>
+                  <IonIcon size="large" slot="start" color={path === '/home' ? 'success' : ''} icon={business}></IonIcon>
                   <IonText color={path === '/projects' ? 'success' : ''}>
                     Projects
                   </IonText>
                 </IonItem>
-                <IonItem onClick={()=> history.push('/transactions')}>
+                <IonItem routerLink={"/transactions"}>
+                  <IonIcon size="large" slot="start" color={path === '/home' ? 'success' : ''} icon={statsChart}></IonIcon>
                   <IonText color={path === '/transactions' ? 'success' : ''}>
                     Transactions
                   </IonText>
                 </IonItem>
-                {/* <IonItem onClick={()=> history.push('/currency_exchange')}>Currency exchange</IonItem> */}
-                <IonItem onClick={()=> history.push('/security_center')}>
+                {/* <IonItem routerLink={"/currency_exchange"}>Currency exchange</IonItem> */}
+                <IonItem routerLink={"/security_center"}>
+                  <IonIcon size="large" slot="start" color={path === '/home' ? 'success' : ''} icon={thunderstorm}></IonIcon>
                   <IonText color={path === '/security_center' ? 'success' : ''}>
                     Security Center
                   </IonText>
                 </IonItem>
-                <IonItem onClick={()=> history.push('/settings')}>
-                  
+                <IonItem routerLink={"/settings"}>
+                  <IonIcon size="large" slot="start" color={path === '/home' ? 'success' : ''} icon={settings}></IonIcon>
                   {
                     (!auth?.user?.wallets?.length && auth?.user?.approved) ? 
                       <IonText color={path === '/settings' ? 'success' : 'warning'}>
@@ -61,41 +70,50 @@ const Menu: React.FC<any> = ({ history, logout, auth, location }) => {
                   }
                   
                 </IonItem>
-                <IonItem onClick={()=> logout(history)}>
+                <IonItem onClick={()=> logout(history)} button>
+                  <IonIcon size="large" slot="start" color={path === '/home' ? 'success' : ''} icon={logOut}></IonIcon>
                   <IonText>
                     Logout
                   </IonText>
                 </IonItem>
-                
+                </IonMenuToggle>
                 {
                   !auth?.user?.approved && <Approval />
                 }
               </Fragment> : <Fragment>
-                <IonItem onClick={()=> history.push('/')}>
+              <IonMenuToggle>
+                <IonItem routerLink={"/"}>
+                  <IonIcon size="large" slot="start" color={path === '/home' ? 'success' : ''} icon={home}></IonIcon>
                   <IonText color={path === '/home' ? 'success' : ''}>
                     Dashboard
                   </IonText>
                 </IonItem>
-                <IonItem onClick={()=> history.push('/logon')}>
+                <IonItem routerLink={"/logon"}>
+                  <IonIcon size="large" slot="start" color={path === '/logon' ? 'success' : 'primary'} icon={enter}></IonIcon>
                   <IonText color={path === '/logon' ? 'success' : 'primary'}>
                     Log on
                   </IonText>
                 </IonItem>
-                <IonItem onClick={()=> history.push('/register')}>
+                <IonItem routerLink={"/register"}>
+                  <IonIcon size="large" slot="start" color={path === '/register' ? 'success' : ''} icon={add}></IonIcon>
                   <IonText color={path === '/register' ? 'success' : ''}>
                     Register
                   </IonText>
                 </IonItem>
-                <IonItem onClick={()=> history.push('/security_center')}>
+                <IonItem routerLink={"/security_center"}>
+                <IonIcon size="large" slot="start" color={path === '/security_center' ? 'success' : ''} icon={thunderstorm}></IonIcon>
                   <IonText color={path === '/security_center' ? 'success' : ''}>
                     Security Center
                   </IonText>
                 </IonItem>
-                <IonItem onClick={()=> history.push('/projects')}>
+                <IonItem routerLink={"/projects"}>
+                <IonIcon size="large" slot="start" color={path === '/projects' ? 'success' : ''} icon={businessOutline}></IonIcon>
                   <IonText color={path === '/projects' ? 'success' : ''}>
                     Project Opportunities
                   </IonText>
                 </IonItem>
+              </IonMenuToggle>
+
               </Fragment>
             }
               
@@ -103,11 +121,13 @@ const Menu: React.FC<any> = ({ history, logout, auth, location }) => {
         </IonContent>
 
         <IonFooter className="ion-items-center">
-          <IonItem onClick={()=> history.push('/terms_and_conditions')}>
-            <IonText color="secondary">
-              Terms {"&"} Conditions
-            </IonText>
-          </IonItem>
+          <IonMenuToggle>
+            <IonItem routerLink={"/terms_and_conditions"}>
+              <IonText color="secondary">
+                Terms {"&"} Conditions
+              </IonText>
+            </IonItem>
+          </IonMenuToggle>
         </IonFooter>
   </IonMenu>
   );

@@ -1,6 +1,6 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonItemDivider, IonInput } from '@ionic/react';
-import { home } from 'ionicons/icons';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonItemDivider, IonInput, useIonAlert, IonSpinner } from '@ionic/react';
+import { atCircle, atCircleOutline, home } from 'ionicons/icons';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -23,20 +23,27 @@ const RecoverEmail: React.FC <any> = ({ verifySecret, history, updateEmail }) =>
     return setFormData({...formData, [e.target.name]: e.target.value})
   }
 
-  
+  const [loadingData, setLoadingData] = useState(false)
+
+  const [present] = useIonAlert();
+
   const [ step, setStep ] = useState<any>(0);
 
     
   const handleVerify = async(e: any) => {
     try {
       e.preventDefault();
-
       if (!formData?.secret || !formData?.password) {
         return false;
       }
+      console.log('heyy')
 
-      verifySecret(formData, setStep);
+      await setLoadingData(true);
+
+      await verifySecret(formData, setStep, present);
       
+      setLoadingData(false)
+
     } catch (err: any) {
 
       console.log(err.message)
@@ -52,8 +59,12 @@ const RecoverEmail: React.FC <any> = ({ verifySecret, history, updateEmail }) =>
       if (!formData?.secret || !formData?.password) {
         return false;
       }
+      
+      await setLoadingData(true)
 
-      updateEmail(formData, history)
+      await updateEmail(formData, history, present)
+      
+      await setLoadingData(false)
       
     } catch (err: any) {
 
@@ -69,7 +80,7 @@ const RecoverEmail: React.FC <any> = ({ verifySecret, history, updateEmail }) =>
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Recover e-mail", path: '/recover_email', icon: '', 
+      text: "Recover e-mail", path: '/recover_email', icon: atCircleOutline, 
     
     }
   ]
@@ -87,6 +98,10 @@ const RecoverEmail: React.FC <any> = ({ verifySecret, history, updateEmail }) =>
       <IonList>
           
           <IonListHeader>
+            
+            <IonItem lines='none'>
+              <IonIcon size="large" color='dark' icon={atCircleOutline}></IonIcon>
+            </IonItem>
             <IonTitle style={{ textAlign: 'center' }}>
                 Forgot your e-mail? 
 
@@ -120,7 +135,11 @@ const RecoverEmail: React.FC <any> = ({ verifySecret, history, updateEmail }) =>
                     <IonInput name="password" type="password" slot="end" value={ formData.password || '' } onIonChange={(e: any)=> handleChange(e)}></IonInput>
                 </IonItem>
                 <IonItem>
-                  <IonButton type="submit" slot="end" size="default" disabled={ !(formData.secret) }>Verify</IonButton>
+                  <IonButton type="submit" slot="end" size="default" disabled={ !(formData.secret && formData.password) }>
+                  {
+                    loadingData ? <IonSpinner duration={1500} color="light"></IonSpinner> : "Verify"
+                  }
+                  </IonButton>
                 </IonItem>
               </form>
                 
@@ -147,7 +166,11 @@ const RecoverEmail: React.FC <any> = ({ verifySecret, history, updateEmail }) =>
                       <IonInput name="emailConfirmation" slot="end" value={ formData.emailConfirmation || '' } onIonChange={(e: any)=> handleChange(e)}></IonInput>
                   </IonItem>
                   <IonItem>
-                    <IonButton type="submit" slot="end" size="default" disabled={ !(formData.secret) }>Verify</IonButton>
+                    <IonButton type="submit" slot="end" size="default" disabled={ !(formData.secret) }>
+                    {
+                      loadingData ? <IonSpinner duration={1500} color="light"></IonSpinner> : "Send"
+                    }
+                    </IonButton>
                   </IonItem>
                 </form>
                   

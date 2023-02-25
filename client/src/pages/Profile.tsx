@@ -1,24 +1,21 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider } from '@ionic/react';
-import { checkmark, home } from 'ionicons/icons';
+import { checkmark, home, person } from 'ionicons/icons';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
 import PageHeader from '../components/PageHeader';
 import PageSubTitle from '../components/PageSubTitle';
 
 const Profile: React.FC = () => {
-
-
   
   const subTitles: any[] = [
     {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Profile", path: '/profile', icon: '', 
+      text: "Profile", path: '/profile', icon: person, 
     
     }
   ]
-
 
   return (
     <IonPage>
@@ -26,7 +23,6 @@ const Profile: React.FC = () => {
       <PageHeader />     
 
       <IonContent fullscreen>
-
       
       <PageSubTitle subTitles={subTitles} />
         
@@ -38,11 +34,8 @@ const Profile: React.FC = () => {
 
             </IonTitle>
         </IonListHeader>
-
-        
         
       </IonList>
-        
         
       </IonContent>
 

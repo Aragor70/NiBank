@@ -1,7 +1,6 @@
 import { Create_Wallet_Fail, Create_Wallet_Success } from '../actions/auth/types';
 import { Get_Balance_Fail, Get_Balance_Success, Get_My_Investments_Success, Tsx_Create_Success, Get_My_Tsxs_Success, Get_My_Tsxs_Fail, Get_My_Investments_Fail, Get_Total_Funds_Success, Get_Total_Funds_Fail, Get_YieldPA_Success, Get_YieldPA_Fail, Account_Loading, Get_Wallets_Success, Get_Wallets_Fail, Update_Main_Wallet_Success, Update_Main_Wallet_Fail } from '../actions/tsx/types'
 
-
 export const initialState = {
     tsxs: [],
     investments: [],
@@ -12,7 +11,6 @@ export const initialState = {
     loading: true,
     errors: {}
 }
-
 
 const account = (state: any = initialState, action: any) => {
     const { type, payload } = action;

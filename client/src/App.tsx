@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route, withRouter } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, IonHeader, IonToolbar, IonTitle, IonPage, IonContent, IonCard, IonItem, IonButton  } from '@ionic/react';
+import { IonApp, IonRouterOutlet } from '@ionic/react';
 import HomePageGuest from './pages/HomePageGuest';
 import HomePageUser from './pages/HomePageUser';
 
@@ -60,12 +60,12 @@ import TermsAndConditions from './pages/TermsAndConditions';
 const App: React.FC<any> = ({ isAuthenticated, loadUser, auth, getBalance, location, history, getProjects, project, tsx, loadUsers, users }) => {
 
 
-  useEffect(() => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-      loadUser();
-    }
-  }, [loadUser])
+  // useEffect(() => {
+  //   if (localStorage.token) {
+  //     setAuthToken(localStorage.token);
+  //     loadUser();
+  //   }
+  // }, [loadUser])
   
   useEffect(() => {
     if (auth?.user?.user_id) {

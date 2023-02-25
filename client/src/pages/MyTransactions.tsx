@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonBadge } from '@ionic/react';
-import { checkmark, home, informationCircleOutline } from 'ionicons/icons';
+import { checkmark, home, informationCircleOutline, swapHorizontal } from 'ionicons/icons';
 import moment from 'moment';
 import { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -30,7 +30,7 @@ const Transactions: React.FC<any> = ({ account }) => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "My transactions", path: '/my_transactions', icon: '', 
+      text: "My transactions", path: '/my_transactions', icon: swapHorizontal, 
     }
   ]
   
@@ -48,7 +48,7 @@ const Transactions: React.FC<any> = ({ account }) => {
 
         <IonListHeader>
             <IonTitle style={{ textAlign: 'center' }} className="no-padding">
-                  Recent transactions
+                Recent transactions
 
             </IonTitle>
         </IonListHeader>

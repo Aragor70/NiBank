@@ -4,7 +4,7 @@ import PageHeader from '../../../components/PageHeader';
 import PageSubTitle from '../../../components/PageSubTitle';
 
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { checkmark, home } from 'ionicons/icons';
+import { add, atCircleOutline, checkmark, constructOutline, home, keyOutline, list, thunderstorm } from 'ionicons/icons';
 
 type RegisterForm = {
   email: string | null,
@@ -36,7 +36,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         text: "Home", path: '/', icon: home
       }, 
       {
-        text: "Register", path: '/register', icon: '', 
+        text: "Register", path: '/register', icon: add, 
       
       }
     ]
@@ -54,6 +54,10 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
 
           
           <IonListHeader>
+              
+            <IonItem lines='none'>
+              <IonIcon size="large" color='dark' icon={add}></IonIcon>
+            </IonItem>
             <IonTitle style={{ textAlign: 'center' }} color="dark">Register to digital platform</IonTitle>
           </IonListHeader>
 
@@ -100,7 +104,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                   <IonItem>
 
                     <IonText>
-                      * You will receive an email with your Digital Secure Key. For more information, please visit our <IonRouterLink onClick={() => history.push("/security_center")}>Security Centre</IonRouterLink>.
+                      * You will receive an email with your Digital Secure Key. For more information, please visit our <IonRouterLink onClick={() => history.push("/security_center")}><IonIcon icon={thunderstorm}></IonIcon><IonText>Security Centre</IonText></IonRouterLink>.
                     </IonText>
                   </IonItem>
 
@@ -150,24 +154,25 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
 
             <IonCardContent>
             <IonToolbar mode="md">
-            <IonItem>
+            <IonItem routerLink="/register/gsa">
               
-                <IonRouterLink onClick={() => history.push('/register/gsa')} class="spacing">Setting up your account</IonRouterLink>
-              
-            </IonItem>
-            <IonItem>
-              
-                <IonRouterLink onClick={() => history.push('/recover_email')} class="spacing">I've forgotten my email address</IonRouterLink>
+                <IonIcon icon={add} slot="start" size="large"></IonIcon>
+                <IonText color="primary">Setting up your account</IonText>
               
             </IonItem>
-            <IonItem>
-              
-                <IonRouterLink onClick={() => history.push('/recover_password')} class="spacing">I've forgotten my password</IonRouterLink>
+            <IonItem routerLink="/recover_email">
+              <IonIcon icon={atCircleOutline} slot="start" size="large"></IonIcon>
+              <IonText color="primary">I've forgotten my email address</IonText>
+
+            </IonItem>
+            <IonItem routerLink="/recover_password">
+              <IonIcon icon={keyOutline} slot="start" size="large"></IonIcon>
+              <IonText color="primary">I've forgotten my password</IonText>
               
             </IonItem>
-            <IonItem>
-              
-                <IonRouterLink onClick={() => history.push('/terms_and_conditions')} class="spacing">Terms and conditions</IonRouterLink>
+            <IonItem routerLink="/terms_and_conditions">
+              <IonIcon icon={list} slot="start" size="large"></IonIcon>
+              <IonText color="primary">Terms and conditions</IonText>
               
             </IonItem>
             </IonToolbar>

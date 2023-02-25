@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert";
 import { Project_Create_Success, Project_Create_Fail, Get_Projects_Success, Get_Open_Projects_Success, Get_Under_Consideration_Projects_Success, Get_Closed_Projects_Success, Get_Project_Success, Get_Project_Fail, Get_Projects_Fail, Get_Open_Projects_Fail, Get_Under_Consideration_Projects_Fail, Get_Closed_Projects_Fail, Project_Loading, Project_Update_Success, Project_Update_Fail, Project_Delete_Success, Project_Delete_Fail } from './types';
-import { Account_Loading, Get_My_Investments_Fail, Get_My_Investments_Success } from '../tsx/types';
+import { Get_My_Investments_Fail, Get_My_Investments_Success } from '../tsx/types';
 import { URL } from '../../../utils/constants';
 import ValidatingMethods from '../../../utils/ValidatingMethods';
 
@@ -22,7 +22,7 @@ export const newProject = (formData: any, history: any, present: any) => async(d
         
     } catch (err: any) {
         dispatch({ type: Project_Create_Fail });
-        dispatch(setAlert(err.response.data.message, 'danger'))
+        dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
 
         present({
             cssClass: 'error-message',
@@ -48,7 +48,7 @@ export const updateProject = (formData: any, present: any) => async(dispatch: Di
         
     } catch (err: any) {
         dispatch({ type: Project_Update_Fail });
-        dispatch(setAlert(err.response.data.message, 'danger'))
+        dispatch(setAlert(err?.response?.data?.message ?? err?.message, 'danger'))
 
         present({
             cssClass: 'error-message',

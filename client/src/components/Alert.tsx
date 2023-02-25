@@ -2,24 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 interface AlertState {
-    alert: { alerts: { id: string, message: string, type: string }[] }
+    alert: { loading: boolean, alerts: { id: string, message: string, type: string }[] }
 }
 
 interface AlertProperties {
-    alert: { alerts: { id: string, message: string, type: string }[] }
+    alert: { loading: boolean, alerts: { id: string, message: string, type: string }[] }
 }
 
-const Alert = ({ alert: { alerts } }: AlertProperties): any => 
+const Alert = ({ alert: { alerts, loading } }: AlertProperties): any => {
+
+    if (loading) return <div>...</div>
+
+    return (
+        alerts !== null && alerts.length > 0 && (<div className="alert">
+            <div key={alerts[0].id} className={`alert-message alert-${alerts[0].type}`}>
+                {alerts[0].message}
+            </div>
+        </div>)
+    )
     
-    
-    alerts !== null && alerts.length > 0 && <div className="alert">
-    {
-        alerts.map(element => (
-            <div key={element.id} className={`alert-message alert-${element.type}`}>
-                {element.message}
-            </div>))
-    }
-    </div>
+}
     
     
 const mapStateToProps = (state: AlertState) => ({

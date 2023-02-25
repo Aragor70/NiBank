@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonItemDivider, IonCardSubtitle, IonGrid, IonRow, IonCol } from '@ionic/react';
-import { card, checkmark, close, home, informationCircleOutline } from 'ionicons/icons';
+import { card, checkmark, close, home, informationCircleOutline, thunderstorm } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -27,8 +27,7 @@ const SecurityCenter: React.FC<any> = ({ tsx, history }) => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Security center", path: '/security_center', icon: '', 
-    
+      text: "Security center", path: '/security_center', icon: thunderstorm
     }
   ]
 
@@ -41,10 +40,14 @@ const SecurityCenter: React.FC<any> = ({ tsx, history }) => {
 
       
       <PageSubTitle subTitles={subTitles} />
-        
+
       <IonList>
           
           <IonListHeader>
+            
+            <IonItem lines='none'>
+              <IonIcon size="large" color='dark' icon={thunderstorm}></IonIcon>
+            </IonItem>
             <IonTitle style={{ textAlign: 'center' }}>
               Security Center
 

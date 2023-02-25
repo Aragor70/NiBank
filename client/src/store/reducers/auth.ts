@@ -42,7 +42,7 @@ const auth = (state: AuthType = initialState, action: any) => {
             return {...state, user: null, token: null, isAuthenticated: false, loading: false }    
         
         case User_Update:
-            return { ...state, user: payload?.user, loading: false }
+            return { ...state, user: payload?.user, isAuthenticated: true, loading: false }
                 
         case User_Update_Fail:
             return { ...state, loading: false }
@@ -51,9 +51,8 @@ const auth = (state: AuthType = initialState, action: any) => {
             return { ...state, preLogin: { email: payload.email }, loading: false }
 
         case Pre_Login_Fail:
-            return { ...state, preLogin: null, loading: false }
+            return { ...state, preLogin: null, loading: false, user: null, isAuthenticated: false }
         
-
         default:
             return state;
     }

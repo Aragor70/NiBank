@@ -1,5 +1,6 @@
 export const Set_Alert = 'Set_Alert';
 export const Remove_Alert = 'Remove_Alert';
+export const Loading_Alert = 'Loading_Alert';
   
   export type AlertType = {
     id: string,
@@ -11,9 +12,12 @@ export const Remove_Alert = 'Remove_Alert';
     type: typeof Set_Alert,
     payload: AlertType
   }
+  export type LoadingAlert = {
+    type: typeof Loading_Alert
+  }
 
   export type RemoveAlert = {
     type: typeof Remove_Alert
   }
   
-  export type AlertDispatchTypes = SetAlert | RemoveAlert
+  export type AlertDispatchTypes = SetAlert | LoadingAlert | RemoveAlert

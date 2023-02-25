@@ -1,4 +1,4 @@
-import { Set_Alert, Remove_Alert } from '../actions/alert/types'
+import { Set_Alert, Remove_Alert, Loading_Alert } from '../actions/alert/types'
 
 /* interface Alert {
     id: string
@@ -6,21 +6,25 @@ import { Set_Alert, Remove_Alert } from '../actions/alert/types'
     type: string
 } */
 interface AlertState {
-    alerts: any[]
+    alerts: any[];
+    loading: boolean;
 }
 
 export const initialState = {
-    alerts: []
+    alerts: [],
+    loading: false
 };
 
 const alert = (state: AlertState = initialState, action: any ): AlertState => {
     const { type, payload } = action;
 
     switch(type) {
+        case Loading_Alert:
+            return {...state, loading: true}
         case Set_Alert:
-            return {...state, alerts: [...state.alerts, payload]}
+            return {...state, alerts: [...state.alerts, payload], loading: false}
         case Remove_Alert:
-            return {...state, alerts: state.alerts.filter(element => element.id !== payload)}
+            return {...state, alerts: state.alerts.filter(element => element.id !== payload), loading: false}
         default:
             return state;
     }   

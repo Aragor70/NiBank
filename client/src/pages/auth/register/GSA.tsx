@@ -1,18 +1,16 @@
 import { IonContent, IonPage, IonTitle, IonHeader, IonToolbar, IonLabel, IonInput, IonItemDivider, IonButton, IonCard, IonCardContent, IonCardHeader, IonList, IonItem, IonListHeader, IonCheckbox, IonNav, IonIcon, IonRouterLink, IonText, IonCardTitle, IonCardSubtitle, IonAvatar } from '@ionic/react';
 import { useState } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { add, home, receiptOutline } from 'ionicons/icons';
+
 import PageHeader from '../../../components/PageHeader';
 import PageSubTitle from '../../../components/PageSubTitle';
-
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 import TermsAndConditions from '../../../components/register/TermsAndConditions';
 import CreateAccount from '../../../components/register/CreateAccount';
 import Confirmation from '../../../components/register/Confirmation';
 import AccountSelection from '../../../components/register/AccountSelection';
 import Alert from '../../../components/Alert';
-import { connect } from 'react-redux';
-import { home } from 'ionicons/icons';
-
-
 
 const GSA: React.FC <RouteComponentProps> = () => {
 
@@ -37,11 +35,11 @@ const GSA: React.FC <RouteComponentProps> = () => {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Register", path: '/register', icon: '', 
+      text: "Register", path: '/register', icon: add, 
     
     }, 
     {
-      text: "General Services Administration", path: '/register/gsa', icon: '', 
+      text: "General Services Administration", path: '/register/gsa', icon: receiptOutline, 
     
     }
   ]
@@ -83,6 +81,8 @@ const GSA: React.FC <RouteComponentProps> = () => {
       </IonList>
       <IonList>
 
+      <IonItem>
+      </IonItem>
           
           <IonListHeader>
             <IonTitle style={{ textAlign: 'center' }} color="dark">General Services Administration</IonTitle>

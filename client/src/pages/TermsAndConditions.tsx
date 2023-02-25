@@ -1,7 +1,7 @@
 
 import { IonHeader, IonToolbar, IonLabel, IonInput, IonItemDivider, IonButton, IonCard, IonCardContent, IonCardHeader, IonList, IonItem, IonListHeader, IonCheckbox, IonNav, IonIcon, IonRouterLink, IonText, IonCardTitle, IonCardSubtitle, IonAvatar, IonPage, IonContent, IonTitle } from '@ionic/react';
 import { Fragment } from 'react';
-import { checkmark, home } from 'ionicons/icons';
+import { checkmark, home, list } from 'ionicons/icons';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import TermsContent from '../components/TermsContent';
 import PageHeader from '../components/PageHeader';
@@ -19,7 +19,7 @@ const TermsAndConditions: React.FC<any> = ({ auth }) => {
             text: "Home", path: '/', icon: home
         }, 
         {
-            text: `Terms ${"&"} Conditions`, path: '/terms_and_conditions', icon: '', 
+            text: `Terms ${"&"} Conditions`, path: '/terms_and_conditions', icon: list, 
         
         }
     ]

@@ -15,19 +15,17 @@ const TermsAndConditions: React.FC<TermsAndConditionsUI | any> = ({ formData, se
 
     const { termsAndConditions, accountType } = formData;
 
-
-
   return (
       <Fragment>
         
         <TermsContent />
 
         <IonCard>
-        <IonItem>
-        <IonCheckbox onClick={ () => setFormData({ ...formData, termsAndConditions: !termsAndConditions }) } slot="start"></IonCheckbox>
-        <IonLabel className="ion-text-wrap">
-            I accept the terms of use of the digital in online and mobile platform
-        </IonLabel>
+        <IonItem style={{ padding: "16px" }}>
+            <IonCheckbox onClick={ () => setFormData({ ...formData, termsAndConditions: !termsAndConditions }) } slot="start"></IonCheckbox>
+            <IonLabel className="ion-text-wrap">
+                I accept the terms of use of the digital in online and mobile platform
+            </IonLabel>
         </IonItem>
         <IonItem>
             <div className="ion-items-center">

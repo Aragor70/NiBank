@@ -1,6 +1,6 @@
 
 import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonRouterLink, IonItemDivider, IonBadge, IonAccordionGroup, IonAccordion } from '@ionic/react';
-import { checkmark, home, informationCircleOutline } from 'ionicons/icons';
+import { business, checkmark, home, informationCircleOutline } from 'ionicons/icons';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import FooterLoggedIn from '../components/footer/FooterLoggedIn';
@@ -38,7 +38,7 @@ const Projects: React.FC<any> = ({ project, getProjects, location, auth, account
           text: "Home", path: '/', icon: home
         }, 
         {
-          text: "My investments", path: '/my_investments', icon: '', 
+          text: "My investments", path: '/my_investments', icon: business, 
         
           action: () => setStep(0)
         }

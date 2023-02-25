@@ -1,6 +1,6 @@
 
-import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonItemDivider, IonInput, IonButtons } from '@ionic/react';
-import { home } from 'ionicons/icons';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonCard, IonCardHeader, IonCardContent, IonListHeader, IonCardTitle, IonItem, IonButton, IonIcon, IonAvatar, IonLabel, IonText, IonItemDivider, IonInput, IonButtons, useIonAlert, IonSpinner } from '@ionic/react';
+import { home, keyOutline, keypadOutline, pinOutline } from 'ionicons/icons';
 import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -22,6 +22,10 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
     passwordConfirmation: ''
   })
 
+  const [loadingData, setLoadingData] = useState(false)
+
+  const [present] = useIonAlert();
+
   const [ step, setStep ] = useState<any>(0);
 
   useEffect(() => {
@@ -29,7 +33,7 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
     if (auth?.preLogin?.email) {
       setFormDataTwo({ ...formDataTwo, email: auth?.preLogin?.email })
 
-      setForgotCredentials({ email: auth?.preLogin?.email })
+      setForgotCredentials({ email: auth?.preLogin?.email }, setStep, present)
     }
 
     return () => {
@@ -50,9 +54,12 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
       if (!formDataOne?.email) {
         return false;
       }
+      
+      await setLoadingData(true)
 
-      setForgotCredentials({ email: formDataOne?.email })
+      await setForgotCredentials({ email: formDataOne?.email }, setStep, present)
 
+      await setLoadingData(false)
       
     } catch (err: any) {
 
@@ -70,8 +77,10 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
         return false;
       }
 
-      preRecovery(formDataTwo, setStep);
+      await setLoadingData(true)
+      await preRecovery(formDataTwo, setStep, present);
 
+      await setLoadingData(false)
       
     } catch (err: any) {
 
@@ -89,8 +98,12 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
       if (!formDataTwo?.email || !formDataTwo?.code || !formDataTwo?.password || !formDataTwo?.passwordConfirmation) {
         return false;
       }
+      
+      await setLoadingData(true)
 
-      updateCredentials(formDataTwo, history)
+      await updateCredentials(formDataTwo, history, present)
+      
+      await setLoadingData(false)
       
     } catch (err: any) {
 
@@ -108,13 +121,12 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
     return setFormDataTwo({...formDataTwo, [e.target.name]: e.target.value})
   }
 
-    
   const subTitles: any[] = [
     {
       text: "Home", path: '/', icon: home
     }, 
     {
-      text: "Recover password", path: '/recover_password', icon: '', 
+      text: "Recover password", path: '/recover_password', icon: keyOutline, 
     
     }
   ]
@@ -127,11 +139,15 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
       <IonContent fullscreen>
 
       
-      <PageSubTitle subTitle={subTitles} />
+      <PageSubTitle subTitles={subTitles} />
         
       <IonList>
           
           <IonListHeader>
+            
+            <IonItem lines='none'>
+              <IonIcon size="large" color='dark' icon={keyOutline}></IonIcon>
+            </IonItem>
             <IonTitle style={{ textAlign: 'center' }}>
               Forgot your password? 
 
@@ -164,7 +180,11 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
                               <IonInput name="email" slot="end" value={ formDataOne.email || '' } onIonChange={(e: any)=> handleChangeOne(e)}></IonInput>
                           </IonItem>
                           <IonItem>
-                            <IonButton type="submit" slot="end" size="default" disabled={ !(formDataOne.email) }>Send</IonButton>
+                            <IonButton type="submit" slot="end" size="default" disabled={ !(formDataOne.email) }>
+                            {
+                              loadingData ? <IonSpinner duration={1500} color="light"></IonSpinner> : "Continue"
+                            }
+                            </IonButton>
                           </IonItem>
                         </form>
                         
@@ -206,7 +226,9 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
                       </IonItem>
                       <IonItem>
                         <IonButton type="submit" slot="end" size="default" disabled={ !(formDataTwo.code && formDataTwo.email) }>
-                          Submit
+                          {
+                            loadingData ? <IonSpinner duration={1500} color="light"></IonSpinner> : "Verify"
+                          }
                         </IonButton>
                       </IonItem>
                     </form>
@@ -238,7 +260,9 @@ const RecoverPassword: React.FC <any> = ({ auth, setForgotCredentials, updateCre
                   </IonItem>
                   <IonItem>
                     <IonButton type="submit" slot="end" size="default" disabled={ !(formDataTwo.email && formDataTwo.password && formDataTwo.passwordConfirmation) }>
-                      Submit
+                      {
+                        loadingData ? <IonSpinner duration={1500} color="light"></IonSpinner> : "Send"
+                      }
                     </IonButton>
                   </IonItem>
                 </form>
