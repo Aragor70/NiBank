@@ -14,7 +14,7 @@ const Menu: React.FC<any> = ({ history, logout, auth, location }) => {
   const path = location.pathname;
 
   return (
-    <IonMenu side="start" menuId="first" contentId="output">
+    <IonMenu side="start" menuId="first" contentId="main">
         <IonHeader mode="md">
           <IonToolbar color="primary" mode="md">
               <IonTitle>NiVest Menu</IonTitle>

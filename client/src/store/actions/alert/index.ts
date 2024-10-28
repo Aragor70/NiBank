@@ -2,8 +2,6 @@ import { Dispatch } from 'redux';
 import { v4 as uuidv4 } from 'uuid';
 import { AlertDispatchTypes, Loading_Alert, Remove_Alert, Set_Alert } from "./types";
 
-
-
 export const setAlert = (message: string, alertType: string) => (dispatch: Dispatch<AlertDispatchTypes>) => {
     
     dispatch({ type: Loading_Alert });

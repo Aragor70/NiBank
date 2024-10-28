@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter.nivest',
+  appId: 'io.ionic.starter.nivestapp',
   appName: 'client',
   webDir: 'build',
 };
